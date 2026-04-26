@@ -1,261 +1,78 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>My Website</title>
-
-<style>
-body { font-family: sans-serif; margin:0; }
-
-#sidebar {
-  height:100%;
-  width:0;
-  position:fixed;
-  top:0;
-  left:0;
-  background:#111;
-  transition:0.3s;
-  padding-top:60px;
-}
-
-#sidebar a {
-  display:block;
-  color: White;
-  padding:12px;
-  text-decoration:none;
-}
-
-.menu {
-  font-size:40px;
-  cursor:pointer;
-  position:fixed;
-  top:15px;
-  left:10px;
-}
-
-.box {
-  background:gray;
-  padding:15px;
-  border-radius:10px;
-  margin-top:20px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="menu" onclick="openMenu()">☰</div>
-
-<div id="sidebar">
-  <a href="javascript:void(0)" onclick="closeMenu()">✖</a>
-  <a href="#">🏠 Home</a>
-  <a href="page2.html">⚙ Settings</a>
-</div>
-
-<h1 style="text-align:center; margin-top:80px;">
-✨ Welcome to My Website 😎
-</h1>
-
-<p style="text-align:center;">My name is Shahid Iqbal</p>
-
-<div class="box">
-
-<img src="shahid_photo_1mb.jpg" 
-style="float:right; width:250px; margin-left:10px; border-radius:10px;">
-
-<p>Mera naam Shahid Iqbal hai.</p>
-<p>Main web development seekh raha hoon 🚀</p>
-<p>Mujhe websites banana pasand hai.</p>
-
-
-
-<script>
-function openMenu() {
-  document.getElementById("sidebar").style.width = "250px";
-}
-
-function closeMenu() {
-  document.getElementById("sidebar").style.width = "0";
-}
-</script>
-
-</body>
-</html>
-<p style="font-size:50px; line-height:1.8;">
-My name is Shahid Iqbal. I am from Village Mardwal, District Khushab, Pakistan. 
-I am 27 years old and have completed my F.A (Intermediate). I have strong skills in computer software, 
-including Microsoft Word, Microsoft Excel, and MS Office. I also have excellent typing speed and proficiency. 
-I follow Islam and my marital status is single. My height is 6 feet.
-</p>
-<!DOCTYPE html>
-<html>
-<head>
-<title></title>
-</head>
-
-<body style="font-family:sans-serif; margin:0; background:#f8fafc;">
-
-<!-- ☰ MENU BUTTON -->
-<div onclick="openMenu()" style="
-font-size:40px;
-cursor:pointer;
-position:fixed;
-top:15px;
-left:15px;
-z-index:1000;
-color:black;
-">
-☰
-</div>
-
-<!-- SIDEBAR -->
-<div id="sidebar" style="
-height:100%;
-width:0;
-position:fixed;
-top:0;
-left:0;
-background:#111;
-overflow-x:hidden;
-transition:0.3s;
-padding-top:60px;
-z-index:999;
-">
-
-<a href="javascript:void(0)" onclick="closeMenu()" style="
-position:absolute;
-top:10px;
-right:20px;
-font-size:30px;
-color:white;
-text-decoration:none;
-">×</a>
-
-<a href="index.html" style="
-display:block;
-color:white;
-padding:12px;
-text-decoration:none;
-font-size:18px;
-">🏠 Home</a>
-
-<a href="page2.html" style="
-display:block;
-color:white;
-padding:12px;
-text-decoration:none;
-font-size:18px;
-">Settings</a>
-
-</div>
-
-<!-- MAIN TITLE -->
-<h1 style="
-font-size:50px;
-text-align:center;
-margin-top:90px;
-">
-</h1>
-
-<!-- 🌿 WADI SOON SECTION -->
-<div style="
-background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-padding:25px;
-border-radius:15px;
-margin:20px;
-box-shadow:0 0 15px rgba(0,0,0,0.1);
-">
-
-<h2 style="
-text-align:center;
-color:#065f46;
-font-size:28px;
-margin-bottom:15px;
-">
-🌿 Wadi Soon Sakesar – Nature’s Hidden Paradise 🌿
-</h2>
-
-<p style="
-font-size:40px;
-text-align:center;
-line-height:1.7;
-color:#064e3b;
-">
-Wadi Soon Sakesar is one of the most beautiful and peaceful natural destinations in Pakistan. Known for its lush green valleys, high mountains, and fresh air, it offers a perfect escape for nature lovers. Sakesar Peak, the highest point in the region, provides a breathtaking panoramic view of the entire valley. This place is not just a travel destination, but a true experience of peace, beauty, and nature.
-</p>
-
-</div>
-
-<!-- SCRIPT -->
-<script>
-function openMenu() {
-  document.getElementById("sidebar").style.width = "250px";
-}
-
-function closeMenu() {
-  document.getElementById("sidebar").style.width = "0";
-}
-</script>
-
-</body>
-</html>
-<img src="IMG_20260321_160341_807.jpg" style="
-width:100%;
-max-width:600px;
-display:block;
-margin:20px auto;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
-">
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon Sakesar</title>
+<title>My Website</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom, #d4f1e3, #ffffff);
+  background-color: #f5f5f5;
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
+/* Header */
+.header {
+  background-color: #e8f5e9;
   text-align: center;
-}
-
-h1 {
-  color: #1b5e20;
-  font-size: 26px;
-}
-
-p {
-  font-size: 18px;
-  line-height: 1.7;
-  color: #333;
-}
-
-.card {
-  background: #fff;
   padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-  margin-top: 20px;
 }
 
+.header h1 {
+  color: #1b5e20;
+  margin: 5px;
+}
+
+/* Layout */
+.main {
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 25%;
+  background-color: #cccccc;
+  padding: 15px;
+}
+
+/* Content */
+.content {
+  width: 75%;
+  padding: 15px;
+}
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Images */
 img {
   width: 100%;
   border-radius: 10px;
 }
 
-.caption {
-  margin-top: 8px;
-  font-weight: bold;
-  color: #444;
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .sidebar, .content {
+    width: 100%;
+  }
 }
 </style>
 
@@ -263,21 +80,45 @@ img {
 
 <body>
 
-<div class="container">
+<div class="header">
+  <h1>✨ Welcome to My Website 😎</h1>
+  <p>My name is Shahid Iqbal</p>
+</div>
 
-  <h1>🌿 Wadi Soon Sakesar – Nature’s Hidden Paradise 🌿</h1>
+<div class="main">
 
-  <p>
-    Wadi Soon Sakesar is one of the most beautiful and peaceful natural destinations in Pakistan.
-    Known for its lush green valleys, high mountains, and fresh air, it offers a perfect escape
-    for nature lovers. Sakesar Peak, the highest point in the region, provides a breathtaking
-    panoramic view of the entire valley. This place is not just a travel destination, but a
-    true experience of peace, beauty, and nature.
-  </p>
+  <div class="sidebar">
+    <p>🏠 Home</p>
+    <p>⚙️ Settings</p>
+    <p>Mera naam Shahid Iqbal hai.</p>
+    <p>Main web development seekh raha hoon 🚀</p>
+  </div>
 
-  <div class="card">
-    <img src="IMG_20260321_160341_807.jpg" alt="Soon Sakesar">
-    <div class="caption">Soon Sakesar</div>
+  <div class="content">
+
+    <div class="gallery">
+
+      <div class="card">
+        <img src="image1.jpg" alt="Image 1">
+        <p>Image 1</p>
+      </div>
+
+      <div class="card">
+        <img src="image2.jpg" alt="Image 2">
+        <p>Image 2</p>
+      </div>
+
+      <div class="card">
+        <img src="image3.jpg" alt="Image 3">
+        <p>Image 3</p>
+      </div>
+
+    </div>
+
+    <p style="text-align:center; margin-top:20px;">
+      Mujhe websites banana pasand hai ❤️
+    </p>
+
   </div>
 
 </div>
