@@ -221,22 +221,29 @@ body {
 
 .container {
     position: relative;
-    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
 }
 
 .container img {
     width: 100%;
+    display: block;
+    border-radius: 10px;
 }
 
 .heading {
     position: absolute;
-    top: 20px;
+    bottom: 15px;   /* 👈 نیچے image کے اندر */
     left: 50%;
     transform: translateX(-50%);
     color: white;
-    font-size: 40px;
+    font-size: 28px;
     font-weight: bold;
-    text-shadow: 2px 2px 8px black;
+    text-shadow: 2px 2px 6px black;
+    background: rgba(0,0,0,0.4);
+    padding: 6px 15px;
+    border-radius: 8px;
 }
 </style>
 </head>
@@ -244,7 +251,7 @@ body {
 <body>
 
 <div class="container">
-    <img src="image.png" alt="Soon Sakesar">
+    <img src="Screenshot_20260426-183139 (1).png">
     <div class="heading">Soon Sakesar</div>
 </div>
 
