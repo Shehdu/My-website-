@@ -76,26 +76,64 @@
     Maiwali Dheri is a beautiful place in Wadi Soon, known for its natural charm and peaceful environment. Surrounded by green hills and fresh air, it attracts visitors who enjoy nature and relaxation. The calm atmosphere makes it an ideal spot for tourism and spending quality time. People from different areas visit this place to enjoy its scenic views and create memorable moments with family and friends.
   </p>
 </div>
-
-<div style="text-align:center; margin: 30px 0;">
-  <a href="next.html" class="next-btn">Next Page →</a>
+<div class="btn-container">
+  <a href="page2.html" class="next-btn">
+    Next Page <span>➜</span>
+  </a>
 </div>
 
 <style>
-.next-btn {
-  display: inline-block;
-  padding: 12px 25px;
-  font-size: 18px;
-  color: white;
-  background: linear-gradient(45deg, #4CAF50, #2E7D32);
-  text-decoration: none;
-  border-radius: 30px;
-  transition: 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+.btn-container {
+  text-align: center;
+  margin: 40px 0;
 }
 
+.next-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effect */
 .next-btn:hover {
-  background: linear-gradient(45deg, #66bb6a, #1b5e20);
-  transform: scale(1.05);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* Arrow animation */
+.next-btn span {
+  transition: transform 0.3s ease;
+}
+
+.next-btn:hover span {
+  transform: translateX(5px);
+}
+
+/* Shine effect */
+.next-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: rgba(255,255,255,0.3);
+  transform: skewX(-25deg);
+  transition: 0.5s;
+}
+
+.next-btn:hover::before {
+  left: 125%;
 }
 </style>
