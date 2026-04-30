@@ -1,76 +1,53 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Settings</title>
-</head>
+<div class="kanhatti-card">
 
-<body style="
-margin:0;
-font-family:sans-serif;
-background:linear-gradient(135deg,#22c55e,#4ade80);
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-">
+  <h2 class="kanhatti-heading">
+    🌿 Kanhatti Garden – Wadi Soon 🌿
+  </h2>
 
-<!-- BIG CARD -->
-<div style="
-width:95%;
-max-width:600px;
-background:white;
-padding:40px;
-border-radius:20px;
-box-shadow:0 0 25px rgba(0,0,0,0.3);
-text-align:center;
-">
+  <p class="kanhatti-text">
+    Kanhatti Garden is one of the most attractive and peaceful tourist spots in Wadi Soon Valley, located in the Khushab District of Pakistan. Surrounded by lush green hills, natural landscapes, and fresh air, this beautiful garden offers a perfect escape from the busy and noisy city life. The calm and refreshing environment makes it an ideal destination for families, tourists, and nature lovers who want to relax and enjoy the beauty of nature.
 
-<h1 style="font-size:35px; margin-bottom:20px;">⚙️ Settings</h1>
+    The garden is well known for its greenery, open spaces, and scenic views. Visitors can enjoy peaceful walks, take photographs, and spend quality time with their loved ones. It is also a great place for picnics and small gatherings. During the spring season, the beauty of Kanhatti Garden increases even more as the flowers bloom and the entire area looks colorful and vibrant.
 
-<h3 style="font-size:22px;">🌐 Select Language</h3>
-
-<!-- BUTTONS -->
-<button style="
-padding:15px 30px;
-margin:10px;
-font-size:18px;
-border:none;
-border-radius:10px;
-background:#e5e7eb;
-cursor:pointer;
-">
-English
-</button>
-
-<button style="
-padding:15px 30px;
-margin:10px;
-font-size:18px;
-border:none;
-border-radius:10px;
-background:#e5e7eb;
-cursor:pointer;
-">
-اردو
-</button>
-
-<br><br>
-
-<!-- BACK BUTTON -->
-<button onclick="window.location.href='index.html'" 
-style="
-padding:15px 40px;
-background:#16a34a;
-color:white;
-border:none;
-border-radius:12px;
-font-size:18px;
-cursor:pointer;
-">
-⬅️ Back to Home
-</button>
+    In winter, the cool weather and foggy atmosphere create a unique and relaxing experience for visitors. Kanhatti Garden is not just a place to visit, but a complete natural experience that gives peace of mind and freshness to the soul. It truly represents the hidden beauty of Wadi Soon and remains one of the must-visit locations for anyone exploring this region.
+  </p>
 
 </div>
 
-</body>
-</html>
+<style>
+.kanhatti-card {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+
+/* hover effect */
+.kanhatti-card:hover {
+    transform: scale(1.02);
+}
+
+/* heading style */
+.kanhatti-heading {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+/* paragraph style */
+.kanhatti-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #f1f1f1;
+    text-align: justify;
+}
+</style>
