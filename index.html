@@ -28,11 +28,24 @@
     100% { color: red; }
 }
 </style>
-  <img src="shahid_photo_1mb.jpg" class="profile">
-  .profile {
-    width: 150px;      /* size chota */
-    height: auto;      /* proportion maintain */
-    border-radius: 10px;
+  <style>
+.profile {
+    width: 150px;
+    height: auto;
+    border-radius: 12px;
+    display: block;
+    margin: 20px auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4); /* shadow */
+    transition: 0.3s;
+}
+
+/* hover effect (optional but stylish) */
+.profile:hover {
+    transform: scale(1.05);
+}
+</style>
+
+<img src="shahid_photo_1mb.jpg" class="profile">
 }
 </h1>
 </style>
