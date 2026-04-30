@@ -133,6 +133,7 @@ body{
   <p>
     Maiwali Dheri is a beautiful place in Wadi Soon, known for its natural charm and peaceful environment. Surrounded by green hills and fresh air, it attracts visitors who enjoy nature and relaxation. The calm atmosphere makes it an ideal spot for tourism and spending quality time. People from different areas visit this place to enjoy its scenic views and create memorable moments with family and friends.
   </p>
+
 </div>
 <div class="btn-container">
   <a href="page2.html" class="next-btn">
@@ -161,12 +162,15 @@ body{
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+
+  animation: blink 1.2s infinite; /* 🔥 blinking added */
 }
 
 /* Hover effect */
 .next-btn:hover {
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+  animation: none; /* hover pe blinking band */
 }
 
 /* Arrow animation */
@@ -194,8 +198,14 @@ body{
 .next-btn:hover::before {
   left: 125%;
 }
-</style>
 
+/* 🔥 Blinking Animation */
+@keyframes blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+</style>
 
 <html lang="en">
 <head>
