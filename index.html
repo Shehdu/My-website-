@@ -138,3 +138,100 @@
 }
 </style>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wadi Soon Villages</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: white;
+    text-align: center;
+}
+
+/* Heading */
+h1 {
+    margin-top: 30px;
+    font-size: 40px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Container */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+/* Cards */
+.card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255,255,255,0.2);
+}
+
+/* Village Name */
+.card h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+/* Button */
+.btn {
+    margin: 30px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #00c6ff;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #00ffcc;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🌿 Wadi Soon Villages 🌿</h1>
+
+<div class="container">
+
+    <div class="card"><h2>Naushera</h2></div>
+    <div class="card"><h2>Kanhatti</h2></div>
+    <div class="card"><h2>Uchhali</h2></div>
+    <div class="card"><h2>Angah</h2></div>
+    <div class="card"><h2>Sakesar</h2></div>
+    <div class="card"><h2>Jabba</h2></div>
+    <div class="card"><h2>Dhoda</h2></div>
+    <div class="card"><h2>Padhrar</h2></div>
+    <div class="card"><h2>Khabbeki</h2></div>
+    <div class="card"><h2>Kufri</h2></div>
+
+</div>
+
+<button class="btn" onclick="window.location.href='index.html'">
+⬅ Back to Home
+</button>
+
+</body>
+</html>
