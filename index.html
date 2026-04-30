@@ -142,61 +142,7 @@ body{
 /* 🔥 Hover effect (premium feel) */
 .image-section img:hover {
   transform: scale(1.04);
-  box-shadow: 
-    0 20px 40px rgba(0,0,0,0.4
-<div class="post">
-  <h3>Maiwali Dheri</h3>
-  <p>
-    Maiwali Dheri is a beautiful place in Wadi Soon, known for its natural charm and peaceful environment. Surrounded by green hills and fresh air, it attracts visitors who enjoy nature and relaxation. The calm atmosphere makes it an ideal spot for tourism and spending quality time. People from different areas visit this place to enjoy its scenic views and create memorable moments with family and friends.
-  </p>
 
-</div>
-<div class="btn-container">
-  <a href="page2.html" class="next-btn">
-    Next Page <span>➜</span>
-  </a>
-</div>
-
-<style>
-.btn-container {
-  text-align: center;
-  margin: 40px 0;
-}
-
-.next-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 30px;
-  font-size: 30px;
-  font-weight: 600;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-
-  animation: blink 1.2s infinite; /* 🔥 blinking added */
-}
-
-/* Hover effect */
-.next-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-  animation: none; /* hover pe blinking band */
-}
-
-/* Arrow animation */
-.next-btn span {
-  transition: transform 0.3s ease;
-}
-
-.next-btn:hover span {
-  transform: translateX(5px);
-}
 
 /* Shine effect */
 .next-btn::before {
@@ -346,3 +292,49 @@ h1 {
 <p>Yeh ab box ke neeche normal paragraph hai 👍</p>
  </div>
 <p>This is a testing line.</p>
+<div class="btn-container">
+  <a href="page2.html" class="pro-btn">
+    Next Page <span>➜</span>
+  </a>
+</div>
+
+<style>
+.btn-container {
+  text-align: center;
+  margin: 50px 0;
+}
+
+/* 🔥 MAIN BUTTON */
+.pro-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 15px 35px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+
+  border-radius: 50px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+
+  /* PRO SHADOW */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+  overflow: hidden;
+  transition: 0.4s ease;
+
+  /* 🔥 SOFT BLINK (professional) */
+  animation: glow 2s infinite alternate;
+}
+
+/* 🔥 Glow animation (not harsh blink) */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(102,126,234,0.4),
+                0 0 20px rgba(118,75,162,0.3);
+  }
+  100% {
+    box-shadow: 0 0 20
