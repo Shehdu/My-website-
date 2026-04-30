@@ -58,7 +58,7 @@
 <style>
 .btn-center {
   display: flex;
-  justify-content: center;   /* 🔥 yeh real center karta hai */
+  justify-content: center;
   align-items: center;
   margin: 40px 0;
 }
@@ -72,10 +72,19 @@
   border-radius: 50px;
   background: linear-gradient(135deg, #4facfe, #00f2fe);
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  animation: blink 1s infinite; /* 🔥 blinking */
   transition: 0.3s;
 }
 
 .pro-btn:hover {
   transform: scale(1.05);
+  animation: none; /* hover pe blinking band */
+}
+
+/* 🔥 Animation */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
 }
 </style>
