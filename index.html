@@ -10,25 +10,48 @@ text-align:center;
   <a href="#post" style="color:#fff; margin:15px; text-decoration:none; font-size:18px;">Post</a>
   <a href="#contact" style="color:#fff; margin:15px; text-decoration:none; font-size:18px;">Contact</a>
 </div>
-<h1 class<div="lights">Welcome to My Website</h1>
+<h1 class="lights">Welcome to My Website</h1>
 
 <style>
-.lights {
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    animation: colorChange 1s infinite;
+body{
+  background:#000; /* dark background best */
 }
 
-/* Color changing animation */
-@keyframes colorChange {
-    0%   { color: red; }
-    25%  { color: yellow; }
-    50%  { color: blue; }
-    75%  { color: lime; }
-    100% { color: red; }
+/* TEXT LIGHT */
+.lights {
+  text-align:center;
+  font-size:40px;
+  font-weight:bold;
+  animation: glow 1s infinite alternate;
+}
+
+/* TEXT GLOW COLORS */
+@keyframes glow {
+  0%   { color:red; text-shadow:0 0 10px red,0 0 20px red; }
+  25%  { color:yellow; text-shadow:0 0 10px yellow,0 0 20px yellow; }
+  50%  { color:cyan; text-shadow:0 0 10px cyan,0 0 20px cyan; }
+  75%  { color:lime; text-shadow:0 0 10px lime,0 0 20px lime; }
+  100% { color:magenta; text-shadow:0 0 10px magenta,0 0 20px magenta; }
+}
+
+/* TOP RUNNING LIGHTS BAR */
+.lights-bar {
+  height:10px;
+  width:100%;
+  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+  background-size:400%;
+  animation: moveLights 3s linear infinite;
+}
+
+/* MOVING EFFECT */
+@keyframes moveLights {
+  0% { background-position:0%; }
+  100% { background-position:400%; }
 }
 </style>
+
+<!-- Running lights line (like wedding decoration) -->
+<div class="lights-bar"></div>
   <style>
 .profile {
     width: 150px;
