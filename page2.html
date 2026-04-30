@@ -110,6 +110,28 @@
 </section>
 
 <style>
+<section class="wadi-section">
+
+  <h2>📍 Wadi Soon Sakesar</h2>
+
+  <p>
+    Soon Valley is one of the most beautiful مناطق in Punjab, Pakistan. 
+    Sakesar is the highest peak, offering breathtaking views, lush greenery, 
+    and a peaceful environment for visitors and nature lovers.
+  </p>
+
+  <iframe 
+    src="https://www.google.com/maps?q=Soon+Valley+Sakesar&output=embed"
+    loading="lazy">
+  </iframe>
+
+  <a href="https://www.google.com/maps?q=Soon+Valley+Sakesar" target="_blank" class="map-btn">
+    📍 View Full Location
+  </a>
+
+</section>
+
+<style>
 .wadi-section {
   text-align: center;
   padding: 40px 20px;
@@ -133,4 +155,43 @@
 }
 
 .wadi-section iframe {
-  width
+  width: 100%;
+  height: 350px;
+  border: 0;
+  border-radius: 15px;
+  margin-top: 20px;
+}
+
+/* 🔥 Stylish Button */
+.map-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg,#4facfe,#00f2fe);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  animation: pulse 1.5s infinite;
+}
+
+.map-btn:hover {
+  transform: scale(1.05);
+}
+
+/* 🔥 Glow Pulse Animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79,172,254,0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(79,172,254,0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79,172,254,0);
+  }
+}
+</style>
