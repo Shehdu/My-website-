@@ -246,20 +246,75 @@
   line-height: 1.7;
 }
 </style>
-<div class="maiwali-box">
+<section class="maiwali-wrapper">
 
-  <h3>🏔️ Maiwali Dheri</h3>
+  <div class="maiwali-box">
+    <h3>🏔️ Maiwali Dheri</h3>
 
-  <p>
-    Maiwali Dheri is a beautiful hilltop viewpoint in Soon Valley, located at an 
-    ارتفاع of approximately <strong>900–1,100 meters</strong> above sea level. 
-    From this height, fresh and cool winds blow from all directions, creating a 
-    refreshing and peaceful atmosphere for visitors. Standing at this point, 
-    almost the entire Wadi Soon can be seen, including its green hills, wide plains, 
-    and natural beauty spread all around. The panoramic view, combined with the 
-    soothing breeze and calm environment, makes Maiwali Dheri a perfect place for 
-    relaxation, sightseeing, and photography. It truly feels like standing above 
-    the whole valley, enjoying nature at its best.
-  </p>
+    <p>
+      Maiwali Dheri is a beautiful hilltop viewpoint in Soon Valley, located at 
+      approximately <strong>900–1,100 meters</strong> above sea level. From this 
+      height, cool fresh winds blow from all directions, creating a peaceful and 
+      refreshing atmosphere. From this point, almost the entire Wadi Soon can be 
+      seen, including its green hills and wide plains. The panoramic view and 
+      natural beauty make it a perfect place for visitors and nature lovers.
+    </p>
+  </div>
 
-</div>
+</section>
+
+<style>
+/* 🔥 Centering Wrapper */
+.maiwali-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 15px;
+}
+
+/* 🔥 Main Box */
+.maiwali-box {
+  width: 100%;
+  max-width: 750px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.95);
+
+  /* 🔥 Gradient Border */
+  border: 3px solid transparent;
+  background-image: linear-gradient(#fff, #fff),
+                    linear-gradient(135deg, #4facfe, #00f2fe);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  /* 🔥 HEAVY PREMIUM SHADOW */
+  box-shadow:
+    0 15px 30px rgba(0,0,0,0.2),
+    0 25px 60px rgba(0,0,0,0.15),
+    0 0 25px rgba(79,172,254,0.5);
+
+  transition: 0.4s;
+}
+
+/* 🔥 HOVER WOW EFFECT */
+.maiwali-box:hover {
+  transform: translateY(-12px) scale(1.03);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.25),
+    0 35px 80px rgba(0,0,0,0.2),
+    0 0 40px rgba(0,242,254,0.8);
+}
+
+.maiwali-box h3 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.maiwali-box p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.8;
+}
+</style>
