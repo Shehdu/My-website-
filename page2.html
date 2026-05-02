@@ -1,3 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Menu</title>
+
+<style>
+body {
+  margin: 0;
+  background: #0f172a;
+}
+
+/* 3 dots */
+.dots {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+/* menu */
+#menu {
+  display: none;
+  position: fixed;
+  top: 40px;
+  right: 15px;
+  background: #1e293b;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+#menu a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 5px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="dots" onclick="toggleMenu()">⋮</div>
+
+<div id="menu">
+  <a href="index.html">Home</a>
+  <a href="page2.html">Page 2</a>
+</div>
+
+<script>
+function toggleMenu() {
+  var m = document.getElementById("menu");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
 <div class="kanhatti-card">
 
   <h2 class="kanhatti-heading">
