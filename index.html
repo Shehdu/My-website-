@@ -1,4 +1,78 @@
- <div style="
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Website</title>
+
+<style>
+body {
+  margin: 0;
+  background: #0f172a;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* Menu */
+.menu {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+}
+
+.dots {
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.dropdown {
+  display: none;
+  background: #1e293b;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 10px;
+  min-width: 120px;
+}
+
+.dropdown a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 6px;
+}
+
+.dropdown a:hover {
+  background: #334155;
+  border-radius: 5px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- 3 dots menu -->
+<div class="menu">
+  <div class="dots" onclick="toggleMenu()">⋮</div>
+
+  <div id="dropdown" class="dropdown">
+    <a href="page2.html">Home Page 2</a>
+  </div>
+</div>
+
+<h1 style="text-align:center; margin-top:100px;">
+  Welcome to My Website
+</h1>
+
+<script>
+function toggleMenu() {
+  let menu = document.getElementById("dropdown");
+  menu.style.display =
+    (menu.style.display === "block") ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
+<div style="
 background:#111;
 padding:12px;
 border-radius:10px;
