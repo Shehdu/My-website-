@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Menu</title>
+
+<style>
+body{
+  margin:0;
+  background:#0f172a;
+}
+
+/* button */
+.menu-btn{
+  position:fixed;
+  top:15px;
+  left:15px;
+  font-size:30px;
+  color:white;
+  cursor:pointer;
+}
+
+/* dropdown */
+#menu{
+  display:none;
+  position:fixed;
+  top:50px;
+  left:15px;
+  background:#1e293b;
+  border-radius:10px;
+  padding:10px;
+}
+
+#menu a{
+  display:block;
+  color:white;
+  text-decoration:none;
+  padding:8px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- 3 line button -->
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<!-- menu -->
+<div id="menu">
+  <a href="index.html">Home</a>
+  <a href="page2.html">Page 2</a>
+</div>
+
+<script>
+function toggleMenu(){
+  var m = document.getElementById("menu");
+  if(m.style.display==="block"){
+    m.style.display="none";
+  } else {
+    m.style.display="block";
+  }
+}
+</script>
+
+</body>
+</html>
