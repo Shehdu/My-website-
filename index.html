@@ -478,6 +478,7 @@ h1 {
 
 </head>
 </body>  
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -513,11 +514,6 @@ button{
   color:white;
   cursor:pointer;
 }
-
-#dashboard{
-  display:none;
-  margin-top:100px;
-}
 </style>
 </head>
 
@@ -530,22 +526,14 @@ button{
   <input type="email" id="email" placeholder="Enter Email"><br>
   <input type="password" id="password" placeholder="Enter Password"><br>
 
-  <!-- 🔥 FIX: type="button" -->
   <button type="button" onclick="signup()">Sign Up</button>
   <button type="button" onclick="login()">Login</button>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard">
-  <h2>Welcome 🎉</h2>
-  <p id="userEmail"></p>
-  <button type="button" onclick="logout()">Logout</button>
 </div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
 // Firebase Config
@@ -561,27 +549,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-// 🔥 SHOW DASHBOARD
-function showDashboard(user){
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
-  document.getElementById("userEmail").innerText = user.email;
-}
-
 // SIGNUP
 window.signup = function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   createUserWithEmailAndPassword(auth, email, password)
-    .then((res)=>{
-      alert("Account Created ✅");
-      showDashboard(res.user);
-    })
+    .then(()=> alert("Account Created ✅"))
     .catch(err => alert(err.message));
 };
 
-// LOGIN
+// LOGIN (🔥 FINAL FIX)
 window.login = function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -589,29 +567,26 @@ window.login = function(){
   signInWithEmailAndPassword(auth, email, password)
     .then((res)=>{
       alert("Login Successful ✅");
-      showDashboard(res.user);
+
+      // 🔥 COMPLETE PAGE CHANGE (NO HIDE ISSUE)
+      document.body.innerHTML = `
+        <div style="margin-top:100px;">
+          <h2>Welcome 🎉</h2>
+          <p>${res.user.email}</p>
+          <button onclick="location.reload()" 
+            style="padding:12px 20px;border:none;border-radius:20px;background:red;color:white;">
+            Logout
+          </button>
+        </div>
+      `;
     })
     .catch(err => alert(err.message));
 };
 
-// LOGOUT
-window.logout = function(){
-  signOut(auth).then(()=>{
-    document.getElementById("loginBox").style.display = "block";
-    document.getElementById("dashboard").style.display = "none";
-  });
-};
-
-// AUTO LOGIN
-onAuthStateChanged(auth, (user)=>{
-  if(user){
-    showDashboard(user);
-  }
-});
-
 </script>
 
-
+</body>
+</html>
 </html>
 <body>
 <h2>🌿 WADI SOON VILLAGES 🌿</h2>
