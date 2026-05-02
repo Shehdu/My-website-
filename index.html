@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login / Signup</title>
+</head>
+<body>
+
+<h2>Login / Signup</h2>
+
+<input type="email" id="email" placeholder="Email"><br><br>
+<input type="password" id="password" placeholder="Password"><br><br>
+
+<button onclick="signup()">Signup</button>
+<button onclick="login()">Login</button>
+
+<p id="msg"></p>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site",
+  storageBucket: "wadi-soon-site.firebasestorage.app",
+  messagingSenderId: "306902521128",
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Signup
+window.signup = function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+  .then(() => {
+    document.getElementById("msg").innerText = "Signup successful";
+  })
+  .catch((error) => {
+    document.getElementById("msg").innerText = error.message;
+  });
+}
+
+// Login
+window.login = function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+  .then(() => {
+    window.location.href = "home.html"; // ✅ redirect
+  })
+  .catch(() => {
+    document.getElementById("msg").innerText = "Login failed";
+  });
+}
+</script>
+
+</body>
+</html>
