@@ -1,3 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: linear-gradient(135deg,#1e3c72,#2a5298);
+      font-family:Arial;
+    }
+
+    .card{
+      backdrop-filter: blur(15px);
+      background: rgba(255,255,255,0.1);
+      padding:40px;
+      border-radius:20px;
+      text-align:center;
+      color:white;
+      box-shadow:0 0 30px rgba(0,0,0,0.5);
+      animation: zoomIn 0.8s ease;
+    }
+
+    button{
+      padding:10px 20px;
+      border:none;
+      border-radius:10px;
+      background:#ef4444;
+      color:white;
+      cursor:pointer;
+      margin-top:20px;
+      transition:0.3s;
+    }
+
+    button:hover{
+      transform:scale(1.1);
+      background:#dc2626;
+    }
+
+    @keyframes zoomIn{
+      from{transform:scale(0.7); opacity:0;}
+      to{transform:scale(1); opacity:1;}
+    }
+  </style>
+
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Welcome 🎉</h1>
+  <p>You are successfully logged in</p>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, signOut } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site",
+  storageBucket: "wadi-soon-site.firebasestorage.app",
+  messagingSenderId: "306902521128",
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.logout = function(){
+  signOut(auth).then(()=> window.location.href="index.html");
+}
+</script>
+
+</body>
+</html>
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 <div id="menu">
