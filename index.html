@@ -384,14 +384,23 @@ h1 {
 
 <style>
 body{
+  margin:0;
   font-family: Arial;
-  background: linear-gradient(45deg,#1e3c72,#2a5298);
-  text-align:center;
+  background: linear-gradient(135deg,#1e3c72,#2a5298);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
   color:white;
 }
 
+/* LOGIN BOX */
 .box{
-  margin-top:100px;
+  background: rgba(255,255,255,0.1);
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter: blur(10px);
+  text-align:center;
 }
 
 input{
@@ -399,7 +408,7 @@ input{
   margin:10px;
   border:none;
   border-radius:6px;
-  width:250px;
+  width:220px;
 }
 
 button{
@@ -416,7 +425,6 @@ button{
 
 <body>
 
-<!-- LOGIN BOX -->
 <div class="box" id="loginBox">
   <h2>Login / Signup</h2>
 
@@ -430,10 +438,10 @@ button{
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-// Firebase Config
+// 🔥 Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
   authDomain: "wadi-soon-site.firebaseapp.com",
@@ -456,21 +464,28 @@ window.signup = function(){
     .catch(err => alert(err.message));
 };
 
-// LOGIN (🔥 FINAL FIX)
+// LOGIN (FINAL)
 window.login = function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
     .then((res)=>{
-      alert("Login Successful ✅");
 
-      // 🔥 COMPLETE PAGE CHANGE (NO HIDE ISSUE)
+      // 🔥 COMPLETE PAGE CHANGE
       document.body.innerHTML = `
-        <div style="margin-top:100px;">
+        <div style="
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          height:100vh;
+          background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+          color:white;
+          flex-direction:column;
+        ">
           <h2>Welcome 🎉</h2>
           <p>${res.user.email}</p>
-          <button onclick="location.reload()" 
+          <button onclick="logout()" 
             style="padding:12px 20px;border:none;border-radius:20px;background:red;color:white;">
             Logout
           </button>
@@ -480,10 +495,15 @@ window.login = function(){
     .catch(err => alert(err.message));
 };
 
+// LOGOUT
+window.logout = function(){
+  signOut(auth).then(()=>{
+    location.reload();
+  });
+};
+
 </script>
 
-</body>
-</html>
 </html>
 <body>
 <h2>🌿 WADI SOON VILLAGES 🌿</h2>
