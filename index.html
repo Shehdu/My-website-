@@ -636,9 +636,10 @@ window.login = function () {
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => alert("Login Successful ✅"))
-    .catch((error) => alert(error.message));
-};
+    .then(() => {
+  alert("Login Successful ✅");
+  window.location.href = "index.html";
+})
 
 </script>
 
