@@ -4,18 +4,31 @@
 <!-- SIGNUP -->
 <div id="signupBox" class="box">
   <h2>Sign Up</h2>
+
   <input type="text" id="newUser" placeholder="Username">
-  <input type="password" id="newPass" placeholder="Password">
+
+  <div class="pass-box">
+    <input type="password" id="newPass" placeholder="Password">
+    <span onclick="togglePass('newPass', this)">👁</span>
+  </div>
+
   <button onclick="signup()">Sign Up</button>
-  <p onclick="showLogin()" style="cursor:pointer;">Already account? Login</p>
+  <p onclick="showLogin()">Already account? Login</p>
 </div>
 
 <!-- LOGIN -->
 <div id="loginBox" class="box" style="display:none;">
   <h2>Login</h2>
+
   <input type="text" id="user" placeholder="Username">
-  <input type="password" id="pass" placeholder="Password">
+
+  <div class="pass-box">
+    <input type="password" id="pass" placeholder="Password">
+    <span onclick="togglePass('pass', this)">👁</span>
+  </div>
+
   <button onclick="login()">Login</button>
+  <p onclick="forgotPass()">Forgot Password?</p>
 </div>
 
 <style>
@@ -26,55 +39,92 @@
   width:100%;
   height:100%;
   background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(5px);
   z-index:999;
 }
 
+/* BOX DESIGN */
 .box{
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  background:#1e293b;
+  
+  width:90%;
+  max-width:350px;
+  padding:25px;
 
-  width:700px;        /* 👉 bada box */
-  padding:200px;
+  border-radius:15px;
+  background:rgba(30,41,59,0.9);
+  box-shadow:0 0 25px rgba(0,0,0,0.6);
 
-  border-radius:12px;
   text-align:center;
   color:white;
   z-index:1000;
 }
 
-/* INPUT FIX */
+/* INPUT */
 input{
   width:100%;
   padding:12px;
-  font-size:16px;
   margin:10px 0;
-  box-sizing:border-box;
-  border-radius:6px;
+  border-radius:8px;
   border:none;
+  font-size:15px;
 }
 
-/* BUTTON FIX */
+/* PASSWORD BOX */
+.pass-box{
+  position:relative;
+}
+
+.pass-box span{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+}
+
+/* BUTTON */
 button{
   width:100%;
   padding:12px;
-  font-size:16px;
   margin-top:10px;
   border:none;
-  border-radius:6px;
-  background:#22c55e;
+  border-radius:8px;
+  background:linear-gradient(45deg,#22c55e,#16a34a);
   color:white;
+  font-size:16px;
   cursor:pointer;
+}
+
+/* TEXT */
+.box p{
+  margin-top:10px;
+  cursor:pointer;
+  color:#38bdf8;
 }
 </style>
 
 <script>
+// SHOW/HIDE PASSWORD
+function togglePass(id, el){
+  var input = document.getElementById(id);
+
+  if(input.type === "password"){
+    input.type = "text";
+    el.innerHTML = "🙈";
+  } else {
+    input.type = "password";
+    el.innerHTML = "👁";
+  }
+}
+
 // SIGNUP
 function signup(){
-  var u = document.getElementById("newUser").value;
-  var p = document.getElementById("newPass").value;
+  var u = document.getElementById("newUser").value.trim();
+  var p = document.getElementById("newPass").value.trim();
 
   if(u==="" || p===""){
     alert("Fill all fields");
@@ -107,6 +157,16 @@ function login(){
 
   } else {
     alert("Wrong login");
+  }
+}
+
+// FORGOT PASSWORD
+function forgotPass(){
+  var p = localStorage.getItem("pass");
+  if(p){
+    alert("Your password: " + p);
+  } else {
+    alert("No account found");
   }
 }
 </script>
