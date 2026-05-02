@@ -1,5 +1,23 @@
+<script type="module">
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-    .
+const auth = getAuth();
+
+// MENU
+window.toggleMenu = function() {
+  let menu = document.getElementById("menu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+// LOGOUT → index.html
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.replace("index.html"); // 🔥 yeh back bhi block karega
+  }).catch(() => {
+    window.location.replace("index.html"); // agar error bhi ho to bhi redirect
+  });
+}
+</script>
 </body>
 </html>
 <div style="
