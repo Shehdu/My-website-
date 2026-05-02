@@ -1,5 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page 2 - Wadi Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(135deg,#1e3c72,#2a5298);
+      color: white;
+    }
 
+    /* TOP BAR */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+
+    /* HOME BUTTON */
+    .home-btn {
+      font-size: 20px;
+      text-decoration: none;
+      color: white;
+      background: rgba(255,255,255,0.1);
+      padding: 8px 15px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .home-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* 3 DOT MENU */
+    .menu-container {
+      position: relative;
+    }
+
+    .menu-btn {
+      font-size: 22px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .menu-box {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 30px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      min-width: 140px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+
+    .menu-box a {
+      display: block;
+      padding: 12px;
+      text-decoration: none;
+      color: black;
+      font-size: 14px;
+    }
+
+    .menu-box a:hover {
+      background: #f2f2f2;
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  
+  <!-- LEFT: HOME -->
+  <a href="home.html" class="home-btn">🏠 Home</a>
+
+  <!-- RIGHT: MENU -->
+  <div class="menu-container">
+    <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+
+    <div id="menu" class="menu-box">
+      <a href="home.html">Home</a>
+      <a href="page2.html">Page 2</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="card">
+    <h2>Wadi Soon - Page 2 🌿</h2>
+    <p>This is a professional styled page with navigation and Firebase authentication.</p>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, signOut, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site",
+  storageBucket: "wadi-soon-site.firebasestorage.app",
+  messagingSenderId: "306902521128",
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// AUTH CHECK
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+  }
+});
+
+// MENU TOGGLE
+window.toggleMenu = function() {
+  let menu = document.getElementById("menu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+// LOGOUT
+window.logout = function() {
+  signOut(auth).then(() => {
+    alert("Logged Out");
+    window.location.href = "index.html";
+  });
+}
+</script>
+
+</body>
+</html>
 <div style="
 background:#111;
 padding:12px;
