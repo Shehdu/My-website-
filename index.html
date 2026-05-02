@@ -530,15 +530,16 @@ button{
   <input type="email" id="email" placeholder="Enter Email"><br>
   <input type="password" id="password" placeholder="Enter Password"><br>
 
-  <button onclick="signup()">Sign Up</button>
-  <button onclick="login()">Login</button>
+  <!-- 🔥 FIX: type="button" -->
+  <button type="button" onclick="signup()">Sign Up</button>
+  <button type="button" onclick="login()">Login</button>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard">
   <h2>Welcome 🎉</h2>
   <p id="userEmail"></p>
-  <button onclick="logout()">Logout</button>
+  <button type="button" onclick="logout()">Logout</button>
 </div>
 
 <script type="module">
@@ -560,7 +561,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-// 🔥 SHOW DASHBOARD (HIDE LOGIN)
+// 🔥 SHOW DASHBOARD
 function showDashboard(user){
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("dashboard").style.display = "block";
@@ -575,7 +576,7 @@ window.signup = function(){
   createUserWithEmailAndPassword(auth, email, password)
     .then((res)=>{
       alert("Account Created ✅");
-      showDashboard(res.user); // 🔥 yahan hide hoga
+      showDashboard(res.user);
     })
     .catch(err => alert(err.message));
 };
@@ -588,7 +589,7 @@ window.login = function(){
   signInWithEmailAndPassword(auth, email, password)
     .then((res)=>{
       alert("Login Successful ✅");
-      showDashboard(res.user); // 🔥 yahan hide hoga
+      showDashboard(res.user);
     })
     .catch(err => alert(err.message));
 };
@@ -601,7 +602,7 @@ window.logout = function(){
   });
 };
 
-// AUTO LOGIN (refresh ke baad bhi)
+// AUTO LOGIN
 onAuthStateChanged(auth, (user)=>{
   if(user){
     showDashboard(user);
@@ -612,12 +613,6 @@ onAuthStateChanged(auth, (user)=>{
 
 </body>
 </html>
-
-</script>
-
-</body>
-</html>
-
 
 </html>
 <body>
