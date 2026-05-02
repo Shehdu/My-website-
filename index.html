@@ -1,3 +1,47 @@
+<div id="menu-container"></div>
+
+<style>
+.menu-btn{
+  position:fixed;
+  top:10px;
+  left:10px;
+  font-size:30px;
+  color:white;
+  cursor:pointer;
+  z-index:1000;
+}
+
+#menu{
+  display:none;
+  position:fixed;
+  top:45px;
+  left:10px;
+  background:#1e293b;
+  padding:10px;
+  border-radius:8px;
+}
+
+#menu a{
+  display:block;
+  color:white;
+  text-decoration:none;
+  padding:6px;
+}
+</style>
+
+<script>
+var x = new XMLHttpRequest();
+x.open("GET","menu.html",true);
+x.onload = function(){
+  document.getElementById("menu-container").innerHTML = this.responseText;
+};
+x.send();
+
+function toggleMenu(){
+  var m=document.getElementById("menu");
+  m.style.display=(m.style.display==="block")?"none":"block";
+}
+</script>
 <div style="
 background:#111;
 padding:12px;
