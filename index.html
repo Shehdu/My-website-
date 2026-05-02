@@ -1,23 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login / Signup</title>
+  <title>Wadi Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(135deg,#1e3c72,#2a5298);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      width: 300px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .login { background: #00c6ff; color:white; }
+    .signup { background: #28a745; color:white; }
+
+    #home {
+      display: none;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Login / Signup</h2>
+<!-- LOGIN / SIGNUP BOX -->
+<div class="container" id="authBox">
+  <h2>Wadi Soon</h2>
 
-<input type="email" id="email" placeholder="Email"><br><br>
-<input type="password" id="password" placeholder="Password"><br><br>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
 
-<button onclick="signup()">Signup</button>
-<button onclick="login()">Login</button>
+  <br>
+  <button class="login" onclick="login()">Login</button>
+  <button class="signup" onclick="signup()">Sign Up</button>
+</div>
 
-<p id="msg"></p>
+<!-- HOME SCREEN -->
+<div class="container" id="home">
+  <h2>Welcome 🌿</h2>
+  <p>You are logged in successfully</p>
+  <button onclick="logout()">Logout</button>
+</div>
 
+<!-- FIREBASE + SCRIPT -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -32,33 +90,42 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Signup
-window.signup = function(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  createUserWithEmailAndPassword(auth, email, password)
-  .then(() => {
-    document.getElementById("msg").innerText = "Signup successful";
-  })
-  .catch((error) => {
-    document.getElementById("msg").innerText = error.message;
-  });
-}
-
-// Login
+// LOGIN
 window.login = function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-  .then(() => {
-    window.location.href = "home.html"; // ✅ redirect
-  })
-  .catch(() => {
-    document.getElementById("msg").innerText = "Login failed";
-  });
+  .then(() => alert("Login Successful"))
+  .catch(e => alert(e.message));
 }
+
+// SIGNUP
+window.signup = function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+  .then(() => alert("Account Created"))
+  .catch(e => alert(e.message));
+}
+
+// LOGOUT
+window.logout = function(){
+  signOut(auth);
+}
+
+// AUTO SWITCH SCREEN
+onAuthStateChanged(auth, (user) => {
+  if(user){
+    document.getElementById("authBox").style.display = "none";
+    document.getElementById("home").style.display = "block";
+  } else {
+    document.getElementById("authBox").style.display = "block";
+    document.getElementById("home").style.display = "none";
+  }
+});
+
 </script>
 
 </body>
