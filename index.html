@@ -40,22 +40,19 @@
       border-radius: 20px;
       margin: 5px;
       cursor: pointer;
+      font-size: 15px;
     }
 
     .login { background: #00c6ff; color:white; }
     .signup { background: #28a745; color:white; }
 
-    #home {
-      display: none;
-    }
   </style>
 </head>
 
 <body>
 
-<!-- LOGIN / SIGNUP BOX -->
-<div class="container" id="authBox">
-  <h2>Wadi Soon</h2>
+<div class="container">
+  <h2>Wadi Soon 🌿</h2>
 
   <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
@@ -65,17 +62,10 @@
   <button class="signup" onclick="signup()">Sign Up</button>
 </div>
 
-<!-- HOME SCREEN -->
-<div class="container" id="home">
-  <h2>Welcome 🌿</h2>
-  <p>You are logged in successfully</p>
-  <button onclick="logout()">Logout</button>
-</div>
-
-<!-- FIREBASE + SCRIPT -->
+<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } 
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -96,7 +86,10 @@ window.login = function(){
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-  .then(() => alert("Login Successful"))
+  .then(() => {
+    alert("Login Successful");
+    window.location.href = "home.html"; // 🔥 redirect
+  })
   .catch(e => alert(e.message));
 }
 
@@ -106,26 +99,11 @@ window.signup = function(){
   const password = document.getElementById("password").value;
 
   createUserWithEmailAndPassword(auth, email, password)
-  .then(() => alert("Account Created"))
+  .then(() => {
+    alert("Account Created");
+  })
   .catch(e => alert(e.message));
 }
-
-// LOGOUT
-window.logout = function(){
-  signOut(auth);
-}
-
-// AUTO SWITCH SCREEN
-onAuthStateChanged(auth, (user) => {
-  if(user){
-    document.getElementById("authBox").style.display = "none";
-    document.getElementById("home").style.display = "block";
-  } else {
-    document.getElementById("authBox").style.display = "block";
-    document.getElementById("home").style.display = "none";
-  }
-});
-
 </script>
 
 </body>
