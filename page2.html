@@ -15,7 +15,7 @@ body {
   position: fixed;
   top: 10px;
   right: 15px;
-  font-size: 28px;
+  font-size: 30px;
   color: white;
   cursor: pointer;
 }
@@ -24,10 +24,10 @@ body {
 #menu {
   display: none;
   position: fixed;
-  top: 40px;
+  top: 45px;
   right: 15px;
   background: #1e293b;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
 }
 
@@ -35,14 +35,14 @@ body {
   display: block;
   color: white;
   text-decoration: none;
-  padding: 5px;
+  padding: 6px;
 }
 </style>
 
 </head>
 <body>
 
-<div class="dots" onclick="toggleMenu()">⋮</div>
+<div class="dots" id="dots">⋮</div>
 
 <div id="menu">
   <a href="index.html">Home</a>
@@ -50,10 +50,14 @@ body {
 </div>
 
 <script>
-function toggleMenu() {
-  var m = document.getElementById("menu");
-  m.style.display = (m.style.display === "block") ? "none" : "block";
-}
+document.getElementById("dots").onclick = function () {
+  var menu = document.getElementById("menu");
+  if (menu.style.display === "block") {
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "block";
+  }
+};
 </script>
 
 </body>
