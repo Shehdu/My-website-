@@ -479,10 +479,10 @@ h1 {
 </head>
 </body>  
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Login Signup Firebase</title>
+<title>Firebase Login System</title>
 
 <style>
 body{
@@ -513,12 +513,18 @@ button{
   color:white;
   cursor:pointer;
 }
+
+#dashboard{
+  display:none;
+  margin-top:100px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<!-- LOGIN -->
+<div class="box" id="loginBox">
   <h2>Login / Signup</h2>
 
   <input type="email" id="email" placeholder="Enter Email"><br>
@@ -528,56 +534,85 @@ button{
   <button onclick="login()">Login</button>
 </div>
 
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <h2>Welcome 🎉</h2>
+  <p id="userEmail"></p>
+  <button onclick="logout()">Logout</button>
+</div>
+
 <script type="module">
 
-// 🔥 IMPORTS
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-// 🔥 FIREBASE CONFIG (tumhara)
+// 🔥 CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
   authDomain: "wadi-soon-site.firebaseapp.com",
   projectId: "wadi-soon-site",
   storageBucket: "wadi-soon-site.firebasestorage.app",
   messagingSenderId: "306902521128",
-  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
-  measurementId: "G-V81LVNRLQH"
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
 };
 
-// 🔥 INITIALIZE
+// 🔥 INIT
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth();
 
+// 🔥 SHOW DASHBOARD FUNCTION
+function showDashboard(user){
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+  document.getElementById("userEmail").innerText = user.email;
+}
+
 // 🔥 SIGNUP
-window.signup = function () {
+window.signup = function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   createUserWithEmailAndPassword(auth, email, password)
-    .then(() => alert("Account Created ✅"))
-    .catch((error) => alert(error.message));
+    .then((userCredential)=>{
+      alert("Account Created ✅");
+      showDashboard(userCredential.user); // 🔥 yahin hide hoga
+    })
+    .catch(err => alert(err.message));
 };
 
 // 🔥 LOGIN
-window.login = function () {
+window.login = function(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then((userCredential)=>{
       alert("Login Successful ✅");
-      window.location.href = "index.html";
+      showDashboard(userCredential.user); // 🔥 yahin hide hoga
     })
-    .catch((error) => {
-      alert(error.message);
-    });
+    .catch(err => alert(err.message));
 };
 
+// 🔥 LOGOUT
+window.logout = function(){
+  signOut(auth).then(()=>{
+    document.getElementById("loginBox").style.display = "block";
+    document.getElementById("dashboard").style.display = "none";
+  });
+};
+
+// 🔥 AUTO LOGIN (refresh ke baad bhi)
+onAuthStateChanged(auth, (user)=>{
+  if(user){
+    showDashboard(user);
+  }
+});
+
 </script>
+
+</body>
+</html>
 
 
 </html>
