@@ -101,75 +101,7 @@ button{
 
 /* TEXT */
 .box p{
-  margin-top:10px;
-  cursor:pointer;
-  color:#38bdf8;
-}
-</style>
 
-<script>
-// SHOW/HIDE PASSWORD
-function togglePass(id, el){
-  var input = document.getElementById(id);
-
-  if(input.type === "password"){
-    input.type = "text";
-    el.innerHTML = "🙈";
-  } else {
-    input.type = "password";
-    el.innerHTML = "👁";
-  }
-}
-
-// SIGNUP
-function signup(){
-  var u = document.getElementById("newUser").value.trim();
-  var p = document.getElementById("newPass").value.trim();
-
-  if(u==="" || p===""){
-    alert("Fill all fields");
-    return;
-  }
-
-  localStorage.setItem("user",u);
-  localStorage.setItem("pass",p);
-
-  alert("Signup done");
-  showLogin();
-}
-
-// SHOW LOGIN
-function showLogin(){
-  document.getElementById("signupBox").style.display="none";
-  document.getElementById("loginBox").style.display="block";
-}
-
-// LOGIN
-function login(){
-  var u = document.getElementById("user").value;
-  var p = document.getElementById("pass").value;
-
-  if(u===localStorage.getItem("user") &&
-     p===localStorage.getItem("pass")){
-     
-    document.getElementById("loginBox").style.display="none";
-    document.getElementById("overlay").style.display="none";
-
-  } else {
-    alert("Wrong login");
-  }
-}
-
-// FORGOT PASSWORD
-function forgotPass(){
-  var p = localStorage.getItem("pass");
-  if(p){
-    alert("Your password: " + p);
-  } else {
-    alert("No account found");
-  }
-}
-</script>
 <div id="menu-container"></div>
 
 <style>
