@@ -1,102 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Login System</title>
 
-<style>
-body{
-  margin:0;
-  background:#0f172a;
-  color:white;
-  font-family:Arial;
-}
-
-.box{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#1e293b;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
-}
-
-input{
-  padding:8px;
-  width:200px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- SIGNUP -->
-<div id="signupBox" class="box">
-  <h2>Sign Up</h2>
-  <input type="text" id="newUser" placeholder="Username"><br><br>
-  <input type="password" id="newPass" placeholder="Password"><br><br>
-  <button onclick="signup()">Sign Up</button>
-  <p onclick="showLogin()" style="cursor:pointer;">Already account? Login</p>
-</div>
-
-<!-- LOGIN -->
-<div id="loginBox" class="box" style="display:none;">
-  <h2>Login</h2>
-  <input type="text" id="user" placeholder="Username"><br><br>
-  <input type="password" id="pass" placeholder="Password"><br><br>
-  <button onclick="login()">Login</button>
-</div>
-
-<!-- WEBSITE -->
-<div id="mainContent" style="display:none;">
-  <h1 style="text-align:center;margin-top:200px;">Welcome</h1>
-</div>
-
-<script>
-// signup
-function signup(){
-  var u = document.getElementById("newUser").value;
-  var p = document.getElementById("newPass").value;
-
-  if(u==="" || p===""){
-    alert("Fill all fields");
-    return;
-  }
-
-  localStorage.setItem("user",u);
-  localStorage.setItem("pass",p);
-
-  alert("Signup successful");
-  showLogin();
-}
-
-// show login
-function showLogin(){
-  document.getElementById("signupBox").style.display="none";
-  document.getElementById("loginBox").style.display="block";
-}
-
-// login
-function login(){
-  var u = document.getElementById("user").value;
-  var p = document.getElementById("pass").value;
-
-  var su = localStorage.getItem("user");
-  var sp = localStorage.getItem("pass");
-
-  if(u===su && p===sp){
-    document.getElementById("loginBox").style.display="none";
-    document.getElementById("mainContent").style.display="block";
-  } else {
-    alert("Wrong username or password");
-  }
-}
-</script>
-
-</body>
-</html>
 <div id="menu-container"></div>
 
 <style>
@@ -492,4 +394,78 @@ h1 {
 </div>
 
 <style>
- 
+ <!-- OVERLAY -->
+<div id="overlay"></div>
+
+<!-- SIGNUP -->
+<div id="signupBox" class="box">
+  <h2>Sign Up</h2>
+  <input type="text" id="newUser" placeholder="Username"><br><br>
+  <input type="password" id="newPass" placeholder="Password"><br><br>
+  <button onclick="signup()">Sign Up</button>
+  <p onclick="showLogin()" style="cursor:pointer;">Already account? Login</p>
+</div>
+
+<!-- LOGIN -->
+<div id="loginBox" class="box" style="display:none;">
+  <h2>Login</h2>
+  <input type="text" id="user" placeholder="Username"><br><br>
+  <input type="password" id="pass" placeholder="Password"><br><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<style>
+#overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:999;
+}
+
+.box{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#1e293b;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  color:white;
+  z-index:1000;
+}
+
+input{
+  padding:8px;
+  width:200px;
+}
+</style>
+
+<script>
+function signup(){
+  localStorage.setItem("user",newUser.value);
+  localStorage.setItem("pass",newPass.value);
+  alert("Signup done");
+  showLogin();
+}
+
+function showLogin(){
+  signupBox.style.display="none";
+  loginBox.style.display="block";
+}
+
+function login(){
+  if(user.value===localStorage.getItem("user") &&
+     pass.value===localStorage.getItem("pass")){
+     
+    loginBox.style.display="none";
+    overlay.style.display="none";
+
+  } else {
+    alert("Wrong login");
+  }
+}
+</script>
