@@ -4,8 +4,8 @@
 <!-- SIGNUP -->
 <div id="signupBox" class="box">
   <h2>Sign Up</h2>
-  <input type="text" id="newUser" placeholder="Username"><br><br>
-  <input type="password" id="newPass" placeholder="Password"><br><br>
+  <input type="text" id="newUser" placeholder="Username">
+  <input type="password" id="newPass" placeholder="Password">
   <button onclick="signup()">Sign Up</button>
   <p onclick="showLogin()" style="cursor:pointer;">Already account? Login</p>
 </div>
@@ -13,8 +13,8 @@
 <!-- LOGIN -->
 <div id="loginBox" class="box" style="display:none;">
   <h2>Login</h2>
-  <input type="text" id="user" placeholder="Username"><br><br>
-  <input type="password" id="pass" placeholder="Password"><br><br>
+  <input type="text" id="user" placeholder="Username">
+  <input type="password" id="pass" placeholder="Password">
   <button onclick="login()">Login</button>
 </div>
 
@@ -36,8 +36,8 @@
   transform:translate(-50%,-50%);
   background:#1e293b;
 
-  width:500px;      /* 👉 box ki width barhao */
-  padding:30px;     /* 👉 andar space zyada */
+  width:500px;        /* 👉 bada box */
+  padding:30px;
 
   border-radius:12px;
   text-align:center;
@@ -45,9 +45,28 @@
   z-index:1000;
 }
 
+/* INPUT FIX */
 input{
-  padding:8px;
-  width:200px;
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  margin:10px 0;
+  box-sizing:border-box;
+  border-radius:6px;
+  border:none;
+}
+
+/* BUTTON FIX */
+button{
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  margin-top:10px;
+  border:none;
+  border-radius:6px;
+  background:#22c55e;
+  color:white;
+  cursor:pointer;
 }
 </style>
 
@@ -80,12 +99,12 @@ function login(){
   var u = document.getElementById("user").value;
   var p = document.getElementById("pass").value;
 
-  var su = localStorage.getItem("user");
-  var sp = localStorage.getItem("pass");
-
-  if(u===su && p===sp){
+  if(u===localStorage.getItem("user") &&
+     p===localStorage.getItem("pass")){
+     
     document.getElementById("loginBox").style.display="none";
     document.getElementById("overlay").style.display="none";
+
   } else {
     alert("Wrong login");
   }
