@@ -394,3 +394,75 @@ body {
 }
 
 </style>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Chat</title>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+
+<body>
+
+<h2>🔥 Live Chat</h2>
+
+<input type="text" id="messageInput" placeholder="Type message">
+<button onclick="sendMessage()">Send</button>
+
+<div id="chatBox" style="margin-top:20px;"></div>
+
+<script>
+  // 🔴 YAHAN APNA FIREBASE CONFIG DALO
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const db = firebase.firestore();
+
+  // ✅ SEND MESSAGE
+  function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const message = input.value;
+
+    if (message.trim() === "") return;
+
+    db.collection("messages").add({
+      text: message,
+      email: firebase.auth().currentUser
+        ? firebase.auth().currentUser.email
+        : "guest",
+      time: Date.now()
+    });
+
+    input.value = "";
+  }
+
+  // ✅ REALTIME SHOW
+  db.collection("messages")
+    .orderBy("time")
+    .onSnapshot(snapshot => {
+      const chatBox = document.getElementById("chatBox");
+      chatBox.innerHTML = "";
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+
+        const p = document.createElement("p");
+        p.innerText = data.email + " : " + data.text;
+
+        chatBox.appendChild(p);
+      });
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+</script>
+
+</body>
+</html>
