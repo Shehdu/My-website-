@@ -403,6 +403,46 @@ body {
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+    }
+
+    #chatBox {
+      height: 250px;
+      overflow-y: scroll;
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .message {
+      padding: 8px 12px;
+      margin: 5px 0;
+      border-radius: 10px;
+      width: fit-content;
+      max-width: 70%;
+      position: relative;
+    }
+
+    .myMsg {
+      background: #dcf8c6;
+      margin-left: auto;
+    }
+
+    .otherMsg {
+      background: white;
+    }
+
+    .deleteBtn {
+      font-size: 12px;
+      color: red;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+  </style>
 </head>
 
 <body>
@@ -412,10 +452,10 @@ body {
 <input type="text" id="messageInput" placeholder="Type message">
 <button onclick="sendMessage()">Send</button>
 
-<div id="chatBox" style="margin-top:20px;"></div>
+<div id="chatBox"></div>
 
 <script>
-  // 🔴 YAHAN APNA FIREBASE CONFIG DALO
+  // 🔴 APNA REAL CONFIG DALO
   const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -435,16 +475,19 @@ body {
 
     db.collection("messages").add({
       text: message,
+      uid: firebase.auth().currentUser 
+            ? firebase.auth().currentUser.uid 
+            : "guest",
       email: firebase.auth().currentUser
-        ? firebase.auth().currentUser.email
-        : "guest",
+            ? firebase.auth().currentUser.email
+            : "guest",
       time: Date.now()
     });
 
     input.value = "";
   }
 
-  // ✅ REALTIME SHOW
+  // ✅ REALTIME SHOW + DELETE
   db.collection("messages")
     .orderBy("time")
     .onSnapshot(snapshot => {
@@ -454,10 +497,32 @@ body {
       snapshot.forEach(doc => {
         const data = doc.data();
 
-        const p = document.createElement("p");
-        p.innerText = data.email + " : " + data.text;
+        const div = document.createElement("div");
+        div.classList.add("message");
 
-        chatBox.appendChild(p);
+        // apna ya dusra message
+        if (firebase.auth().currentUser && data.uid === firebase.auth().currentUser.uid) {
+          div.classList.add("myMsg");
+        } else {
+          div.classList.add("otherMsg");
+        }
+
+        div.innerText = data.email + " : " + data.text;
+
+        // DELETE BUTTON (sirf apne message pe)
+        if (firebase.auth().currentUser && data.uid === firebase.auth().currentUser.uid) {
+          const del = document.createElement("span");
+          del.innerText = " ❌";
+          del.classList.add("deleteBtn");
+
+          del.onclick = () => {
+            db.collection("messages").doc(doc.id).delete();
+          };
+
+          div.appendChild(del);
+        }
+
+        chatBox.appendChild(div);
       });
 
       chatBox.scrollTop = chatBox.scrollHeight;
