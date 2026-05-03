@@ -393,13 +393,12 @@ body {
   text-align: justify;
 }
 
-</style>
 <!DOCTYPE html>
 <html>
 <head>
   <title>Live Chat</title>
 
-  <!-- Firebase -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
@@ -409,48 +408,77 @@ body {
       font-family: Arial;
     }
 
-    #chatBox {
-      background: #f1f1f1;
-      height: 250px;
-      overflow-y: scroll;
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 10px;
+    #chatContainer {
+      width: 100%;
+      max-width: 400px;
+      margin: auto;
     }
 
-    .message {
+    #chatBox {
+      height: 300px;
+      overflow-y: auto;
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .msg {
       background: white;
-      color: black;
       padding: 8px;
-      margin: 5px 0;
       border-radius: 8px;
+      margin-bottom: 5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    .text {
+      font-size: 14px;
     }
 
     .deleteBtn {
       background: red;
       color: white;
       border: none;
-      padding: 3px 6px;
-      border-radius: 5px;
+      border-radius: 50%;
       cursor: pointer;
+      width: 20px;
+      height: 20px;
+    }
+
+    #inputArea {
+      display: flex;
+    }
+
+    #messageInput {
+      flex: 1;
+      padding: 10px;
+    }
+
+    button {
+      padding: 10px;
     }
   </style>
 </head>
 
 <body>
 
-<h2>🔥 Live Chat</h2>
+<div id="chatContainer">
 
-<input type="text" id="messageInput" placeholder="Type message">
-<button onclick="sendMessage()">Send</button>
+  <h3>🔥 Live Chat</h3>
 
-<div id="chatBox"></div>
+  <div id="chatBox"></div>
+
+  <div id="inputArea">
+    <input type="text" id="messageInput" placeholder="Type message">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
 
 <script>
-  // 🔴 APNA FIREBASE CONFIG YAHAN DALO
+  // ✅ SAME FIREBASE CONFIG USE KARO (jo pehle se hai)
   const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -458,6 +486,7 @@ body {
   };
 
   firebase.initializeApp(firebaseConfig);
+
   const db = firebase.firestore();
 
   // ✅ SEND MESSAGE
@@ -478,15 +507,11 @@ body {
     input.value = "";
   }
 
-  // ❌ DELETE MESSAGE
-  function deleteMessage(id) {
-    db.collection("messages").doc(id).delete();
-  }
-
-  // ✅ REALTIME SHOW
+  // ✅ REALTIME SHOW + DELETE BUTTON
   db.collection("messages")
     .orderBy("time")
     .onSnapshot(snapshot => {
+
       const chatBox = document.getElementById("chatBox");
       chatBox.innerHTML = "";
 
@@ -494,18 +519,23 @@ body {
         const data = doc.data();
 
         const div = document.createElement("div");
-        div.classList.add("message");
+        div.className = "msg";
 
         const text = document.createElement("span");
+        text.className = "text";
         text.innerText = data.email + " : " + data.text;
 
-        const delBtn = document.createElement("button");
-        delBtn.innerText = "X";
-        delBtn.classList.add("deleteBtn");
-        delBtn.onclick = () => deleteMessage(doc.id);
+        const del = document.createElement("button");
+        del.innerText = "x";
+        del.className = "deleteBtn";
+
+        // ✅ DELETE MESSAGE
+        del.onclick = () => {
+          db.collection("messages").doc(doc.id).delete();
+        };
 
         div.appendChild(text);
-        div.appendChild(delBtn);
+        div.appendChild(del);
 
         chatBox.appendChild(div);
       });
