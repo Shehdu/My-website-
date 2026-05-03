@@ -398,112 +398,189 @@ body {
 <head>
   <title>Live Chat</title>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
   <style>
+    body {
+      font-family: Arial;
+      background: #ece5dd;
+      margin: 0;
+      padding: 0;
+    }
+
+    .chat-container {
+      max-width: 400px;
+      margin: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+    }
+
+    .header {
+      background: #075e54;
+      color: white;
+      padding: 15px;
+      font-size: 18px;
+    }
+
     #chatBox {
-      height: 250px;
-      background: #eee;
+      flex: 1;
       overflow-y: auto;
       padding: 10px;
+      background: #e5ddd5;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 8px 12px;
+      margin: 5px;
       border-radius: 10px;
+      position: relative;
+      font-size: 14px;
     }
 
-    .msg {
+    .myMsg {
+      background: #dcf8c6;
+      margin-left: auto;
+    }
+
+    .otherMsg {
       background: white;
-      padding: 8px;
-      margin: 5px 0;
-      border-radius: 5px;
-      display: flex;
-      justify-content: space-between;
+      margin-right: auto;
     }
 
-    .delete {
-      background: red;
-      color: white;
+    .deleteBtn {
+      font-size: 10px;
+      color: red;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      background: #f0f0f0;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 20px;
       border: none;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
+      outline: none;
+    }
+
+    .input-area button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 20px;
+      background: #075e54;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
-<h3>🔥 Live Chat</h3>
+<div class="chat-container">
 
-<div id="chatBox"></div>
+  <div class="header">💬 Live Chat</div>
 
-<input type="text" id="messageInput" placeholder="Type message">
-<button onclick="sendMessage()">Send</button>
+  <div id="chatBox"></div>
 
-<script>
-  // ⚠️ APNA EXISTING CONFIG HI RAKHO
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    projectId: "YOUR_PROJECT_ID",
-  };
+  <div class="input-area">
+    <input type="text" id="messageInput" placeholder="Type message">
+    <button onclick="sendMessage()">Send</button>
+  </div>
 
-  // ❌ duplicate initialize se bachne ke liye
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
+</div>
 
-  const db = firebase.firestore();
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-  // ✅ SEND MESSAGE (simple + guaranteed working)
-  function sendMessage() {
-    const input = document.getElementById("messageInput");
-    const msg = input.value;
+// 🔑 YOUR FIREBASE CONFIG (already correct)
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site",
+  storageBucket: "wadi-soon-site.firebasestorage.app",
+  messagingSenderId: "306902521128",
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
+  measurementId: "G-V81LVNRLQH"
+};
 
-    if (msg === "") return;
+// ✅ Init
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    db.collection("messages").add({
-      text: msg,
-      user: "guest",
-      time: Date.now()
-    });
+// 👤 Simple user (future me login se replace kar sakte ho)
+const currentUser = "user1";
 
-    input.value = "";
-  }
+// ✅ SEND MESSAGE
+window.sendMessage = async function () {
+  const input = document.getElementById("messageInput");
+  const msg = input.value;
 
-  // ✅ SHOW MESSAGE
-  db.collection("messages")
-    .orderBy("time")
-    .onSnapshot(snapshot => {
+  if (msg.trim() === "") return;
 
-      const chatBox = document.getElementById("chatBox");
-      chatBox.innerHTML = "";
+  await addDoc(collection(db, "messages"), {
+    text: msg,
+    user: currentUser,
+    time: Date.now()
+  });
 
-      snapshot.forEach(doc => {
-        const data = doc.data();
+  input.value = "";
+};
 
-        const div = document.createElement("div");
-        div.className = "msg";
+// ✅ SHOW + DELETE
+const chatBox = document.getElementById("chatBox");
 
-        const text = document.createElement("span");
-        text.innerText = data.user + ": " + data.text;
+const q = query(collection(db, "messages"), orderBy("time"));
 
-        const btn = document.createElement("button");
-        btn.innerText = "x";
-        btn.className = "delete";
+onSnapshot(q, (snapshot) => {
+  chatBox.innerHTML = "";
 
-        // delete
-        btn.onclick = () => {
-          db.collection("messages").doc(doc.id).delete();
-        };
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
 
-        div.appendChild(text);
-        div.appendChild(btn);
+    const div = document.createElement("div");
+    div.classList.add("message");
 
-        chatBox.appendChild(div);
-      });
+    // left / right style
+    if (data.user === currentUser) {
+      div.classList.add("myMsg");
+    } else {
+      div.classList.add("otherMsg");
+    }
 
-      chatBox.scrollTop = chatBox.scrollHeight;
-    });
+    div.innerText = data.text;
+
+    // delete button
+    if (data.user === currentUser) {
+      const del = document.createElement("span");
+      del.innerText = " ❌";
+      del.classList.add("deleteBtn");
+
+      del.onclick = async () => {
+        await deleteDoc(doc(db, "messages", docSnap.id));
+      };
+
+      div.appendChild(del);
+    }
+
+    chatBox.appendChild(div);
+  });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+// ⌨️ Enter = Send
+document.getElementById("messageInput")
+  .addEventListener("keypress", function(e) {
+    if (e.key === "Enter") sendMessage();
+});
 </script>
 
 </body>
