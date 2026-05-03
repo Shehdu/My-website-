@@ -434,7 +434,7 @@ h1 {
     <div class="card"><h2>Dhadhar</h2></div>
 </div>
 
-<style>
+<!-- 💬 CHAT START -->
 <h2 style="text-align:center;">💬 Live Chat</h2>
 
 <div id="chatContainer">
@@ -450,36 +450,36 @@ h1 {
 #chatContainer {
   width: 100%;
   max-width: 500px;
-  margin: auto;
+  margin: 20px auto;
   background: #ffffff;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   overflow: hidden;
 }
 
-/* Chat box */
+/* Chat area */
 #chatBox {
   height: 250px;
   padding: 10px;
   overflow-y: auto;
-  background: #f5f5f5;
+  background: #e5ddd5;
 }
 
-/* Messages */
+/* Message bubble */
 .message {
-  background: #e4e6eb;
+  background: #dcf8c6;
   padding: 8px 12px;
-  border-radius: 12px;
-  margin: 6px 0;
+  border-radius: 15px;
+  margin: 5px 0;
   display: inline-block;
-  max-width: 80%;
+  max-width: 75%;
   font-size: 14px;
 }
 
 /* Input area */
 .chat-input {
   display: flex;
-  border-top: 1px solid #ddd;
+  background: #f0f0f0;
 }
 
 #message {
@@ -487,6 +487,7 @@ h1 {
   padding: 10px;
   border: none;
   outline: none;
+  background: transparent;
 }
 
 button {
@@ -501,69 +502,55 @@ button:hover {
   background: #e65c00;
 }
 </style>
-<h2 style="text-align:center;">💬 Live Chat</h2>
 
-<div id="chatContainer">
-  <div id="chatBox"></div>
+<!-- 🔥 SCRIPT HAMESHA NICHE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-  <div class="chat-input">
-    <input type="text" id="message" placeholder="Type your message...">
-    <button onclick="sendMessage()">Send</button>
-  </div>
-</div>
+// 🔑 Tumhara Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site",
+  storageBucket: "wadi-soon-site.firebasestorage.app",
+  messagingSenderId: "306902521128",
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
+  measurementId: "G-V81LVNRLQH"
+};
 
-<style>
-#chatContainer {
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  background: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  overflow: hidden;
-}
+// 🚀 Init Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-/* Chat box */
-#chatBox {
-  height: 250px;
-  padding: 10px;
-  overflow-y: auto;
-  background: #f5f5f5;
-}
+const chatBox = document.getElementById("chatBox");
 
-/* Messages */
-.message {
-  background: #e4e6eb;
-  padding: 8px 12px;
-  border-radius: 12px;
-  margin: 6px 0;
-  display: inline-block;
-  max-width: 80%;
-  font-size: 14px;
-}
+// 📤 Send Message
+window.sendMessage = async function () {
+  const input = document.getElementById("message");
+  const message = input.value;
 
-/* Input area */
-.chat-input {
-  display: flex;
-  border-top: 1px solid #ddd;
-}
+  if (message.trim() === "") return;
 
-#message {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  outline: none;
-}
+  await addDoc(collection(db, "messages"), {
+    text: message,
+    time: Date.now()
+  });
 
-button {
-  background: #ff6600;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-}
+  input.value = "";
+};
 
-button:hover {
-  background: #e65c00;
-}
-</style>
+// 📥 Live Messages
+const q = query(collection(db, "messages"), orderBy("time"));
+
+onSnapshot(q, (snapshot) => {
+  chatBox.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    chatBox.innerHTML += `<div class="message">${doc.data().text}</div>`;
+  });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+</script>
+<!-- 💬 CHAT END -->
