@@ -344,22 +344,26 @@ a {
   </p>
 
 </div>
-
 <style>
+
+/* ❌ body ka background hata diya */
+
 body {
-  background: #1a1a1a;
   font-family: Arial, sans-serif;
 }
+
 /* CARD DESIGN */
 .lake-card {
   max-width: 900px;
   margin: 50px auto;
   padding: 30px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+  background: linear-gradient(135deg, #2c2c2c, #1a1a1a); /* 👈 sirf box ka color */
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: 0.3s
+  transition: 0.3s; /* ✅ semicolon add */
+}
 
+/* hover */
 .lake-card:hover {
   transform: scale(1.02);
 }
@@ -382,4 +386,5 @@ body {
   color: white;
   text-align: justify;
 }
+
 </style>
