@@ -399,7 +399,7 @@ body {
 <head>
   <title>Live Chat</title>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
@@ -410,37 +410,32 @@ body {
     }
 
     #chatBox {
+      background: #f1f1f1;
       height: 250px;
       overflow-y: scroll;
-      background: #f5f5f5;
       padding: 10px;
       border-radius: 10px;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     .message {
-      padding: 8px 12px;
-      margin: 5px 0;
-      border-radius: 10px;
-      width: fit-content;
-      max-width: 70%;
-      position: relative;
-    }
-
-    .myMsg {
-      background: #dcf8c6;
-      margin-left: auto;
-    }
-
-    .otherMsg {
       background: white;
+      color: black;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .deleteBtn {
-      font-size: 12px;
-      color: red;
+      background: red;
+      color: white;
+      border: none;
+      padding: 3px 6px;
+      border-radius: 5px;
       cursor: pointer;
-      margin-left: 8px;
     }
   </style>
 </head>
@@ -455,7 +450,7 @@ body {
 <div id="chatBox"></div>
 
 <script>
-  // 🔴 APNA REAL CONFIG DALO
+  // 🔴 APNA FIREBASE CONFIG YAHAN DALO
   const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -463,7 +458,6 @@ body {
   };
 
   firebase.initializeApp(firebaseConfig);
-
   const db = firebase.firestore();
 
   // ✅ SEND MESSAGE
@@ -475,19 +469,21 @@ body {
 
     db.collection("messages").add({
       text: message,
-      uid: firebase.auth().currentUser 
-            ? firebase.auth().currentUser.uid 
-            : "guest",
       email: firebase.auth().currentUser
-            ? firebase.auth().currentUser.email
-            : "guest",
+        ? firebase.auth().currentUser.email
+        : "guest",
       time: Date.now()
     });
 
     input.value = "";
   }
 
-  // ✅ REALTIME SHOW + DELETE
+  // ❌ DELETE MESSAGE
+  function deleteMessage(id) {
+    db.collection("messages").doc(id).delete();
+  }
+
+  // ✅ REALTIME SHOW
   db.collection("messages")
     .orderBy("time")
     .onSnapshot(snapshot => {
@@ -500,27 +496,16 @@ body {
         const div = document.createElement("div");
         div.classList.add("message");
 
-        // apna ya dusra message
-        if (firebase.auth().currentUser && data.uid === firebase.auth().currentUser.uid) {
-          div.classList.add("myMsg");
-        } else {
-          div.classList.add("otherMsg");
-        }
+        const text = document.createElement("span");
+        text.innerText = data.email + " : " + data.text;
 
-        div.innerText = data.email + " : " + data.text;
+        const delBtn = document.createElement("button");
+        delBtn.innerText = "X";
+        delBtn.classList.add("deleteBtn");
+        delBtn.onclick = () => deleteMessage(doc.id);
 
-        // DELETE BUTTON (sirf apne message pe)
-        if (firebase.auth().currentUser && data.uid === firebase.auth().currentUser.uid) {
-          const del = document.createElement("span");
-          del.innerText = " ❌";
-          del.classList.add("deleteBtn");
-
-          del.onclick = () => {
-            db.collection("messages").doc(doc.id).delete();
-          };
-
-          div.appendChild(del);
-        }
+        div.appendChild(text);
+        div.appendChild(delBtn);
 
         chatBox.appendChild(div);
       });
