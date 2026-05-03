@@ -435,87 +435,135 @@ h1 {
 </div>
 
 <style>
- 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Live Chat</title>
-  <style>
-    body {
-      font-family: Arial;
-    }
-    #chatBox {
-      height: 300px;
-      border: 1px solid #ccc;
-      overflow-y: scroll;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    input {
-      padding: 8px;
-      width: 70%;
-    }
-    button {
-      padding: 8px;
-    }
-  </style>
-</head>
-<body>
+<h2 style="text-align:center;">💬 Live Chat</h2>
 
-<h2>Live Chat</h2>
+<div id="chatContainer">
+  <div id="chatBox"></div>
 
-<div id="chatBox"></div>
+  <div class="chat-input">
+    <input type="text" id="message" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
 
-<input type="text" id="message" placeholder="Type message">
-<button onclick="sendMessage()">Send</button>
+<style>
+#chatContainer {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+/* Chat box */
+#chatBox {
+  height: 250px;
+  padding: 10px;
+  overflow-y: auto;
+  background: #f5f5f5;
+}
 
-// 🔑 Tumhara Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
-  authDomain: "wadi-soon-site.firebaseapp.com",
-  projectId: "wadi-soon-site",
-  storageBucket: "wadi-soon-site.firebasestorage.app",
-  messagingSenderId: "306902521128",
-  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
-  measurementId: "G-V81LVNRLQH"
-};
+/* Messages */
+.message {
+  background: #e4e6eb;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin: 6px 0;
+  display: inline-block;
+  max-width: 80%;
+  font-size: 14px;
+}
 
-// 🚀 Init Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+/* Input area */
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
 
-const chatBox = document.getElementById("chatBox");
+#message {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
 
-// 📤 Send Message
-window.sendMessage = async function () {
-  const message = document.getElementById("message").value;
+button {
+  background: #ff6600;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
 
-  if (message.trim() === "") return;
+button:hover {
+  background: #e65c00;
+}
+</style>
+<h2 style="text-align:center;">💬 Live Chat</h2>
 
-  await addDoc(collection(db, "messages"), {
-    text: message,
-    time: Date.now()
-  });
+<div id="chatContainer">
+  <div id="chatBox"></div>
 
-  document.getElementById("message").value = "";
-};
+  <div class="chat-input">
+    <input type="text" id="message" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
 
-// 📥 Live Messages
-const q = query(collection(db, "messages"), orderBy("time"));
+<style>
+#chatContainer {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
 
-onSnapshot(q, (snapshot) => {
-  chatBox.innerHTML = "";
-  snapshot.forEach(doc => {
-    chatBox.innerHTML += `<p>${doc.data().text}</p>`;
-  });
+/* Chat box */
+#chatBox {
+  height: 250px;
+  padding: 10px;
+  overflow-y: auto;
+  background: #f5f5f5;
+}
 
-  chatBox.scrollTop = chatBox.scrollHeight;
-});
-</script>
+/* Messages */
+.message {
+  background: #e4e6eb;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin: 6px 0;
+  display: inline-block;
+  max-width: 80%;
+  font-size: 14px;
+}
 
-</body>
-</html>
+/* Input area */
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+#message {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+button {
+  background: #ff6600;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e65c00;
+}
+</style>
