@@ -398,116 +398,79 @@ body {
 <head>
   <title>Live Chat</title>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <style>
-    body {
-      font-family: Arial;
-    }
-
-    #chatContainer {
-      width: 100%;
-      max-width: 400px;
-      margin: auto;
-    }
-
     #chatBox {
-      height: 300px;
+      height: 250px;
+      background: #eee;
       overflow-y: auto;
-      background: #f1f1f1;
       padding: 10px;
       border-radius: 10px;
-      margin-bottom: 10px;
     }
 
     .msg {
       background: white;
       padding: 8px;
-      border-radius: 8px;
-      margin-bottom: 5px;
+      margin: 5px 0;
+      border-radius: 5px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
     }
 
-    .text {
-      font-size: 14px;
-    }
-
-    .deleteBtn {
+    .delete {
       background: red;
       color: white;
       border: none;
       border-radius: 50%;
-      cursor: pointer;
       width: 20px;
       height: 20px;
-    }
-
-    #inputArea {
-      display: flex;
-    }
-
-    #messageInput {
-      flex: 1;
-      padding: 10px;
-    }
-
-    button {
-      padding: 10px;
     }
   </style>
 </head>
 
 <body>
 
-<div id="chatContainer">
+<h3>🔥 Live Chat</h3>
 
-  <h3>🔥 Live Chat</h3>
+<div id="chatBox"></div>
 
-  <div id="chatBox"></div>
-
-  <div id="inputArea">
-    <input type="text" id="messageInput" placeholder="Type message">
-    <button onclick="sendMessage()">Send</button>
-  </div>
-
-</div>
+<input type="text" id="messageInput" placeholder="Type message">
+<button onclick="sendMessage()">Send</button>
 
 <script>
-  // ✅ SAME FIREBASE CONFIG USE KARO (jo pehle se hai)
+  // ⚠️ APNA EXISTING CONFIG HI RAKHO
   const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
     projectId: "YOUR_PROJECT_ID",
   };
 
-  firebase.initializeApp(firebaseConfig);
+  // ❌ duplicate initialize se bachne ke liye
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
 
   const db = firebase.firestore();
 
-  // ✅ SEND MESSAGE
+  // ✅ SEND MESSAGE (simple + guaranteed working)
   function sendMessage() {
     const input = document.getElementById("messageInput");
-    const message = input.value;
+    const msg = input.value;
 
-    if (message.trim() === "") return;
+    if (msg === "") return;
 
     db.collection("messages").add({
-      text: message,
-      email: firebase.auth().currentUser
-        ? firebase.auth().currentUser.email
-        : "guest",
+      text: msg,
+      user: "guest",
       time: Date.now()
     });
 
     input.value = "";
   }
 
-  // ✅ REALTIME SHOW + DELETE BUTTON
+  // ✅ SHOW MESSAGE
   db.collection("messages")
     .orderBy("time")
     .onSnapshot(snapshot => {
@@ -522,20 +485,19 @@ body {
         div.className = "msg";
 
         const text = document.createElement("span");
-        text.className = "text";
-        text.innerText = data.email + " : " + data.text;
+        text.innerText = data.user + ": " + data.text;
 
-        const del = document.createElement("button");
-        del.innerText = "x";
-        del.className = "deleteBtn";
+        const btn = document.createElement("button");
+        btn.innerText = "x";
+        btn.className = "delete";
 
-        // ✅ DELETE MESSAGE
-        del.onclick = () => {
+        // delete
+        btn.onclick = () => {
           db.collection("messages").doc(doc.id).delete();
         };
 
         div.appendChild(text);
-        div.appendChild(del);
+        div.appendChild(btn);
 
         chatBox.appendChild(div);
       });
