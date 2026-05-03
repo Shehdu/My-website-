@@ -554,3 +554,136 @@ onSnapshot(q, (snapshot) => {
 });
 </script>
 <!-- 💬 CHAT END -->
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>Live Chat</title>
+
+  <style>
+    body {
+      font-family: Arial;
+    }
+
+    #chatContainer {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    #chatBox {
+      height: 250px;
+      overflow-y: auto;
+      padding: 10px;
+      background: #e5ddd5;
+    }
+
+    .msg {
+      background: #dcf8c6;
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin: 5px 0;
+      max-width: 80%;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    #messageInput {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 10px;
+      background: orange;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 style="text-align:center;">💬 Live Chat</h2>
+
+<div id="chatContainer">
+  <div id="chatBox"></div>
+
+  <div class="chat-input">
+    <input id="messageInput" placeholder="Type message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+// 🔑 Tumhara config
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site",
+  storageBucket: "wadi-soon-site.firebasestorage.app",
+  messagingSenderId: "306902521128",
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const chatBox = document.getElementById("chatBox");
+
+// 📤 Send Message
+window.sendMessage = async function () {
+  const input = document.getElementById("messageInput");
+  const msg = input.value;
+  const user = auth.currentUser;
+
+  if (!msg || !user) {
+    alert("Login required");
+    return;
+  }
+
+  await addDoc(collection(db, "messages"), {
+    text: msg,
+    email: user.email,
+    time: Date.now()
+  });
+
+  input.value = "";
+};
+
+// 📥 Live Messages
+const q = query(collection(db, "messages"), orderBy("time"));
+
+onSnapshot(q, (snapshot) => {
+  chatBox.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+
+    chatBox.innerHTML += `
+      <div class="msg">
+        <b>${data.email}</b><br>
+        ${data.text}
+      </div>
+    `;
+  });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+</script>
+
+</body>
+</html>
