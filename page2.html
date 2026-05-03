@@ -455,23 +455,45 @@ body {
       margin-left: 8px;
       cursor: pointer;
     }
-   .input-area input {
-  flex: 1;
-  padding: 20px;        /* 🔥 height barhi */
-  font-size: 20px;      /* 🔥 text bara */
-  border-radius: 30px;
-  border: none;
-  outline: none;
+.input-area {
+  display: flex;
+  padding: 12px;
+  background: #f0f2f5;
+  border-top: 1px solid #ccc;
 }
+
 .input-area input {
   flex: 1;
-  height: 50px;        /* 🔥 yeh main fix hai */
-  padding: 0 25px;     /* 🔥 vertical padding hatao */
+  height: 55px;                 /* ✅ proper height */
+  padding: 0 20px;
   font-size: 16px;
-  border-radius: 25px;
-  border: none;
+  border-radius: 30px;
+  border: 1px solid #ccc;
   outline: none;
-} 
+  background: #fff;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.input-area input:focus {
+  border-color: #075e54;
+}
+
+.input-area button {
+  margin-left: 10px;
+  height: 55px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 30px;
+  background: #075e54;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.input-area button:hover {
+  background: #0b7d6e;
+}
   </style>
 </head>
 
