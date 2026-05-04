@@ -514,8 +514,7 @@ h1 {
   </p>
 
 </div>
-  
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -530,36 +529,38 @@ body {
   color: white;
 }
 
-/* Main Container */
+/* Main Container (FIXED) */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;   /* 🔥 fixed */
+  padding: 20px;       /* 🔥 added */
 }
 
-/* Box Design */
+/* Box Design (FIXED) */
 .box {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   padding: 50px;
   border-radius: 20px;
-  width: 85%;
+  width: 100%;         /* 🔥 fixed */
   max-width: 800px;
+  margin: auto;        /* 🔥 center fix */
   text-align: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 /* BIG Heading */
 h1 {
-  font-size: 50px;   /* 🔥 Bara size */
+  font-size: 50px;
   margin-bottom: 25px;
   color: #00ffcc;
 }
 
 /* BIG Paragraph */
 p {
-  font-size: 12px;   /* 🔥 Bara text */
+  font-size: 22px;
   line-height: 1.8;
   color: #f1f1f1;
 }
@@ -568,7 +569,7 @@ p {
 .highlight {
   color: #00ffcc;
   font-weight: bold;
-  font-size: 12px;  /* 🔥 aur thora bara */
+  font-size: 24px;
 }
 </style>
 </head>
@@ -598,4 +599,3 @@ p {
 
 </body>
 </html>
-  
