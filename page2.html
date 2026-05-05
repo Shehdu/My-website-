@@ -13,10 +13,9 @@
     }
 
     :root {
-      --bg-1: #0f172a;
-      --bg-2: #1e3a8a;
-      --card-dark: rgba(20, 20, 25, 0.75);
-      --card-light: rgba(255, 255, 255, 0.08);
+      --bg-1: #020617;
+      --bg-2: #0f172a;
+      --bg-3: #1e40af;
       --text: #ffffff;
       --muted: #dbeafe;
       --accent-1: #00f2fe;
@@ -30,7 +29,7 @@
     body {
       font-family: Arial, sans-serif;
       color: var(--text);
-      background: linear-gradient(135deg, #020617, #0f172a, #1e40af);
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
       line-height: 1.7;
       overflow-x: hidden;
     }
@@ -62,15 +61,15 @@
       max-width: 800px;
       margin: 0 auto;
       color: var(--muted);
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .card {
       max-width: 950px;
       margin: 30px auto;
-      padding: 30px;
+      padding: 28px;
       border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.8));
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.84));
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
@@ -87,41 +86,36 @@
       text-align: center;
       margin-bottom: 18px;
     }
-      .card p {
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.5px;
-    }
 
     .card h2 {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-size: clamp(1.5rem, 4vw, 2.1rem);
     }
 
     .card h3 {
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
     }
 
     .card p {
-      font-size: 0.95rem;
+      font-size: 0.90rem;
       color: #f8fafc;
       text-align: justify;
+      letter-spacing: 0.2px;
     }
 
     .map-section {
       max-width: 950px;
       margin: 30px auto;
-      padding: 30px;
+      padding: 28px;
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       text-align: center;
     }
 
     .map-section h2 {
-      font-size: clamp(1.5rem, 3.8vw, 2.1rem);
+      font-size: clamp(1.45rem, 3.8vw, 2rem);
       margin-bottom: 12px;
       color: #fff;
     }
@@ -130,6 +124,7 @@
       max-width: 700px;
       margin: 0 auto 20px;
       color: #e2e8f0;
+      font-size: 0.95rem;
     }
 
     .map-section iframe {
@@ -138,7 +133,7 @@
       border: 0;
       border-radius: 18px;
       margin-top: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .btn-wrap {
@@ -153,13 +148,13 @@
     .pro-btn,
     .map-btn {
       display: inline-block;
-      padding: 14px 28px;
-      font-size: 1rem;
+      padding: 13px 26px;
+      font-size: 0.96rem;
       font-weight: bold;
       color: #fff;
       border-radius: 999px;
       background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
       transition: 0.3s ease;
       border: none;
       cursor: pointer;
@@ -168,7 +163,7 @@
     .pro-btn:hover,
     .map-btn:hover {
       transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     }
 
     .back-btn-area {
@@ -179,9 +174,9 @@
     .info-box {
       max-width: 900px;
       margin: 30px auto;
-      padding: 28px;
+      padding: 26px;
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.94);
       color: #1e293b;
       border: 2px solid var(--accent-2);
       box-shadow: var(--shadow);
@@ -194,7 +189,7 @@
 
     .info-box h3 {
       text-align: center;
-      font-size: 1.7rem;
+      font-size: 1.55rem;
       margin-bottom: 14px;
       color: #0f172a;
     }
@@ -202,22 +197,22 @@
     .info-box p {
       color: #334155;
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .highlight-box {
       max-width: 950px;
       margin: 30px auto;
-      padding: 30px;
+      padding: 28px;
       border-radius: var(--radius);
       background:
-        linear-gradient(rgba(30,41,59,0.92), rgba(30,41,59,0.92)) padding-box,
+        linear-gradient(rgba(30, 41, 59, 0.94), rgba(30, 41, 59, 0.94)) padding-box,
         linear-gradient(135deg, var(--accent-2), var(--accent-1)) border-box;
       border: 2px solid transparent;
       box-shadow:
-        0 15px 30px rgba(0,0,0,0.2),
-        0 25px 60px rgba(0,0,0,0.15),
-        0 0 25px rgba(79,172,254,0.25);
+        0 15px 30px rgba(0, 0, 0, 0.2),
+        0 25px 60px rgba(0, 0, 0, 0.15),
+        0 0 25px rgba(79, 172, 254, 0.25);
       transition: 0.35s ease;
       text-align: center;
     }
@@ -225,84 +220,96 @@
     .highlight-box:hover {
       transform: translateY(-8px) scale(1.01);
       box-shadow:
-        0 20px 40px rgba(0,0,0,0.25),
-        0 35px 80px rgba(0,0,0,0.2),
-        0 0 40px rgba(0,242,254,0.45);
+        0 20px 40px rgba(0, 0, 0, 0.25),
+        0 35px 80px rgba(0, 0, 0, 0.2),
+        0 0 40px rgba(0, 242, 254, 0.45);
     }
 
     .highlight-box h3 {
-      font-size: 1.9rem;
+      font-size: 1.75rem;
       margin-bottom: 14px;
       color: #86efac;
     }
 
     .highlight-box p {
-      font-size: 1.05rem;
+      font-size: 0.96rem;
       color: #f8fafc;
       text-align: center;
     }
 
-    /* Floating Chat Button */
-    .chat-fab {
+    footer {
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      margin-top: 30px;
+      padding-bottom: 20px;
+    }
+
+    /* =========================
+       Isolated Chat UI
+    ========================= */
+
+    .ws-chat-fab {
       position: fixed;
-      bottom: 22px;
       right: 20px;
-      width: 64px;
-      height: 64px;
+      bottom: 20px;
+      width: 60px;
+      height: 60px;
       border: none;
       border-radius: 50%;
-      background: linear-gradient(135deg, #06b6d4, #2563eb);
-      color: #fff;
-      font-size: 28px;
       cursor: pointer;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
       z-index: 9999;
-      transition: 0.3s ease;
+      background: linear-gradient(135deg, #0f766e, #14b8a6, #2dd4bf);
+      color: #fff;
+      font-size: 24px;
+      box-shadow: 0 14px 35px rgba(20, 184, 166, 0.35);
       display: flex;
-      justify-content: center;
       align-items: center;
-      animation: floatPulse 2s infinite;
+      justify-content: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .chat-fab:hover {
-      transform: scale(1.08);
+    .ws-chat-fab:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 18px 40px rgba(20, 184, 166, 0.45);
     }
 
-    @keyframes floatPulse {
-      0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.7); }
-      70% { box-shadow: 0 0 0 18px rgba(79, 172, 254, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); }
-    }
-
-    /* Chat Widget */
-    .chat-widget {
+    .ws-chat-widget {
       position: fixed;
-      bottom: 100px;
       right: 20px;
+      bottom: 92px;
       width: 360px;
       max-width: calc(100vw - 24px);
-      height: 500px;
-      background: rgba(255,255,255,0.96);
+      height: 520px;
+      max-height: 78vh;
+      background: #ffffff;
       border-radius: 22px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-      display: flex;
+      display: none;
       flex-direction: column;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(20px) scale(0.96);
-      transition: 0.3s ease;
-      z-index: 9998;
+      z-index: 9999;
+      box-shadow: 0 24px 70px rgba(2, 8, 23, 0.22);
+      border: 1px solid rgba(15, 118, 110, 0.12);
     }
 
-    .chat-widget.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
+    .ws-chat-widget.active {
+      display: flex;
+      animation: wsChatPop 0.22s ease;
     }
 
-    .chat-header {
-      background: linear-gradient(135deg, #0f766e, #2563eb);
+    @keyframes wsChatPop {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .ws-chat-header {
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
       color: #fff;
       padding: 14px 16px;
       display: flex;
@@ -311,186 +318,218 @@
       gap: 10px;
     }
 
-    .chat-header-left {
+    .ws-chat-header-left,
+    .ws-chat-header-right {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .chat-avatar {
+    .ws-chat-avatar {
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.18);
+      background: rgba(255, 255, 255, 0.18);
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 20px;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
-    .chat-title h4 {
-      font-size: 1rem;
-      margin-bottom: 2px;
+    .ws-chat-title h4 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
     }
 
-    .chat-title small {
-      opacity: 0.9;
-      font-size: 0.8rem;
+    .ws-chat-title small {
+      opacity: 0.92;
+      font-size: 11px;
     }
 
-    .chat-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .ws-user-badge {
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      white-space: nowrap;
     }
 
-    .chat-actions button {
+    .ws-icon-btn {
+      border: none;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
       width: 34px;
       height: 34px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      color: #fff;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 18px;
-      transition: 0.25s ease;
+      font-size: 22px;
+      line-height: 1;
     }
 
-    .chat-actions button:hover {
-      background: rgba(255,255,255,0.28);
-      transform: scale(1.08);
-    }
-
-    #chatBox {
+    .ws-chat-box {
       flex: 1;
       overflow-y: auto;
-      padding: 14px;
+      padding: 16px;
       background:
-        linear-gradient(to bottom, rgba(248,250,252,0.98), rgba(241,245,249,0.98));
+        radial-gradient(circle at top left, rgba(20, 184, 166, 0.08), transparent 25%),
+        #f8fafc;
     }
 
-    .message {
-      max-width: 78%;
-      margin: 8px 0;
-      padding: 11px 14px;
+    .ws-empty-chat {
+      text-align: center;
+      color: #64748b;
+      margin-top: 40px;
+      font-size: 13px;
+    }
+
+    .ws-message {
+      max-width: 82%;
+      margin-bottom: 14px;
+      padding: 10px 12px;
       border-radius: 16px;
-      line-height: 1.45;
-      font-size: 14px;
       position: relative;
       word-wrap: break-word;
-      animation: fadeIn 0.22s ease;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      font-size: 13px;
     }
 
-    .myMsg {
-      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-      color: #0f172a;
+    .ws-myMsg {
       margin-left: auto;
-      border-bottom-right-radius: 4px;
+      background: linear-gradient(135deg, #14b8a6, #0f766e);
+      color: #fff;
+      border-bottom-right-radius: 6px;
     }
 
-    .otherMsg {
+    .ws-otherMsg {
+      margin-right: auto;
       background: #ffffff;
       color: #0f172a;
-      margin-right: auto;
-      border-bottom-left-radius: 4px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+      border-bottom-left-radius: 6px;
     }
 
-    .message-meta {
-      margin-top: 6px;
-      font-size: 11px;
-      opacity: 0.65;
+    .ws-sender-name {
+      font-size: 10px;
+      font-weight: 700;
+      opacity: 0.85;
+      margin-bottom: 4px;
+    }
+
+    .ws-message-text {
+      white-space: pre-wrap;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .ws-message-meta {
+      margin-top: 8px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
     }
 
-    .deleteBtn {
-      background: none;
+    .ws-otherMsg .ws-message-meta {
+      justify-content: flex-start;
+    }
+
+    .ws-message-time {
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    .ws-deleteBtn {
       border: none;
-      color: #dc2626;
       cursor: pointer;
-      font-size: 11px;
-      font-weight: bold;
+      border-radius: 10px;
+      padding: 4px 8px;
+      font-size: 10px;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
     }
 
-    .chat-input-area {
-      background: #ffffff;
-      padding: 12px;
+    .ws-otherMsg .ws-deleteBtn {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .ws-chat-input-area {
       border-top: 1px solid #e2e8f0;
+      padding: 12px;
       display: flex;
       gap: 10px;
       align-items: flex-end;
+      background: #fff;
     }
 
-    .chat-input-area textarea {
+    #wsMessageInput {
       flex: 1;
-      min-height: 48px;
-      max-height: 110px;
+      min-height: 46px;
+      max-height: 100px;
       resize: none;
       border: 1px solid #cbd5e1;
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-size: 14px;
-      outline: none;
-      color: #0f172a;
-      background: #f8fafc;
-    }
-
-    .chat-input-area textarea:focus {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 3px rgba(96,165,250,0.15);
-    }
-
-    .send-btn {
-      border: none;
-      padding: 12px 16px;
       border-radius: 14px;
-      background: linear-gradient(135deg, #06b6d4, #2563eb);
-      color: #fff;
-      font-weight: bold;
+      padding: 12px 14px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #wsMessageInput:focus {
+      border-color: #14b8a6;
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.12);
+    }
+
+    .ws-send-btn {
+      border: none;
       cursor: pointer;
-      transition: 0.25s ease;
-      min-width: 78px;
+      min-width: 74px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
+      color: #fff;
+      font-weight: 700;
+      padding: 0 18px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    .send-btn:hover {
-      transform: translateY(-2px);
+    .ws-send-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
     }
 
-    .empty-chat {
-      text-align: center;
-      color: #64748b;
-      padding: 40px 20px;
-      font-size: 14px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    .ws-send-btn:disabled,
+    #wsMessageInput:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
     @media (max-width: 600px) {
-      .chat-widget {
-        right: 12px;
-        left: 12px;
-        width: auto;
-        height: 72vh;
-        bottom: 90px;
-      }
-
-      .chat-fab {
-        right: 14px;
-        bottom: 16px;
-      }
-
       .card,
       .map-section,
       .info-box,
       .highlight-box {
         padding: 22px 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ws-chat-widget {
+        right: 12px;
+        left: 12px;
+        bottom: 84px;
+        width: auto;
+        height: 72vh;
+      }
+
+      .ws-chat-fab {
+        right: 14px;
+        bottom: 14px;
+        width: 56px;
+        height: 56px;
       }
     }
   </style>
@@ -585,354 +624,41 @@
         making it a popular destination for tourists and nature lovers.
       </p>
     </div>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wadi Soon Live Chat</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #f4f7fb;
-    }
-
-    .chat-fab {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      width: 64px;
-      height: 64px;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 9999;
-      background: linear-gradient(135deg, #0f766e, #14b8a6, #2dd4bf);
-      color: #fff;
-      font-size: 26px;
-      box-shadow: 0 14px 35px rgba(20, 184, 166, 0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .chat-fab:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 18px 40px rgba(20, 184, 166, 0.45);
-    }
-
-    .chat-fab::after {
-      content: "";
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      border: 2px solid rgba(45, 212, 191, 0.25);
-      animation: pulseRing 1.8s infinite;
-    }
-
-    @keyframes pulseRing {
-      0% {
-        transform: scale(0.95);
-        opacity: 0.9;
-      }
-      70% {
-        transform: scale(1.15);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1.15);
-        opacity: 0;
-      }
-    }
-
-    .chat-widget {
-      position: fixed;
-      right: 22px;
-      bottom: 100px;
-      width: 370px;
-      max-width: calc(100vw - 24px);
-      height: 560px;
-      max-height: 78vh;
-      background: #ffffff;
-      border-radius: 22px;
-      overflow: hidden;
-      display: none;
-      flex-direction: column;
-      z-index: 9999;
-      box-shadow: 0 24px 70px rgba(2, 8, 23, 0.22);
-      border: 1px solid rgba(15, 118, 110, 0.12);
-    }
-
-    .chat-widget.active {
-      display: flex;
-      animation: chatPop 0.22s ease;
-    }
-
-    @keyframes chatPop {
-      from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .chat-header {
-      background: linear-gradient(135deg, #0f766e, #14b8a6);
-      color: #fff;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .chat-header-left,
-    .chat-header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .chat-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      backdrop-filter: blur(8px);
-    }
-
-    .chat-title h4 {
-      margin: 0;
-      font-size: 16px;
-      line-height: 1.2;
-    }
-
-    .chat-title small {
-      opacity: 0.92;
-      font-size: 12px;
-    }
-
-    .user-badge {
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.18);
-      white-space: nowrap;
-    }
-
-    .icon-btn {
-      border: none;
-      background: rgba(255, 255, 255, 0.16);
-      color: #fff;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 22px;
-      line-height: 1;
-    }
-
-    .chat-box {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      background:
-        radial-gradient(circle at top left, rgba(20,184,166,0.08), transparent 25%),
-        #f8fafc;
-    }
-
-    .empty-chat {
-      text-align: center;
-      color: #64748b;
-      margin-top: 40px;
-      font-size: 14px;
-    }
-
-    .message {
-      max-width: 82%;
-      margin-bottom: 14px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      position: relative;
-      word-wrap: break-word;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-    }
-
-    .myMsg {
-      margin-left: auto;
-      background: linear-gradient(135deg, #14b8a6, #0f766e);
-      color: #fff;
-      border-bottom-right-radius: 6px;
-    }
-
-    .otherMsg {
-      margin-right: auto;
-      background: #ffffff;
-      color: #0f172a;
-      border: 1px solid #e2e8f0;
-      border-bottom-left-radius: 6px;
-    }
-
-    .sender-name {
-      font-size: 11px;
-      font-weight: 700;
-      opacity: 0.85;
-      margin-bottom: 4px;
-    }
-
-    .message-text {
-      white-space: pre-wrap;
-      line-height: 1.45;
-      font-size: 14px;
-    }
-
-    .message-meta {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .otherMsg .message-meta {
-      justify-content: flex-start;
-    }
-
-    .message-time {
-      font-size: 11px;
-      opacity: 0.8;
-    }
-
-    .deleteBtn {
-      border: none;
-      cursor: pointer;
-      border-radius: 10px;
-      padding: 4px 8px;
-      font-size: 11px;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-    }
-
-    .otherMsg .deleteBtn {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .chat-input-area {
-      border-top: 1px solid #e2e8f0;
-      padding: 12px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-end;
-      background: #fff;
-    }
-
-    #messageInput {
-      flex: 1;
-      min-height: 48px;
-      max-height: 110px;
-      resize: none;
-      border: 1px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    #messageInput:focus {
-      border-color: #14b8a6;
-      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.12);
-    }
-
-    .send-btn {
-      border: none;
-      cursor: pointer;
-      min-width: 78px;
-      height: 48px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #0f766e, #14b8a6);
-      color: #fff;
-      font-weight: 700;
-      padding: 0 18px;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    .send-btn:hover:not(:disabled) {
-      transform: translateY(-1px);
-    }
-
-    .send-btn:disabled,
-    #messageInput:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    @media (max-width: 480px) {
-      .chat-widget {
-        right: 12px;
-        left: 12px;
-        bottom: 88px;
-        width: auto;
-        height: 72vh;
-      }
-
-      .chat-fab {
-        right: 16px;
-        bottom: 16px;
-        width: 58px;
-        height: 58px;
-      }
-    }
-  </style>
-</head>
-<body>
+    <footer>
+      © 2026 Wadi Soon Tourism — Designed with nature-inspired modern style.
+    </footer>
+  </div>
 
   <!-- Floating Chat Button -->
-  <button id="chatToggleBtn" class="chat-fab" aria-label="Open Chat">
+  <button id="wsChatToggleBtn" class="ws-chat-fab" aria-label="Open Chat">
     <span>💬</span>
   </button>
 
   <!-- Chat Widget -->
-  <div id="chatWidget" class="chat-widget">
-    <div class="chat-header">
-      <div class="chat-header-left">
-        <div class="chat-avatar">W</div>
-        <div class="chat-title">
+  <div id="wsChatWidget" class="ws-chat-widget">
+    <div class="ws-chat-header">
+      <div class="ws-chat-header-left">
+        <div class="ws-chat-avatar">W</div>
+        <div class="ws-chat-title">
           <h4>Live Chat</h4>
           <small>Wadi Soon Support</small>
         </div>
       </div>
 
-      <div class="chat-header-right">
-        <div id="currentUserBadge" class="user-badge">Connecting...</div>
-        <button id="minimizeChat" class="icon-btn" title="Minimize">−</button>
+      <div class="ws-chat-header-right">
+        <div id="wsCurrentUserBadge" class="ws-user-badge">Connecting...</div>
+        <button id="wsMinimizeChat" class="ws-icon-btn" title="Minimize">−</button>
       </div>
     </div>
 
-    <div id="chatBox" class="chat-box">
-      <div class="empty-chat">No messages yet. Start the conversation 👋</div>
+    <div id="wsChatBox" class="ws-chat-box">
+      <div class="ws-empty-chat">No messages yet. Start the conversation 👋</div>
     </div>
 
-    <div class="chat-input-area">
-      <textarea id="messageInput" placeholder="Type message..." disabled></textarea>
-      <button id="sendBtn" class="send-btn" disabled>Send</button>
+    <div class="ws-chat-input-area">
+      <textarea id="wsMessageInput" placeholder="Type message..." disabled></textarea>
+      <button id="wsSendBtn" class="ws-send-btn" disabled>Send</button>
     </div>
   </div>
 
@@ -954,7 +680,6 @@
       doc
     } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
       authDomain: "wadi-soon-site.firebaseapp.com",
@@ -973,15 +698,14 @@
     let currentUserLabel = null;
     let unsubscribeMessages = null;
 
-    const chatWidget = document.getElementById("chatWidget");
-    const chatToggleBtn = document.getElementById("chatToggleBtn");
-    const minimizeChat = document.getElementById("minimizeChat");
-    const sendBtn = document.getElementById("sendBtn");
-    const messageInput = document.getElementById("messageInput");
-    const chatBox = document.getElementById("chatBox");
-    const currentUserBadge = document.getElementById("currentUserBadge");
+    const chatWidget = document.getElementById("wsChatWidget");
+    const chatToggleBtn = document.getElementById("wsChatToggleBtn");
+    const minimizeChat = document.getElementById("wsMinimizeChat");
+    const sendBtn = document.getElementById("wsSendBtn");
+    const messageInput = document.getElementById("wsMessageInput");
+    const chatBox = document.getElementById("wsChatBox");
+    const currentUserBadge = document.getElementById("wsCurrentUserBadge");
 
-    // Open chat
     chatToggleBtn.addEventListener("click", () => {
       chatWidget.classList.add("active");
       chatToggleBtn.style.display = "none";
@@ -990,7 +714,6 @@
       }, 200);
     });
 
-    // Minimize chat
     minimizeChat.addEventListener("click", () => {
       chatWidget.classList.remove("active");
       chatToggleBtn.style.display = "flex";
@@ -1012,7 +735,6 @@
       } catch (error) {
         console.error("Anonymous auth error:", error);
         currentUserBadge.textContent = "Auth failed";
-        alert("Anonymous Auth enable/check karein. Console me error dekhein.");
       }
     }
 
@@ -1027,7 +749,7 @@
           chatBox.innerHTML = "";
 
           if (snapshot.empty) {
-            chatBox.innerHTML = '<div class="empty-chat">No messages yet. Start the conversation 👋</div>';
+            chatBox.innerHTML = '<div class="ws-empty-chat">No messages yet. Start the conversation 👋</div>';
             return;
           }
 
@@ -1036,23 +758,23 @@
             const isMine = data.uid === currentUid;
 
             const div = document.createElement("div");
-            div.classList.add("message", isMine ? "myMsg" : "otherMsg");
+            div.classList.add("ws-message", isMine ? "ws-myMsg" : "ws-otherMsg");
 
             const sender = document.createElement("div");
-            sender.classList.add("sender-name");
+            sender.classList.add("ws-sender-name");
             sender.textContent = data.userLabel || "User";
             div.appendChild(sender);
 
             const textDiv = document.createElement("div");
-            textDiv.classList.add("message-text");
+            textDiv.classList.add("ws-message-text");
             textDiv.textContent = data.text || "";
             div.appendChild(textDiv);
 
             const meta = document.createElement("div");
-            meta.classList.add("message-meta");
+            meta.classList.add("ws-message-meta");
 
             const timeSpan = document.createElement("span");
-            timeSpan.classList.add("message-time");
+            timeSpan.classList.add("ws-message-time");
             const msgTime = data.time ? new Date(data.time) : new Date();
             timeSpan.textContent = msgTime.toLocaleTimeString([], {
               hour: "2-digit",
@@ -1063,14 +785,13 @@
             if (isMine) {
               const delBtn = document.createElement("button");
               delBtn.textContent = "Delete";
-              delBtn.classList.add("deleteBtn");
+              delBtn.classList.add("ws-deleteBtn");
 
               delBtn.addEventListener("click", async () => {
                 try {
                   await deleteDoc(doc(db, "messages", docSnap.id));
                 } catch (error) {
                   console.error("Delete error:", error);
-                  alert("Delete nahi hua. Firestore rules check karein.");
                 }
               });
 
@@ -1085,7 +806,7 @@
         },
         (error) => {
           console.error("Snapshot error:", error);
-          chatBox.innerHTML = '<div class="empty-chat">Chat load nahi hui. Console check karein.</div>';
+          chatBox.innerHTML = '<div class="ws-empty-chat">Chat load nahi hui.</div>';
         }
       );
     }
@@ -1103,10 +824,9 @@
         });
 
         messageInput.value = "";
-        messageInput.style.height = "48px";
+        messageInput.style.height = "46px";
       } catch (error) {
         console.error("Send error:", error);
-        alert("Message send nahi hua. Auth ya rules issue ho sakta hai.");
       }
     }
 
@@ -1120,8 +840,8 @@
     });
 
     messageInput.addEventListener("input", function () {
-      this.style.height = "48px";
-      this.style.height = Math.min(this.scrollHeight, 110) + "px";
+      this.style.height = "46px";
+      this.style.height = Math.min(this.scrollHeight, 100) + "px";
     });
 
     onAuthStateChanged(auth, (user) => {
@@ -1145,7 +865,6 @@
 
     startAnonymousAuth();
   </script>
+
 </body>
 </html>
-
-  
