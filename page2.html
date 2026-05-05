@@ -9,6 +9,7 @@
 body {
   font-family: Arial;
   background:#0f172a;
+  height:2000px; /* test scroll */
 }
 
 /* Chat Button */
@@ -23,6 +24,7 @@ body {
   height:60px;
   border-radius:50%;
   font-size:22px;
+  z-index:9999;
 }
 
 /* Chat Box */
@@ -36,6 +38,7 @@ body {
   border-radius:15px;
   display:none;
   flex-direction:column;
+  z-index:9999;
 }
 
 /* Header */
@@ -156,6 +159,10 @@ function loadMessages(){
       </div>`;
     });
     document.getElementById("messages").innerHTML=html;
+
+    // auto scroll bottom
+    const box = document.getElementById("messages");
+    box.scrollTop = box.scrollHeight;
   });
 }
 
@@ -177,187 +184,7 @@ window.del = async (id)=>{
 };
 
 window.logout = ()=> signOut(auth);
-
 </script>
-<!-- ADMIN PANEL (hidden) -->
-<div id="adminPanel" style="display:none;">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon Chat</title>
 
-<style>
-body {
-  font-family: Arial;
-  background:#0f172a;
-}
-
-/* Chat Button */
-#chatBtn {
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#14b8a6;
-  color:#fff;
-  border:none;
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  font-size:22px;
-}
-
-/* Chat Box */
-#chatBox {
-  position:fixed;
-  bottom:90px;
-  right:20px;
-  width:330px;
-  height:500px;
-  background:#fff;
-  border-radius:15px;
-  display:none;
-  flex-direction:column;
-}
-
-/* Header */
-.header {
-  background:#14b8a6;
-  color:#fff;
-  padding:10px;
-  display:flex;
-  justify-content:space-between;
-}
-
-/* Messages */
-.messages {
-  flex:1;
-  overflow:auto;
-  padding:10px;
-}
-
-/* Input */
-.inputArea {
-  display:flex;
-  border-top:1px solid #ccc;
-}
-input {
-  flex:1;
-  padding:10px;
-  border:none;
-}
-button.send {
-  background:#14b8a6;
-  color:#fff;
-  border:none;
-  padding:10px;
-}
-
-/* Message */
-.msg {
-  margin:5px;
-  padding:8px;
-  border-radius:10px;
-}
-.me { background:#14b8a6; color:#fff; margin-left:auto; }
-.other { background:#eee; }
-
-.delete {
-  font-size:10px;
-  margin-left:5px;
-  cursor:pointer;
-}
-</style>
-</head>
-
-<body>
-
-<button id="chatBtn">💬</button>
-
-<div id="chatBox">
-  <div class="header">
-    <span>Private Chat</span>
-    <button onclick="logout()">⎋</button>
-  </div>
-
-  <div id="messages" class="messages"></div>
-
-  <div class="inputArea">
-    <input id="msgInput" placeholder="Type...">
-    <button class="send" onclick="sendMsg()">Send</button>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_ID"
-};
-
-const SUPPORT_UID = "3zfYxvDKyxV4RgD8SLeybDrhdto2";
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getFirestore();
-const provider = new GoogleAuthProvider();
-
-let user, chatId;
-
-document.getElementById("chatBtn").onclick = async () => {
-  if (!user) {
-    const res = await signInWithPopup(auth, provider);
-    user = res.user;
-  }
-  document.getElementById("chatBox").style.display = "flex";
-};
-
-onAuthStateChanged(auth, (u)=>{
-  user = u;
-  if(u){
-    chatId = [u.uid, SUPPORT_UID].sort().join("_");
-    loadMessages();
-  }
-});
-
-function loadMessages(){
-  const q = query(collection(db,"chats",chatId,"msgs"), orderBy("time"));
-  onSnapshot(q,(snap)=>{
-    let html="";
-    snap.forEach(d=>{
-      const m=d.data();
-      const mine = m.uid===user.uid;
-      html+=`
-      <div class="msg ${mine?'me':'other'}">
-        ${m.text}
-        ${mine?`<span class="delete" onclick="del('${d.id}')">❌</span>`:""}
-      </div>`;
-    });
-    document.getElementById("messages").innerHTML=html;
-  });
-}
-
-window.sendMsg = async ()=>{
-  const text = msgInput.value.trim();
-  if(!text) return;
-
-  await addDoc(collection(db,"chats",chatId,"msgs"),{
-    text,
-    uid:user.uid,
-    time:serverTimestamp()
-  });
-
-  msgInput.value="";
-};
-
-window.del = async (id)=>{
-  await deleteDoc(doc(db,"chats",chatId,"msgs",id));
-};
-
-window.logout = ()=> signOut(auth);
-
-</script>
 </body>
 </html>
