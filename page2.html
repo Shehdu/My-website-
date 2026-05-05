@@ -26,24 +26,28 @@ body{
   max-width:500px;
   margin:20px auto;
   background:#111;
-  border-radius:15px;
+  border-radius:20px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  height:80vh;
+  height:85vh;
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
 }
 
-/* MESSAGES */
+/* CHAT AREA */
 #chatBox{
   flex:1;
   overflow:auto;
-  padding:10px;
+  padding:12px;
 }
 
+/* MESSAGE */
 .message{
   margin:8px 0;
-  padding:10px;
-  border-radius:10px;
+  padding:12px;
+  border-radius:14px;
+  font-size:14px;
+  animation:fade .3s;
 }
 
 .me{
@@ -60,24 +64,30 @@ body{
   padding:10px;
   background:#020617;
   display:flex;
-  gap:5px;
+  gap:8px;
 }
 
 .input-area input{
   flex:1;
-  padding:10px;
+  padding:12px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
 }
 
 .input-area button{
-  padding:10px;
+  padding:12px 18px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   background:#22c55e;
   color:#fff;
   font-weight:bold;
   cursor:pointer;
+}
+
+/* ANIMATION */
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1;}
 }
 </style>
 </head>
@@ -97,9 +107,14 @@ body{
 
 <script>
 
-/* AI REPLY */
+/* AI BRAIN */
 function aiReply(msg){
   msg = msg.toLowerCase();
+
+  // greetings
+  if(msg.includes("hi") || msg.includes("hello") || msg.includes("salam")){
+    return "Hello 👋 Main Wadi Soon AI hoon. Aap kya jana chahte hain?";
+  }
 
   if(msg.includes("wadi soon")){
     return "Wadi Soon Punjab Pakistan ki ek beautiful valley hai 🌿";
@@ -110,17 +125,25 @@ function aiReply(msg){
   }
 
   if(msg.includes("sakesar")){
-    return "Sakesar highest peak hai Soon Valley ki ⛰️";
+    return "Sakesar Soon Valley ka highest peak hai ⛰️";
   }
 
   if(msg.includes("hotel")){
-    return "Yahan local guest houses aur hotels mil jate hain 🏨";
+    return "Yahan guest houses aur small hotels mil jate hain 🏨";
+  }
+
+  if(msg.includes("location")){
+    return "Wadi Soon District Khushab, Punjab Pakistan me hai 📍";
+  }
+
+  if(msg.includes("food")){
+    return "Yahan local desi food aur chai bohat famous hai 🍲☕";
   }
 
   return "Sorry, mujhe samajh nahi aaya 😅";
 }
 
-/* SEND */
+/* SEND FUNCTION */
 function send(){
   const input = document.getElementById("msg");
   const box = document.getElementById("chatBox");
@@ -128,18 +151,18 @@ function send(){
   const text = input.value.trim();
   if(!text) return;
 
-  // user msg
+  // USER MESSAGE
   const userDiv = document.createElement("div");
   userDiv.className = "message me";
   userDiv.innerText = text;
   box.appendChild(userDiv);
 
-  // bot reply
+  // BOT MESSAGE
   const botDiv = document.createElement("div");
   botDiv.className = "message other";
-  botDiv.innerText = aiReply(text);
 
   setTimeout(()=>{
+    botDiv.innerText = aiReply(text);
     box.appendChild(botDiv);
     box.scrollTop = box.scrollHeight;
   },400);
