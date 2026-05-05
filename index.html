@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<title>Wadi Soon Login</title>
 
 <style>
 body{
@@ -12,13 +12,13 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#0f172a;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);
   font-family:Arial;
   color:#fff;
 }
 
 .box{
-  width:300px;
+  width:320px;
   padding:25px;
   background:#1e293b;
   border-radius:12px;
@@ -27,7 +27,7 @@ body{
 
 input{
   width:100%;
-  padding:10px;
+  padding:12px;
   margin:8px 0;
   border:none;
   border-radius:6px;
@@ -35,7 +35,7 @@ input{
 
 button{
   width:100%;
-  padding:10px;
+  padding:12px;
   margin-top:10px;
   border:none;
   border-radius:6px;
@@ -44,13 +44,18 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
+
+#msg{
+  margin-top:10px;
+  font-size:13px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="box">
-  <h2>Login</h2>
+  <h2>🌿 Wadi Soon</h2>
 
   <input id="email" placeholder="Email">
   <input id="pass" type="password" placeholder="Password">
@@ -58,7 +63,7 @@ button{
   <button onclick="login()">Login</button>
   <button onclick="signup()">Sign Up</button>
 
-  <p id="msg"></p>
+  <div id="msg"></div>
 </div>
 
 <script type="module">
@@ -66,49 +71,41 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/fireba
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-const app = initializeApp({
+/* 🔴 APNA CONFIG */
+const firebaseConfig = {
   apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
   authDomain: "wadi-soon-site.firebaseapp.com",
   projectId: "wadi-soon-site"
-});
+};
 
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 function show(t){
   document.getElementById("msg").innerText = t;
 }
 
+/* LOGIN */
 window.login = async ()=>{
   try{
-    await signInWithEmailAndPassword(
-      auth,
-      email.value,
-      pass.value
-    );
+    await signInWithEmailAndPassword(auth, email.value, pass.value);
+    show("Login Success ✅");
 
-    show("Login Success");
-
-    setTimeout(()=>{
-      location.href="home.html";
-    },1000);
+    // redirect
+    window.location.replace("home.html");
 
   }catch(e){
-    show("Error: "+e.message);
+    show(e.message);
   }
 };
 
+/* SIGNUP */
 window.signup = async ()=>{
   try{
-    await createUserWithEmailAndPassword(
-      auth,
-      email.value,
-      pass.value
-    );
-
-    show("Account Created");
-
+    await createUserWithEmailAndPassword(auth, email.value, pass.value);
+    show("Account Created ✅");
   }catch(e){
-    show("Error: "+e.message);
+    show(e.message);
   }
 };
 </script>
