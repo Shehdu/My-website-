@@ -1,294 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wadi Soon App</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
 
-/* BACKGROUND */
-body{
-  min-height:200vh;
-  background:linear-gradient(135deg,#1f3c88,#3b5998);
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,#1f3c88,#3b5998);
+      color:#fff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
 
-/* LOGIN CARD */
-.card{
-  width:350px;
-  padding:25px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.1);
-  backdrop-filter:blur(15px);
-  text-align:center;
-}
+    .wrap{
+      width:100%;
+      max-width:420px;
+    }
 
-input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border:none;
-  border-radius:10px;
-}
+    .card,
+    .home-card{
+      width:100%;
+      padding:25px;
+      border-radius:20px;
+      background:rgba(255,255,255,0.12);
+      backdrop-filter:blur(15px);
+      text-align:center;
+      box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    }
 
-/* BUTTONS */
-button{
-  width:100%;
-  padding:12px;
-  margin-top:8px;
-  border:none;
-  border-radius:10px;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-}
+    .home-card{
+      display:none;
+    }
 
-.login{background:#2563eb}
-.signup{background:#16a34a}
+    h2{
+      margin-bottom:18px;
+      font-size:28px;
+    }
 
-/* CHAT BUTTON */
-.chat-toggle{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#00c6ff,#0072ff);
-  border:none;
-  font-size:26px;
-  color:#fff;
-  z-index:9999;
-  cursor:pointer;
-}
+    p{
+      margin-bottom:12px;
+      color:#e2e8f0;
+    }
 
-/* CHAT BOX */
-.chat{
-  position:fixed;
-  bottom:100px;
-  right:20px;
-  width:330px;
-  height:460px;
-  display:none;
-  flex-direction:column;
-  border-radius:18px;
-  overflow:hidden;
-  background:rgba(15,23,42,0.9);
-  backdrop-filter:blur(12px);
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);
-}
+    input,
+    textarea{
+      width:100%;
+      padding:12px;
+      margin:8px 0;
+      border:none;
+      outline:none;
+      border-radius:10px;
+      font-size:14px;
+    }
 
-.chat.active{display:flex}
+    button{
+      width:100%;
+      padding:12px;
+      margin-top:8px;
+      border:none;
+      border-radius:10px;
+      color:#fff;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+      font-size:15px;
+    }
 
-/* HEADER */
-.chat-header{
-  padding:12px;
-  background:#020617;
-  display:flex;
-  justify-content:space-between;
-  font-weight:bold;
-}
+    button:hover{
+      transform:translateY(-1px);
+      opacity:0.95;
+    }
 
-/* CHAT AREA */
-#chatBox{
-  flex:1;
-  overflow:auto;
-  padding:10px;
-}
+    .login{ background:#2563eb; }
+    .signup{ background:#16a34a; }
+    .logout{ background:#dc2626; }
+    .open-chat{ background:#0ea5e9; }
 
-/* MESSAGE */
-.msg{
-  margin:6px 0;
-  padding:10px;
-  border-radius:12px;
-  font-size:14px;
-}
+    .welcome-box{
+      background:rgba(255,255,255,0.08);
+      padding:15px;
+      border-radius:14px;
+      margin:15px 0;
+      text-align:left;
+    }
 
-.me{
-  background:linear-gradient(135deg,#22c55e,#4ade80);
-  color:#022c22;
-}
+    .welcome-box h3{
+      margin-bottom:8px;
+      font-size:20px;
+    }
 
-.other{
-  background:#1e293b;
-  color:#e2e8f0;
-}
+    .welcome-box span{
+      color:#bfdbfe;
+      font-weight:bold;
+      word-break:break-word;
+    }
 
-/* INPUT AREA */
-.input-area{
-  padding:10px;
-  background:#020617;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
+    /* CHAT BUTTON */
+    .chat-toggle{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      width:70px;
+      height:70px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#00c6ff,#0072ff);
+      border:none;
+      font-size:26px;
+      color:#fff;
+      z-index:9999;
+      cursor:pointer;
+      display:none;
+      justify-content:center;
+      align-items:center;
+      box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    }
 
-.input-area input,
-.input-area textarea{
-  width:100%;
-  padding:10px;
-  border-radius:12px;
-  border:1px solid #334155;
-  background:#0f172a;
-  color:#fff;
-}
+    /* CHAT BOX */
+    .chat{
+      position:fixed;
+      bottom:100px;
+      right:20px;
+      width:330px;
+      height:460px;
+      display:none;
+      flex-direction:column;
+      border-radius:18px;
+      overflow:hidden;
+      background:rgba(15,23,42,0.95);
+      backdrop-filter:blur(12px);
+      box-shadow:0 20px 50px rgba(0,0,0,0.5);
+      z-index:9999;
+    }
 
-.input-area textarea{
-  resize:none;
-  height:50px;
-}
+    .chat.active{
+      display:flex;
+    }
 
-/* SEND BUTTON */
-.input-area button{
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  padding:12px;
-  border-radius:12px;
-  font-weight:bold;
-  transition:0.3s;
-}
+    .chat-header{
+      padding:12px;
+      background:#020617;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:bold;
+    }
 
-.input-area button:hover{
-  transform:scale(1.05);
-}
-</style>
+    #chatBox{
+      flex:1;
+      overflow:auto;
+      padding:10px;
+      background:rgba(2,6,23,0.4);
+    }
+
+    .msg{
+      margin:6px 0;
+      padding:10px;
+      border-radius:12px;
+      font-size:14px;
+      line-height:1.4;
+      word-wrap:break-word;
+    }
+
+    .me{
+      background:linear-gradient(135deg,#22c55e,#4ade80);
+      color:#022c22;
+    }
+
+    .other{
+      background:#1e293b;
+      color:#e2e8f0;
+    }
+
+    .input-area{
+      padding:10px;
+      background:#020617;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .input-area input,
+    .input-area textarea{
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid #334155;
+      background:#0f172a;
+      color:#fff;
+      margin:0;
+    }
+
+    .input-area textarea{
+      resize:none;
+      height:60px;
+    }
+
+    .send-btn{
+      background:linear-gradient(135deg,#22c55e,#16a34a);
+      padding:12px;
+      border-radius:12px;
+      font-weight:bold;
+    }
+
+    .small{
+      font-size:13px;
+      color:#cbd5e1;
+      margin-top:10px;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>🌿 Wadi Soon</h2>
+  <div class="wrap">
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="pass" placeholder="Password">
+    <!-- LOGIN CARD -->
+    <div class="card" id="loginCard">
+      <h2>🌿 Wadi Soon</h2>
+      <p>Login ya signup karo</p>
 
-  <button class="login" onclick="login()">Login</button>
-  <button class="signup" onclick="signup()">Signup</button>
-</div>
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="pass" placeholder="Password" />
 
-<!-- CHAT BUTTON -->
-<button class="chat-toggle" onclick="toggleChat()">💬</button>
+      <button class="login" onclick="login()">Login</button>
+      <button class="signup" onclick="signup()">Signup</button>
 
-<!-- CHAT BOX -->
-<div class="chat" id="chat">
-  <div class="chat-header">
-    <span>Live Chat</span>
-    <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
+      <div class="small">Login ke baad isi page par Home open hoga</div>
+    </div>
+
+    <!-- HOME PAGE SAME FILE -->
+    <div class="home-card" id="homePage">
+      <h2>🏠 Home Page</h2>
+      <p>Welcome to Wadi Soon</p>
+
+      <div class="welcome-box">
+        <h3>Hello, <span id="userEmail">User</span></h3>
+        <div class="small" style="margin-top:6px;">
+          Chat button niche right side par available rahega.
+        </div>
+      </div>
+
+      <button class="open-chat" onclick="toggleChat()">💬 Open Chat</button>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
   </div>
 
-  <div id="chatBox"></div>
+  <!-- CHAT FLOAT BUTTON -->
+  <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">💬</button>
 
-  <div class="input-area">
-    <input id="name" placeholder="Your name">
-    <textarea id="msg" placeholder="Type message..."></textarea>
-    <button onclick="send()">🚀 Send Message</button>
+  <!-- CHAT BOX -->
+  <div class="chat" id="chat">
+    <div class="chat-header">
+      <span>Live Chat</span>
+      <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
+    </div>
+
+    <div id="chatBox"></div>
+
+    <div class="input-area">
+      <input id="name" placeholder="Your name" />
+      <textarea id="msg" placeholder="Type message..."></textarea>
+      <button class="send-btn" onclick="send()">🚀 Send Message</button>
+    </div>
   </div>
-</div>
 
-<script type="module">
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
-from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-/* FIREBASE CONFIG */
-const firebaseConfig = {
-  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
-  authDomain: "wadi-soon-site.firebaseapp.com",
-  projectId: "wadi-soon-site"
-};
+    /* FIREBASE CONFIG */
+    const firebaseConfig = {
+      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+      authDomain: "wadi-soon-site.firebaseapp.com",
+      projectId: "wadi-soon-site"
+    };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-/* ELEMENTS */
-const msg = document.getElementById("msg");
-const name = document.getElementById("name");
-const chatBox = document.getElementById("chatBox");
-const emailInput = document.getElementById("email");
-const passInput = document.getElementById("pass");
+    /* ELEMENTS */
+    const loginCard = document.getElementById("loginCard");
+    const homePage = document.getElementById("homePage");
+    const userEmail = document.getElementById("userEmail");
+    const chat = document.getElementById("chat");
+    const chatToggleBtn = document.getElementById("chatToggle");
+    const chatBox = document.getElementById("chatBox");
+    const msg = document.getElementById("msg");
+    const name = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passInput = document.getElementById("pass");
 
-/* LOGIN */
-window.login = async ()=>{
-  try{
-    await signInWithEmailAndPassword(auth,emailInput.value,passInput.value);
-    alert("Login Successful");
-  }catch(e){
-    alert("Login Failed");
-  }
-};
+    /* LOCAL CHAT USER FALLBACK */
+    let localUser = localStorage.getItem("u");
+    if (!localUser) {
+      localUser = "u" + Math.random().toString(36).slice(2);
+      localStorage.setItem("u", localUser);
+    }
 
-/* SIGNUP */
-window.signup = async ()=>{
-  try{
-    await createUserWithEmailAndPassword(auth,emailInput.value,passInput.value);
-    alert("Account Created");
-  }catch(e){
-    alert("Signup Failed");
-  }
-};
+    /* UI FUNCTIONS */
+    function showHome(user) {
+      loginCard.style.display = "none";
+      homePage.style.display = "block";
+      chatToggleBtn.style.display = "flex";
 
-/* TOGGLE CHAT */
-window.toggleChat = ()=>{
-  document.getElementById("chat").classList.toggle("active");
-};
+      userEmail.textContent = user?.email || "User";
 
-/* USER */
-let user = localStorage.getItem("u");
-if(!user){
-  user="u"+Math.random();
-  localStorage.setItem("u",user);
-}
+      if (!name.value.trim()) {
+        const defaultName =
+          user?.email?.split("@")[0] ||
+          "Guest";
+        name.value = defaultName;
+      }
+    }
 
-/* SEND */
-window.send = async ()=>{
-  const text = msg.value.trim();
-  if(!text) return;
+    function showLogin() {
+      loginCard.style.display = "block";
+      homePage.style.display = "none";
+      chatToggleBtn.style.display = "none";
+      chat.classList.remove("active");
+    }
 
-  await addDoc(collection(db,"chat"),{
-    text,
-    user,
-    name: name.value || "Guest",
-    time:Date.now()
-  });
+    /* LOGIN */
+    window.login = async () => {
+      const email = emailInput.value.trim();
+      const pass = passInput.value.trim();
 
-  msg.value="";
-};
+      if (!email || !pass) {
+        alert("Email aur password likho");
+        return;
+      }
 
-/* ENTER SEND */
-msg.addEventListener("keydown",(e)=>{
-  if(e.key==="Enter"){
-    e.preventDefault();
-    send();
-  }
-});
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        alert("Login Successful");
+      } catch (e) {
+        alert("Login Failed: " + e.message);
+        console.error(e);
+      }
+    };
 
-/* LOAD MESSAGES */
-onSnapshot(query(collection(db,"chat"), orderBy("time")), snap=>{
-  chatBox.innerHTML="";
+    /* SIGNUP */
+    window.signup = async () => {
+      const email = emailInput.value.trim();
+      const pass = passInput.value.trim();
 
-  snap.forEach(d=>{
-    const m=d.data();
+      if (!email || !pass) {
+        alert("Email aur password likho");
+        return;
+      }
 
-    const div=document.createElement("div");
-    div.className="msg "+(m.user===user?"me":"other");
+      try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+        alert("Account Created");
+      } catch (e) {
+        alert("Signup Failed: " + e.message);
+        console.error(e);
+      }
+    };
 
-    div.innerHTML=`${m.name}<br>${m.text}`;
+    /* LOGOUT */
+    window.logout = async () => {
+      try {
+        await signOut(auth);
+        alert("Logged out");
+      } catch (e) {
+        alert("Logout Failed");
+        console.error(e);
+      }
+    };
 
-    chatBox.appendChild(div);
-  });
+    /* TOGGLE CHAT */
+    window.toggleChat = () => {
+      if (!auth.currentUser) {
+        alert("Pehle login karo");
+        return;
+      }
+      chat.classList.toggle("active");
+    };
 
-  chatBox.scrollTop = chatBox.scrollHeight;
-});
+    /* AUTH STATE */
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        showHome(user);
+      } else {
+        showLogin();
+      }
+    });
 
-</script>
+    /* SEND MESSAGE */
+    window.send = async () => {
+      const text = msg.value.trim();
+      if (!text) return;
+
+      if (!auth.currentUser) {
+        alert("Pehle login karo");
+        return;
+      }
+
+      const senderName =
+        name.value.trim() ||
+        auth.currentUser.email?.split("@")[0] ||
+        "Guest";
+
+      const senderUser =
+        auth.currentUser.uid || localUser;
+
+      try {
+        await addDoc(collection(db, "chat"), {
+          text: text,
+          user: senderUser,
+          name: senderName,
+          time: Date.now()
+        });
+
+        msg.value = "";
+      } catch (e) {
+        alert("Message send nahi hua");
+        console.error(e);
+      }
+    };
+
+    /* ENTER SEND */
+    msg.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        send();
+      }
+    });
+
+    /* LOAD MESSAGES */
+    onSnapshot(query(collection(db, "chat"), orderBy("time")), (snap) => {
+      chatBox.innerHTML = "";
+
+      if (snap.empty) {
+        chatBox.innerHTML = `
+          <div class="msg other">Abhi koi message nahi hai</div>
+        `;
+        return;
+      }
+
+      snap.forEach((docSnap) => {
+        const m = docSnap.data();
+
+        const currentUserId = auth.currentUser?.uid || localUser;
+
+        const div = document.createElement("div");
+        div.className = "msg " + (m.user === currentUserId ? "me" : "other");
+
+        const strong = document.createElement("strong");
+        strong.textContent = m.name || "Guest";
+
+        const br = document.createElement("br");
+
+        const span = document.createElement("span");
+        span.textContent = m.text || "";
+
+        div.appendChild(strong);
+        div.appendChild(br);
+        div.appendChild(span);
+
+        chatBox.appendChild(div);
+      });
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+  </script>
 
 </body>
 </html>
