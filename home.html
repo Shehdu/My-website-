@@ -1,275 +1,549 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modern Chat App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wadi Soon Website</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-
-body{
-  background: linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:#fff;
-}
-
-/* ===== LOGIN ===== */
-.auth-container{
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.auth-box{
-  background:rgba(15,23,42,0.95);
-  padding:30px;
-  border-radius:16px;
-  width:90%;
-  max-width:380px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.4);
-}
-
-.auth-box h2{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.auth-box input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border:none;
-  border-radius:10px;
-  background:#e5e7eb;
-}
-
-.auth-box button{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  background:#22c55e;
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.auth-box button:hover{
-  background:#16a34a;
-}
-
-/* ===== CHAT ===== */
-.chat-container{
-  display:none;
-  height:100vh;
-  flex-direction:column;
-}
-
-/* Header */
-.chat-header{
-  height:60px;
-  background:#020617;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 15px;
-  border-bottom:1px solid #1e293b;
-}
-
-.chat-header span{
-  font-size:14px;
-  opacity:0.8;
-}
-
-.logout{
-  background:#ef4444;
-  border:none;
-  padding:6px 12px;
-  border-radius:6px;
-  color:white;
-  cursor:pointer;
-}
-
-/* Messages */
-.messages{
-  flex:1;
-  overflow-y:auto;
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-}
-
-.msg{
-  padding:10px 14px;
-  border-radius:12px;
-  margin-bottom:10px;
-  max-width:70%;
-  font-size:14px;
-}
-
-/* Own message */
-.me{
-  background:#22c55e;
-  align-self:flex-end;
-}
-
-/* Other */
-.other{
-  background:#334155;
-  align-self:flex-start;
-}
-
-/* Input */
-.input-area{
-  display:flex;
-  padding:10px;
-  background:#020617;
-}
-
-.input-area input{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-}
-
-.input-area button{
-  margin-left:10px;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:#3b82f6;
-  color:white;
-  cursor:pointer;
-}
-</style>
-</head>
-
-<body>
-
-<!-- LOGIN -->
-<div class="auth-container" id="authPage">
-  <div class="auth-box">
-    <h2>Welcome</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <button onclick="signup()">Signup</button>
-  </div>
-</div>
-
-<!-- CHAT -->
-<div class="chat-container" id="chatPage">
-
-  <div class="chat-header">
-    <span id="userEmail"></span>
-    <button class="logout" onclick="logout()">Logout</button>
-  </div>
-
-  <div class="messages" id="messages"></div>
-
-  <div class="input-area">
-    <input type="text" id="msgInput" placeholder="Type message...">
-    <button onclick="sendMsg()">Send</button>
-  </div>
-
-</div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
-
-<script>
-// 🔥 ADD YOUR CONFIG
-const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  databaseURL: "https://YOUR_DB.firebaseio.com",
-  projectId: "YOUR_ID"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-const db = firebase.database();
-
-const authPage = document.getElementById("authPage");
-const chatPage = document.getElementById("chatPage");
-const messages = document.getElementById("messages");
-
-// Signup
-function signup(){
-  auth.createUserWithEmailAndPassword(
-    email.value, password.value
-  ).then(()=> alert("Signup Success"))
-   .catch(e=> alert(e.message));
-}
-
-// Login
-function login(){
-  auth.signInWithEmailAndPassword(
-    email.value, password.value
-  ).then(()=> alert("Login Success"))
-   .catch(e=> alert(e.message));
-}
-
-// Logout
-function logout(){
-  auth.signOut();
-}
-
-// Auth State
-auth.onAuthStateChanged(user=>{
-  if(user){
-    authPage.style.display="none";
-    chatPage.style.display="flex";
-    userEmail.innerText = user.email;
-    loadMessages(user.email);
-  }else{
-    authPage.style.display="flex";
-    chatPage.style.display="none";
-  }
-});
-
-// Send Message
-function sendMsg(){
-  if(msgInput.value.trim()=="") return;
-
-  db.ref("chat").push({
-    text: msgInput.value,
-    user: auth.currentUser.email
-  });
-
-  msgInput.value="";
-}
-
-// Load Messages
-function loadMessages(currentUser){
-  messages.innerHTML="";
-
-  db.ref("chat").on("child_added", snap=>{
-    const data = snap.val();
-
-    const div = document.createElement("div");
-    div.classList.add("msg");
-
-    if(data.user === currentUser){
-      div.classList.add("me");
-    }else{
-      div.classList.add("other");
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    div.innerText = data.text;
+    :root {
+      --bg1: #03142c;
+      --bg2: #0d2f66;
+      --bg3: #1d4f91;
+      --white: #ffffff;
+      --soft: #eaf2ff;
+      --card: rgba(255,255,255,0.08);
+      --menu: #800020;
+      --shadow: 0 8px 22px rgba(0,0,0,0.35);
+    }
 
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-  });
-}
-</script>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      color: var(--white);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: auto;
+    }
+
+    /* MENU */
+    .menu-container {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 9999;
+    }
+
+    .menu-btn {
+      font-size: 34px;
+      background: var(--menu);
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .menu-box {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 65px;
+      background: var(--menu);
+      border-radius: 12px;
+      min-width: 180px;
+      padding: 10px 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .menu-box a {
+      display: block;
+      padding: 14px 18px;
+      margin: 6px 10px;
+      color: #ffd7ea;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 10px;
+    }
+
+    .menu-box a:hover {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    /* TOP NAV */
+    .top-nav {
+      margin: 90px auto 20px;
+      background: rgba(0,0,0,0.25);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 8px 12px;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .top-nav a:hover {
+      color: #ffd166;
+    }
+
+    /* HEADING */
+    .lights {
+      text-align: center;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: bold;
+      margin: 25px 0 15px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      0%   { color:red; text-shadow:0 0 10px red,0 0 20px red; }
+      20%  { color:orange; text-shadow:0 0 10px orange,0 0 20px orange; }
+      40%  { color:yellow; text-shadow:0 0 10px yellow,0 0 20px yellow; }
+      60%  { color:cyan; text-shadow:0 0 10px cyan,0 0 20px cyan; }
+      80%  { color:lime; text-shadow:0 0 10px lime,0 0 20px lime; }
+      100% { color:magenta; text-shadow:0 0 10px magenta,0 0 20px magenta; }
+    }
+
+    .lights-bar {
+      height: 10px;
+      width: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+      background-size: 400%;
+      animation: moveLights 3s linear infinite;
+      margin-bottom: 25px;
+    }
+
+    @keyframes moveLights {
+      0% { background-position: 0%; }
+      100% { background-position: 400%; }
+    }
+
+    /* PROFILE */
+    .profile {
+      width: min(260px, 85%);
+      border-radius: 14px;
+      margin: 20px auto;
+      display: block;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      transition: 0.3s;
+    }
+
+    .profile:hover {
+      transform: scale(1.04);
+    }
+
+    /* SECTION */
+    section {
+      background: var(--card);
+      margin: 28px 0;
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    section h2 {
+      margin-bottom: 14px;
+      font-size: 30px;
+      color: #fff;
+    }
+
+    section p, li {
+      color: var(--soft);
+      font-size: 17px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    /* BUTTON */
+    .btn-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 35px 0 0;
+    }
+
+    .ultra-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 34px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 60px;
+      background: linear-gradient(135deg,#ff7a18,#ff0066);
+      overflow: hidden;
+      transition: 0.4s ease;
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.3),
+        0 0 15px rgba(255,0,102,0.5);
+    }
+
+    .ultra-btn::before {
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:60px;
+      background:linear-gradient(120deg,#ff0066,#ff7a18,#00f2fe,#ff0066);
+      background-size:300% 300%;
+      z-index:-1;
+      animation:borderMove 4s linear infinite;
+    }
+
+    @keyframes borderMove {
+      0% { background-position: 0%; }
+      100% { background-position: 300%; }
+    }
+
+    .ultra-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+    }
+
+    .ultra-btn i {
+      font-style: normal;
+    }
+
+    /* POSTS */
+    .post {
+      background: rgba(255,255,255,0.05);
+      padding: 18px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+
+    .post h3 {
+      margin-bottom: 10px;
+      font-size: 23px;
+      color: #fff;
+    }
+
+    /* IMAGES */
+    .image-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .image-section img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      transition: 0.4s;
+    }
+
+    .image-section img:hover {
+      transform: scale(1.03);
+    }
+
+    /* VILLAGES */
+    .village-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.10);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.04);
+      background: rgba(255,255,255,0.18);
+    }
+
+    .card h2 {
+      font-size: 21px;
+      margin: 0;
+    }
+
+    .center-box {
+      max-width: 520px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg,#0a3d62,#3c6382);
+      padding: 22px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .text-box {
+      max-width: 650px;
+      margin: auto;
+      background: rgba(255,255,255,0.08);
+      padding: 22px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .daman-box {
+      max-width: 900px;
+      margin: auto;
+      background: linear-gradient(135deg, #d63384, #ff4d6d);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .big-text {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .big-text .line1 {
+      font-size: 36px;
+      font-weight: bold;
+      color: #9cff9c;
+    }
+
+    .big-text .line2,
+    .big-text .line3 {
+      font-size: 28px;
+      color: #fff;
+      margin-top: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px 40px;
+      color: #dbe7ff;
+    }
+
+    @media (max-width: 768px) {
+      .top-nav {
+        padding: 12px 6px;
+      }
+
+      .top-nav a {
+        margin: 6px 8px;
+        font-size: 16px;
+      }
+
+      section {
+        padding: 18px;
+      }
+
+      .menu-btn {
+        font-size: 28px;
+      }
+
+      .big-text .line1 {
+        font-size: 26px;
+      }
+
+      .big-text .line2,
+      .big-text .line3 {
+        font-size: 21px;
+      }
+
+      .ultra-btn {
+        font-size: 18px;
+        padding: 14px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu-container">
+    <button onclick="toggleMenu()" class="menu-btn">⋮</button>
+    <div id="menu" class="menu-box">
+      <a href="home.html">Home</a>
+      <a href="page2.html">Page 2</a>
+      <a href="#" onclick="logout(); return false;">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="top-nav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#post">Post</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <h1 class="lights">Welcome to My Website</h1>
+    <div class="lights-bar"></div>
+
+    <img src="Screenshot_20260426-212623~2.png" class="profile" alt="Profile">
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p><b>Muhammad Shahid Iqbal</b> is a motivated and passionate individual currently learning web development and building his skills in the digital field. He has a strong interest in creating modern, responsive websites and aims to establish a successful career in the online world.</p>
+      <br>
+      <p>He was born in 2001 in Mardwal, District Khushab, Pakistan, and is currently 26 years old. He has a height of 6 feet and maintains a disciplined and focused lifestyle. He is single and follows Islam.</p>
+      <br>
+      <p>In terms of communication, Shahid is comfortable speaking both English and Urdu, which helps him interact effectively in diverse environments. He is continuously working on improving his technical skills and is dedicated to personal and professional growth.</p>
+    </section>
+
+    <section id="skills">
+      <h2>My Skills</h2>
+      <ul>
+        <li>Web Development (Learning)</li>
+        <li>MS Office (Word, Excel, PowerPoint)</li>
+        <li>Electrical Work</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <p>Email: <a href="mailto:mshahidiqbal834@gmail.com" style="color:white;">mshahidiqbal834@gmail.com</a></p>
+      <p>☎️ <a href="tel:03058767834" style="color:white;">0305-8767834</a></p>
+
+      <div class="btn-wrap">
+        <a href="page2.html" class="ultra-btn">
+          <span>Next Page</span>
+          <i>➜</i>
+        </a>
+      </div>
+    </section>
+
+    <section id="post">
+      <h2>My Post</h2>
+
+      <div class="post">
+        <h3>The Beauty of Wadi Soon</h3>
+        <p>Wadi Soon is one of the most beautiful valleys in Pakistan, located in the Khushab District. It is famous for its breathtaking scenery, green hills, and peaceful environment. The valley offers a perfect escape from busy city life, where visitors can enjoy fresh air, natural landscapes, and calm surroundings. Many tourists visit Wadi Soon to experience its beauty, relax in nature, and spend quality time with family and friends.</p>
+      </div>
+
+      <div class="post">
+        <h3>Weather of Wadi Soon</h3>
+        <p>Wadi Soon is known for its pleasant and refreshing weather throughout the year, making it a popular destination for visitors. During the summer season, the temperature remains moderate compared to other parts of Pakistan, providing a comfortable environment for tourists who want to escape the extreme heat. The gentle breeze and fresh air add to the relaxing atmosphere of the valley. In winter, the weather becomes cool and sometimes quite chilly, especially during the night and early morning, giving the area a peaceful and calm feeling. Rainfall plays an important role in enhancing the natural beauty of Wadi Soon, as it makes the hills greener, fills the lakes, and creates a more vibrant landscape. After rain, the scenery becomes even more attractive, with clear skies and a refreshing environment. Overall, the climate of Wadi Soon is ideal for tourism, picnics, and spending quality time in nature.</p>
+      </div>
+
+      <div class="image-section">
+        <img src="IMG_20260321_160341_807.jpg" alt="Wadi Soon">
+        <img src="img1.png" alt="Maiwali Dheri">
+      </div>
+    </section>
+
+    <section>
+      <h2>🌿 WADI SOON VILLAGES 🌿</h2>
+      <div class="village-grid">
+        <div class="card"><h2>Naushera</h2></div>
+        <div class="card"><h2>Kanhatti</h2></div>
+        <div class="card"><h2>Uchhali</h2></div>
+        <div class="card"><h2>Angah</h2></div>
+        <div class="card"><h2>Sakesar</h2></div>
+        <div class="card"><h2>Jabba</h2></div>
+        <div class="card"><h2>Mardwal</h2></div>
+        <div class="card"><h2>Padhrar</h2></div>
+        <div class="card"><h2>Khabbeki</h2></div>
+        <div class="card"><h2>Kufri</h2></div>
+        <div class="card"><h2>Khura</h2></div>
+        <div class="card"><h2>Dhadhar</h2></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="center-box">
+        <h2>Our Beautiful Village</h2>
+        <p>Experience the peaceful life, fresh air, and natural beauty.</p>
+      </div>
+
+      <div class="text-box">
+        <p>Our region is known for its clean water, fresh environment, and naturally grown vegetables. The fertile land and pure atmosphere produce healthy and fresh crops with original taste and quality. Surrounded by greenery and peaceful surroundings, this area offers a refreshing and relaxing experience.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="daman-box">
+        <h2>Daman-e-Mahar, Soon Valley</h2>
+        <p>Daman-e-Mahar is a peaceful and scenic location in the Soon Valley, District Khushab, Punjab, Pakistan. It lies near the Sakesar mountain range, surrounded by elevated hills reaching around 1500 meters. The road leading to this area is mostly paved and accessible, although the final stretch includes narrow and winding mountain paths. This destination marks the beginning of breathtaking natural beauty, offering fresh air, clean water, and a calm environment away from city life.</p>
+      </div>
+
+      <div class="big-text">
+        <p class="line1">Most people in Soon Valley are Zamindars.</p>
+        <p class="line2">They are farmers and landowners.</p>
+        <p class="line3">They live a simple and hardworking life.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>🌿 WADI SOON PHOTOS 🌿</h2>
+      <div class="image-section">
+        <img src="img2.png" alt="Image 2">
+        <img src="img3.png" alt="Image 3">
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Muhammad Shahid Iqbal | Wadi Soon Website
+    </footer>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+      authDomain: "wadi-soon-site.firebaseapp.com",
+      projectId: "wadi-soon-site",
+      appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.toggleMenu = function () {
+      const menu = document.getElementById("menu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    };
+
+    window.logout = function () {
+      signOut(auth).then(() => {
+        window.location.replace("index.html");
+      }).catch((error) => {
+        alert("Logout failed: " + error.message);
+      });
+    };
+
+    window.addEventListener("click", function(e) {
+      const menu = document.getElementById("menu");
+      const btn = document.querySelector(".menu-btn");
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
 
 </body>
 </html>
