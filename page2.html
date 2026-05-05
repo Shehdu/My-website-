@@ -1,223 +1,182 @@
-<!-- CHAT TOGGLE BUTTON -->
-<button class="chat-toggle" onclick="toggleChat()">💬</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Chat</title>
 
-<!-- CHAT BOX -->
-<div class="chat-container" id="chatContainer">
-  <div class="chat-header">
-    💬 Live Chat
-    <span onclick="toggleChat()" class="close-btn">✖</span>
-  </div>
+<style>
+body{
+  font-family: Arial;
+  background:#0f172a;
+  color:white;
+  padding:20px;
+}
 
-  <div id="chatBox"></div>
+.chat-box{
+  max-width:600px;
+  margin:auto;
+  background:#1e293b;
+  padding:15px;
+  border-radius:12px;
+}
 
-  <div class="input-area">
-    <input id="nameInput" placeholder="Your name..." />
-    <textarea id="messageInput" placeholder="Type message..."></textarea>
-    <button id="sendBtn">Send</button>
+#messages{
+  height:300px;
+  overflow:auto;
+  background:#111827;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+.msg{
+  margin:6px 0;
+  padding:8px;
+  border-radius:8px;
+}
+
+.me{ background:#22c55e; text-align:right; }
+.other{ background:#374151; }
+
+input,button{
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  margin:5px 0;
+}
+
+button{
+  background:#22c55e;
+  color:white;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🔐 Private Chat</h2>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <input id="email" placeholder="Email"><br>
+  <input id="password" type="password" placeholder="Password"><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- CHAT -->
+<div id="chatUI" style="display:none;">
+  <p>Your UID: <span id="myid"></span></p>
+
+  <input id="otherId" placeholder="Enter other user UID"><br>
+  <button onclick="startChat()">Start Chat</button>
+
+  <div class="chat-box">
+    <div id="messages"></div>
+
+    <input id="msgInput" placeholder="Type message">
+    <button onclick="sendMsg()">Send</button>
   </div>
 </div>
 
-<style>
-.chat-toggle{
-  position:fixed;
-  bottom:20px;
-  right:15px;
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background:#10b981;
-  color:#fff;
-  font-size:22px;
-  border:none;
-  z-index:9999;
-}
-
-.chat-container{
-  position:fixed;
-  bottom:90px;
-  right:15px;
-  width:330px;
-  height:440px;
-  background:#ece5dd;
-  border-radius:18px;
-  display:none;
-  flex-direction:column;
-  overflow:hidden;
-  z-index:9999;
-}
-
-.chat-container.active{
-  display:flex;
-}
-
-.chat-header{
-  background:#075e54;
-  color:#fff;
-  padding:12px;
-  display:flex;
-  justify-content:space-between;
-}
-
-.close-btn{
-  cursor:pointer;
-}
-
-#chatBox{
-  flex:1;
-  overflow:auto;
-  padding:10px;
-}
-
-.message{
-  max-width:75%;
-  padding:8px;
-  margin:6px 0;
-  border-radius:12px;
-  font-size:13px;
-}
-
-.myMsg{
-  background:#dcf8c6;
-  margin-left:auto;
-}
-
-.otherMsg{
-  background:#fff;
-}
-
-.msg-name{
-  font-weight:bold;
-  font-size:11px;
-}
-
-.msg-time{
-  font-size:10px;
-  opacity:.6;
-  text-align:right;
-}
-
-.deleteBtn{
-  font-size:12px;
-  color:red;
-  cursor:pointer;
-}
-
-.input-area{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-  padding:8px;
-  background:#f1f1f1;
-}
-
-.input-area input,
-.input-area textarea{
-  border-radius:10px;
-  border:1px solid #ccc;
-  padding:8px;
-}
-
-.input-area button{
-  background:#075e54;
-  color:#fff;
-  border:none;
-  padding:8px;
-  border-radius:10px;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-  .chat-container{
-    width:95%;
-    right:2.5%;
-  }
-}
-</style>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDpER...",
+  apiKey: "YOUR_KEY",
   authDomain: "wadi-soon-site.firebaseapp.com",
   projectId: "wadi-soon-site"
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const auth = getAuth();
+const db = getFirestore();
 
-// USER ID
-let userId = localStorage.getItem("chatUserId");
-if(!userId){
-  userId = "user_" + Math.random().toString(36).slice(2,6);
-  localStorage.setItem("chatUserId", userId);
+let user, chatId;
+
+// LOGIN
+window.login = async ()=>{
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  const res = await signInWithEmailAndPassword(auth,email,pass);
+  user = res.user;
+
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("chatUI").style.display="block";
+  document.getElementById("myid").innerText = user.uid;
+
+  // save user
+  await setDoc(doc(db,"users",user.uid),{
+    email:user.email
+  });
+};
+
+// CHAT ID GENERATE
+function makeId(a,b){
+  return a<b ? a+"_"+b : b+"_"+a;
 }
 
-// NAME SAVE
-let userName = localStorage.getItem("chatName") || "";
+// START CHAT
+window.startChat = ()=>{
+  const other = document.getElementById("otherId").value;
+  chatId = makeId(user.uid,other);
 
-const chatBox = document.getElementById("chatBox");
-const input = document.getElementById("messageInput");
-const sendBtn = document.getElementById("sendBtn");
-const nameInput = document.getElementById("nameInput");
-
-nameInput.value = userName;
-
-// TOGGLE
-window.toggleChat = function(){
-  document.getElementById("chatContainer").classList.toggle("active");
-}
+  loadMessages();
+};
 
 // SEND
-sendBtn.onclick = async () => {
-  const msg = input.value.trim();
-  const name = nameInput.value.trim() || "Guest";
+window.sendMsg = async ()=>{
+  const text = document.getElementById("msgInput").value;
 
-  if(!msg) return;
+  await setDoc(doc(db,"chats",chatId),{
+    users:[user.uid, document.getElementById("otherId").value]
+  });
 
-  localStorage.setItem("chatName", name);
-
-  await addDoc(collection(db,"messages"),{
-    text:msg,
-    user:userId,
-    name:name,
+  await addDoc(collection(db,"chats",chatId,"messages"),{
+    text:text,
+    sender:user.uid,
     time:Date.now()
   });
 
-  input.value="";
+  document.getElementById("msgInput").value="";
 };
 
 // LOAD
-const q = query(collection(db,"messages"), orderBy("time"));
+function loadMessages(){
+  const q = query(collection(db,"chats",chatId,"messages"), orderBy("time"));
 
-onSnapshot(q,(snap)=>{
-  chatBox.innerHTML="";
+  onSnapshot(q,(snap)=>{
+    const box = document.getElementById("messages");
+    box.innerHTML="";
 
-  snap.forEach(d=>{
-    const data = d.data();
+    snap.forEach(d=>{
+      const data = d.data();
 
-    const div = document.createElement("div");
-    div.className = "message " + (data.user===userId?"myMsg":"otherMsg");
+      const div = document.createElement("div");
+      div.className = "msg " + (data.sender===user.uid ? "me":"other");
+      div.innerText = data.text;
 
-    div.innerHTML = `
-      <div class="msg-name">${data.name}</div>
-      ${data.text}
-      <div class="msg-time">${new Date(data.time).toLocaleTimeString()}</div>
-    `;
+      box.appendChild(div);
+    });
 
-    if(data.user===userId){
-      const del = document.createElement("span");
-      del.textContent=" ❌";
-      del.className="deleteBtn";
-
-      del.onclick = ()=> deleteDoc(doc(db,"messages",d.id));
-      div.appendChild(del);
-    }
-
-    chatBox.appendChild(div);
+    box.scrollTop = box.scrollHeight;
   });
+}
 
-  chatBox.scrollTop = chatBox.scrollHeight;
+// AUTO LOGIN CHECK
+onAuthStateChanged(auth,(u)=>{
+  if(u){
+    user=u;
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("chatUI").style.display="block";
+    document.getElementById("myid").innerText = user.uid;
+  }
 });
 </script>
+
+</body>
+</html>
