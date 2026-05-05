@@ -1,93 +1,136 @@
-<!-- CHAT BUTTON -->
+<!-- ================= CHAT BUTTON ================= -->
 <button class="chat-toggle" onclick="toggleChat()">💬</button>
 
-<!-- CHAT BOX -->
+<!-- ================= CHAT BOX ================= -->
 <div class="chat-container" id="chat">
+
   <div class="chat-header">
-    🌍 Public Chat
+    <span>🌍 Live Chat</span>
     <span onclick="toggleChat()">✖</span>
   </div>
 
   <div id="chatBox"></div>
 
   <div class="input-area">
-    <input id="name" placeholder="Your name">
+    <input id="name" placeholder="Your name...">
     <textarea id="msg" placeholder="Type message..."></textarea>
     <button onclick="send()">Send</button>
   </div>
+
 </div>
 
+<!-- ================= STYLE ================= -->
 <style>
+
+body{
+  overflow:auto !important;
+}
+
+/* FLOAT BUTTON */
 .chat-toggle{
   position:fixed;
-  bottom:20px;
-  right:15px;
-  width:60px;
-  height:60px;
+  bottom:25px;
+  right:20px;
+  width:70px;
+  height:70px;
   border-radius:50%;
   background:linear-gradient(135deg,#00c6ff,#0072ff);
   color:#fff;
+  font-size:26px;
   border:none;
-  font-size:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
   z-index:9999;
 }
 
+/* CHAT BOX */
 .chat-container{
   position:fixed;
-  bottom:90px;
-  right:15px;
-  width:340px;
-  height:480px;
-  background:#0f172a;
-  border-radius:18px;
+  bottom:110px;
+  right:20px;
+  width:330px;
+  height:450px;
   display:none;
   flex-direction:column;
+  border-radius:20px;
   overflow:hidden;
+
+  /* GLASS EFFECT */
+  background:rgba(15,23,42,0.75);
+  backdrop-filter:blur(15px);
+
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
   z-index:9999;
+
+  transform:scale(0.8);
+  opacity:0;
+  transition:0.3s;
 }
 
-.chat-container.active{ display:flex; }
+.chat-container.active{
+  display:flex;
+  transform:scale(1);
+  opacity:1;
+}
 
+/* HEADER */
 .chat-header{
-  background:#020617;
-  color:#fff;
   padding:12px;
+  background:linear-gradient(135deg,#020617,#0f172a);
+  color:#fff;
   display:flex;
   justify-content:space-between;
+  font-weight:bold;
 }
 
+/* CHAT AREA */
 #chatBox{
   flex:1;
   overflow:auto;
   padding:10px;
 }
 
+/* MESSAGE */
 .message{
-  margin:6px 0;
+  margin:8px 0;
   padding:10px;
   border-radius:12px;
   font-size:13px;
+  animation:fadeIn .3s ease;
 }
 
-.me{ background:#22c55e; text-align:right; }
-.other{ background:#1e293b; }
+.me{
+  background:#22c55e;
+  text-align:right;
+  color:#fff;
+}
 
+.other{
+  background:#1e293b;
+  color:#fff;
+}
+
+/* NAME */
 .name{
   font-size:11px;
   opacity:.7;
 }
 
+/* TIME */
 .time{
   font-size:10px;
   opacity:.6;
+  margin-top:4px;
 }
 
+/* DELETE */
 .delete{
-  color:red;
+  color:#ff4d4d;
   cursor:pointer;
   font-size:12px;
+  margin-left:6px;
 }
 
+/* INPUT */
 .input-area{
   padding:8px;
   background:#020617;
@@ -101,6 +144,12 @@
   border:none;
   border-radius:10px;
   padding:8px;
+  font-size:13px;
+}
+
+.input-area textarea{
+  resize:none;
+  height:45px;
 }
 
 .input-area button{
@@ -109,13 +158,39 @@
   border:none;
   padding:8px;
   border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
 }
+
+/* ANIMATION */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .chat-container{
+    width:90%;
+    right:5%;
+    height:60vh;
+  }
+
+  .chat-toggle{
+    width:65px;
+    height:65px;
+  }
+}
+
 </style>
 
+<!-- ================= SCRIPT ================= -->
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
+/* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "wadi-soon-site.firebaseapp.com",
@@ -125,33 +200,45 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let user = localStorage.getItem("userId");
+/* USER ID */
+let user = localStorage.getItem("chatUser");
 if(!user){
-  user = "u_"+Math.random().toString(36).slice(2,6);
-  localStorage.setItem("userId",user);
+  user = "user_"+Math.random().toString(36).slice(2,6);
+  localStorage.setItem("chatUser",user);
 }
 
-const box = document.getElementById("chatBox");
+/* SAVE NAME */
+const nameInput = document.getElementById("name");
+nameInput.value = localStorage.getItem("chatName") || "";
 
+nameInput.addEventListener("input",()=>{
+  localStorage.setItem("chatName",nameInput.value);
+});
+
+/* TOGGLE */
 window.toggleChat = ()=>{
   document.getElementById("chat").classList.toggle("active");
 }
 
+/* SEND */
 window.send = async ()=>{
-  const name = document.getElementById("name").value || "Guest";
-  const text = document.getElementById("msg").value;
+  const name = nameInput.value || "Guest";
+  const text = document.getElementById("msg").value.trim();
 
   if(!text) return;
 
   await addDoc(collection(db,"publicChat"),{
-    name:name,
-    text:text,
-    user:user,
+    name,
+    text,
+    user,
     time:Date.now()
   });
 
   document.getElementById("msg").value="";
 }
+
+/* LOAD */
+const box = document.getElementById("chatBox");
 
 const q = query(collection(db,"publicChat"), orderBy("time"));
 
@@ -170,6 +257,7 @@ onSnapshot(q,(snap)=>{
       <div class="time">${new Date(data.time).toLocaleTimeString()}</div>
     `;
 
+    /* DELETE OWN */
     if(data.user===user){
       const del = document.createElement("span");
       del.innerText=" ❌";
@@ -183,4 +271,5 @@ onSnapshot(q,(snap)=>{
 
   box.scrollTop = box.scrollHeight;
 });
+
 </script>
