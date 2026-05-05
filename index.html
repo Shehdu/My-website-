@@ -212,3 +212,124 @@ window.signup = async () => {
 
 </body>
 </html>
+<!-- 🔥 CHAT BUTTON -->
+<button id="chatBtn" style="
+position:fixed;bottom:20px;right:20px;
+width:60px;height:60px;border-radius:50%;
+background:#14b8a6;color:#fff;font-size:24px;
+border:none;cursor:pointer;z-index:9999;">💬</button>
+
+<!-- 🔥 CHAT BOX -->
+<div id="chatBox" style="
+position:fixed;bottom:90px;right:20px;
+width:350px;height:500px;background:#fff;
+border-radius:20px;display:none;
+flex-direction:column;overflow:hidden;
+box-shadow:0 20px 60px rgba(0,0,0,0.3);
+z-index:9999;">
+
+  <!-- HEADER -->
+  <div style="background:#14b8a6;color:#fff;padding:12px;display:flex;justify-content:space-between;">
+    <b>Live Chat</b>
+    <button onclick="closeChat()" style="background:none;border:none;color:#fff;font-size:20px;">−</button>
+  </div>
+
+  <!-- ADMIN BAR -->
+  <div id="adminBar" style="display:none;padding:8px;background:#f1f5f9;">
+    <input id="uidInput" placeholder="User UID" style="width:65%;padding:6px;">
+    <button onclick="loadChat()">Load</button>
+  </div>
+
+  <!-- MESSAGES -->
+  <div id="messages" style="flex:1;overflow:auto;padding:10px;background:#f8fafc;"></div>
+
+  <!-- INPUT -->
+  <div style="display:flex;padding:10px;border-top:1px solid #ddd;">
+    <input id="msg" placeholder="Type..." style="flex:1;padding:8px;">
+    <button onclick="sendMsg()" style="margin-left:5px;">Send</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site"
+};
+
+const ADMIN_UID = "3zfYxvDKyxV4RgD8SLeybDrhdto2";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// AUTO LOGIN
+signInAnonymously(auth);
+
+let user=null, room=null, isAdmin=false;
+
+// UI
+const chatBtn=document.getElementById("chatBtn");
+const chatBox=document.getElementById("chatBox");
+chatBtn.onclick=()=>chatBox.style.display="flex";
+function closeChat(){chatBox.style.display="none";}
+
+// AUTH
+onAuthStateChanged(auth,(u)=>{
+  user=u;
+  if(!u)return;
+
+  isAdmin = (u.uid===ADMIN_UID);
+
+  if(isAdmin){
+    document.getElementById("adminBar").style.display="block";
+  } else {
+    room=u.uid;
+    listen();
+  }
+});
+
+// LOAD CHAT (ADMIN)
+window.loadChat=function(){
+  room=document.getElementById("uidInput").value.trim();
+  listen();
+}
+
+// LISTEN
+function listen(){
+  if(!room)return;
+
+  const q=query(collection(db,"chats",room,"msgs"),orderBy("time"));
+  onSnapshot(q,(snap)=>{
+    const box=document.getElementById("messages");
+    box.innerHTML="";
+    snap.forEach(d=>{
+      const m=d.data();
+      box.innerHTML+=`
+      <div style="margin:5px;padding:8px;border-radius:10px;
+      background:${m.uid===user.uid?"#14b8a6;color:white":"#e2e8f0"}">
+        ${m.text}
+      </div>`;
+    });
+    box.scrollTop=box.scrollHeight;
+  });
+}
+
+// SEND
+window.sendMsg=async function(){
+  const text=document.getElementById("msg").value.trim();
+  if(!text||!room)return;
+
+  await addDoc(collection(db,"chats",room,"msgs"),{
+    text,
+    uid:user.uid,
+    time:serverTimestamp()
+  });
+
+  document.getElementById("msg").value="";
+}
+</script>
