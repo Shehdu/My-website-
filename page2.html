@@ -1,176 +1,766 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon AI Chat</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wadi Soon - Kanhatti Garden</title>
 
-<style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:#fff;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* HEADER */
-.header{
-  text-align:center;
-  padding:15px;
-  font-size:20px;
-  background:#020617;
-}
+    :root {
+      --bg-1: #0f172a;
+      --bg-2: #1e3a8a;
+      --card-dark: rgba(20, 20, 25, 0.75);
+      --card-light: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --muted: #dbeafe;
+      --accent-1: #00f2fe;
+      --accent-2: #4facfe;
+      --accent-3: #38bdf8;
+      --success: #22c55e;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+    }
 
-/* CHAT BOX */
-.chat-container{
-  max-width:500px;
-  margin:20px auto;
-  background:#111;
-  border-radius:20px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  height:85vh;
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);
-}
+    body {
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #0b1220, #1d4ed8, #0f172a);
+      background-attachment: fixed;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
 
-/* CHAT AREA */
-#chatBox{
-  flex:1;
-  overflow:auto;
-  padding:12px;
-}
+    a {
+      text-decoration: none;
+    }
 
-/* MESSAGE */
-.message{
-  margin:8px 0;
-  padding:12px;
-  border-radius:14px;
-  font-size:14px;
-  animation:fade .3s;
-}
+    .container {
+      width: min(1100px, 92%);
+      margin: auto;
+      padding: 30px 0 80px;
+    }
 
-.me{
-  background:#22c55e;
-  text-align:right;
-}
+    .hero {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
 
-.other{
-  background:#1e293b;
-}
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffffff, #93c5fd, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-/* INPUT */
-.input-area{
-  padding:10px;
-  background:#020617;
-  display:flex;
-  gap:8px;
-}
+    .hero p {
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
 
-.input-area input{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-}
+    .card {
+      max-width: 950px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.8));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      transition: 0.35s ease;
+    }
 
-.input-area button{
-  padding:12px 18px;
-  border:none;
-  border-radius:10px;
-  background:#22c55e;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-}
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
+    }
 
-/* ANIMATION */
-@keyframes fade{
-  from{opacity:0; transform:translateY(10px);}
-  to{opacity:1;}
-}
-</style>
+    .card h2,
+    .card h3 {
+      text-align: center;
+      margin-bottom: 18px;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    .card h2 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+    }
+
+    .card h3 {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+    }
+
+    .card p {
+      font-size: 1.03rem;
+      color: #f8fafc;
+      text-align: justify;
+    }
+
+    .map-section {
+      max-width: 950px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+
+    .map-section h2 {
+      font-size: clamp(1.5rem, 3.8vw, 2.1rem);
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .map-section p {
+      max-width: 700px;
+      margin: 0 auto 20px;
+      color: #e2e8f0;
+    }
+
+    .map-section iframe {
+      width: 100%;
+      height: 360px;
+      border: 0;
+      border-radius: 18px;
+      margin-top: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .btn-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .pro-btn,
+    .map-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #fff;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .pro-btn:hover,
+    .map-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    }
+
+    .back-btn-area {
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    .info-box {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.92);
+      color: #1e293b;
+      border: 2px solid var(--accent-2);
+      box-shadow: var(--shadow);
+      transition: 0.35s ease;
+    }
+
+    .info-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .info-box h3 {
+      text-align: center;
+      font-size: 1.7rem;
+      margin-bottom: 14px;
+      color: #0f172a;
+    }
+
+    .info-box p {
+      color: #334155;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .highlight-box {
+      max-width: 950px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(30,41,59,0.92), rgba(30,41,59,0.92)) padding-box,
+        linear-gradient(135deg, var(--accent-2), var(--accent-1)) border-box;
+      border: 2px solid transparent;
+      box-shadow:
+        0 15px 30px rgba(0,0,0,0.2),
+        0 25px 60px rgba(0,0,0,0.15),
+        0 0 25px rgba(79,172,254,0.25);
+      transition: 0.35s ease;
+      text-align: center;
+    }
+
+    .highlight-box:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.25),
+        0 35px 80px rgba(0,0,0,0.2),
+        0 0 40px rgba(0,242,254,0.45);
+    }
+
+    .highlight-box h3 {
+      font-size: 1.9rem;
+      margin-bottom: 14px;
+      color: #86efac;
+    }
+
+    .highlight-box p {
+      font-size: 1.05rem;
+      color: #f8fafc;
+      text-align: center;
+    }
+
+    /* Floating Chat Button */
+    .chat-fab {
+      position: fixed;
+      bottom: 22px;
+      right: 20px;
+      width: 64px;
+      height: 64px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #06b6d4, #2563eb);
+      color: #fff;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      z-index: 9999;
+      transition: 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: floatPulse 2s infinite;
+    }
+
+    .chat-fab:hover {
+      transform: scale(1.08);
+    }
+
+    @keyframes floatPulse {
+      0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.7); }
+      70% { box-shadow: 0 0 0 18px rgba(79, 172, 254, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); }
+    }
+
+    /* Chat Widget */
+    .chat-widget {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 360px;
+      max-width: calc(100vw - 24px);
+      height: 500px;
+      background: rgba(255,255,255,0.96);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px) scale(0.96);
+      transition: 0.3s ease;
+      z-index: 9998;
+    }
+
+    .chat-widget.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #0f766e, #2563eb);
+      color: #fff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .chat-title h4 {
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    .chat-title small {
+      opacity: 0.9;
+      font-size: 0.8rem;
+    }
+
+    .chat-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-actions button {
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.25s ease;
+    }
+
+    .chat-actions button:hover {
+      background: rgba(255,255,255,0.28);
+      transform: scale(1.08);
+    }
+
+    #chatBox {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      background:
+        linear-gradient(to bottom, rgba(248,250,252,0.98), rgba(241,245,249,0.98));
+    }
+
+    .message {
+      max-width: 78%;
+      margin: 8px 0;
+      padding: 11px 14px;
+      border-radius: 16px;
+      line-height: 1.45;
+      font-size: 14px;
+      position: relative;
+      word-wrap: break-word;
+      animation: fadeIn 0.22s ease;
+    }
+
+    .myMsg {
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      color: #0f172a;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .otherMsg {
+      background: #ffffff;
+      color: #0f172a;
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+
+    .message-meta {
+      margin-top: 6px;
+      font-size: 11px;
+      opacity: 0.65;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .deleteBtn {
+      background: none;
+      border: none;
+      color: #dc2626;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .chat-input-area {
+      background: #ffffff;
+      padding: 12px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .chat-input-area textarea {
+      flex: 1;
+      min-height: 48px;
+      max-height: 110px;
+      resize: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+      color: #0f172a;
+      background: #f8fafc;
+    }
+
+    .chat-input-area textarea:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.15);
+    }
+
+    .send-btn {
+      border: none;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #06b6d4, #2563eb);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.25s ease;
+      min-width: 78px;
+    }
+
+    .send-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .empty-chat {
+      text-align: center;
+      color: #64748b;
+      padding: 40px 20px;
+      font-size: 14px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .chat-widget {
+        right: 12px;
+        left: 12px;
+        width: auto;
+        height: 72vh;
+        bottom: 90px;
+      }
+
+      .chat-fab {
+        right: 14px;
+        bottom: 16px;
+      }
+
+      .card,
+      .map-section,
+      .info-box,
+      .highlight-box {
+        padding: 22px 18px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="header">🌿 Wadi Soon AI Chat</div>
+  <div class="container">
+    <section class="hero">
+      <h1>🌿 Wadi Soon Tourism 🌿</h1>
+      <p>
+        Discover the peaceful beauty of Kanhatti Garden, Sakesar, Maiwali Dheri, and Uchali Lake
+        with a modern, elegant, and visitor-friendly design.
+      </p>
+    </section>
 
-<div class="chat-container">
-  <div id="chatBox"></div>
+    <div class="card">
+      <h2>🌿 Kanhatti Garden – Wadi Soon 🌿</h2>
+      <p>
+        Kanhatti Garden is one of the most attractive and peaceful tourist spots in Wadi Soon Valley,
+        located in the Khushab District of Pakistan. Surrounded by lush green hills, natural landscapes,
+        and fresh air, this beautiful garden offers a perfect escape from busy and noisy city life.
+        The calm and refreshing environment makes it an ideal destination for families, tourists, and
+        nature lovers who want to relax and enjoy the beauty of nature.
+        <br><br>
+        The garden is well known for its greenery, open spaces, and scenic views. Visitors can enjoy
+        peaceful walks, take photographs, and spend quality time with their loved ones. It is also a
+        great place for picnics and small gatherings. During the spring season, the beauty of Kanhatti
+        Garden increases even more as flowers bloom and the entire area looks colorful and vibrant.
+        <br><br>
+        In winter, the cool weather and foggy atmosphere create a unique and relaxing experience for visitors.
+        Kanhatti Garden is not just a place to visit, but a complete natural experience that gives peace
+        of mind and freshness to the soul. It truly represents the hidden beauty of Wadi Soon and remains
+        one of the must-visit locations for anyone exploring this region.
+      </p>
+    </div>
 
-  <div class="input-area">
-    <input id="msg" placeholder="Ask about Wadi Soon...">
-    <button onclick="send()">Send</button>
+    <div class="back-btn-area">
+      <a href="home.html" class="pro-btn">⬅ Back to Home</a>
+    </div>
+
+    <section class="map-section">
+      <h2>📍 Wadi Soon Sakesar</h2>
+      <p>
+        Soon Valley is one of the most beautiful areas in Punjab, Pakistan.
+        Sakesar is the highest peak, offering breathtaking views, lush greenery,
+        and a peaceful environment for visitors and nature lovers.
+      </p>
+
+      <iframe
+        src="https://www.google.com/maps?q=Soon+Valley+Sakesar&output=embed"
+        loading="lazy"
+        allowfullscreen>
+      </iframe>
+
+      <div class="btn-wrap">
+        <a href="https://www.google.com/maps?q=Soon+Valley+Sakesar" target="_blank" class="map-btn">
+          📍 View Full Location
+        </a>
+      </div>
+    </section>
+
+    <div class="info-box">
+      <h3>🏔️ Sakesar Height</h3>
+      <p>
+        Sakesar, the highest peak of Soon Valley, stands approximately
+        <strong>1,522 meters (4,993 feet)</strong> above sea level.
+        This impressive height makes it one of the most prominent points in the Salt Range,
+        offering breathtaking panoramic views of the surrounding landscape.
+        The cool climate and peaceful environment attract tourists, nature lovers,
+        and photographers throughout the year.
+      </p>
+    </div>
+
+    <div class="highlight-box">
+      <h3>🏔️ Maiwali Dheri</h3>
+      <p>
+        Maiwali Dheri is a beautiful hilltop viewpoint in Soon Valley, located at
+        approximately <strong>900–1,100 meters</strong> above sea level. From this height,
+        cool fresh winds blow from all directions, creating a peaceful and refreshing atmosphere.
+        From this point, almost the entire Wadi Soon can be seen, including its green hills and wide plains.
+        The panoramic view and natural beauty make it a perfect place for visitors and nature lovers.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>🌊 Uchali Lake – Wadi Soon 🌊</h2>
+      <p>
+        Uchali Lake is located in the Soon Valley (Wadi Soon) of Khushab District in Punjab, Pakistan.
+        It lies about 30 kilometers from Naushera and is surrounded by green hills and natural landscapes.
+        The lake is famous for its saltwater, peaceful environment, and scenic beauty.
+        It is easily accessible by road, and the journey itself offers beautiful views,
+        making it a popular destination for tourists and nature lovers.
+      </p>
+    </div>
   </div>
-</div>
 
-<script>
+  <!-- Floating Chat Button -->
+  <button id="chatToggleBtn" class="chat-fab" aria-label="Open Chat">💬</button>
 
-/* AI BRAIN */
-function aiReply(msg){
-  msg = msg.toLowerCase();
+  <!-- Chat Widget -->
+  <div id="chatWidget" class="chat-widget">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-avatar">💬</div>
+        <div class="chat-title">
+          <h4>Live Chat</h4>
+          <small>Wadi Soon Support</small>
+        </div>
+      </div>
 
-  // greetings
-  if(msg.includes("hi") || msg.includes("hello") || msg.includes("salam")){
-    return "Hello 👋 Main Wadi Soon AI hoon. Aap kya jana chahte hain?";
-  }
+      <div class="chat-actions">
+        <button id="minimizeChat" title="Minimize">−</button>
+      </div>
+    </div>
 
-  if(msg.includes("wadi soon")){
-    return "Wadi Soon Punjab Pakistan ki ek beautiful valley hai 🌿";
-  }
+    <div id="chatBox">
+      <div class="empty-chat">No messages yet. Start the conversation 👋</div>
+    </div>
 
-  if(msg.includes("lake")){
-    return "Uchali Lake aur Khabeki Lake famous hain 🌊";
-  }
+    <div class="chat-input-area">
+      <textarea id="messageInput" placeholder="Type message..."></textarea>
+      <button id="sendBtn" class="send-btn">Send</button>
+    </div>
+  </div>
 
-  if(msg.includes("sakesar")){
-    return "Sakesar Soon Valley ka highest peak hai ⛰️";
-  }
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      deleteDoc,
+      doc
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-  if(msg.includes("hotel")){
-    return "Yahan guest houses aur small hotels mil jate hain 🏨";
-  }
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+      authDomain: "wadi-soon-site.firebaseapp.com",
+      projectId: "wadi-soon-site",
+      storageBucket: "wadi-soon-site.firebasestorage.app",
+      messagingSenderId: "306902521128",
+      appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
+      measurementId: "G-V81LVNRLQH"
+    };
 
-  if(msg.includes("location")){
-    return "Wadi Soon District Khushab, Punjab Pakistan me hai 📍";
-  }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  if(msg.includes("food")){
-    return "Yahan local desi food aur chai bohat famous hai 🍲☕";
-  }
+    // Simple local user id
+    let currentUser = localStorage.getItem("wadiSoonChatUser");
+    if (!currentUser) {
+      currentUser = "user_" + Math.random().toString(36).slice(2, 8);
+      localStorage.setItem("wadiSoonChatUser", currentUser);
+    }
 
-  return "Sorry, mujhe samajh nahi aaya 😅";
-}
+    const chatWidget = document.getElementById("chatWidget");
+    const chatToggleBtn = document.getElementById("chatToggleBtn");
+    const minimizeChat = document.getElementById("minimizeChat");
+    const sendBtn = document.getElementById("sendBtn");
+    const messageInput = document.getElementById("messageInput");
+    const chatBox = document.getElementById("chatBox");
 
-/* SEND FUNCTION */
-function send(){
-  const input = document.getElementById("msg");
-  const box = document.getElementById("chatBox");
+    // Open chat
+    chatToggleBtn.addEventListener("click", () => {
+      chatWidget.classList.add("active");
+      chatToggleBtn.style.display = "none";
+      setTimeout(() => messageInput.focus(), 200);
+    });
 
-  const text = input.value.trim();
-  if(!text) return;
+    // Minimize chat
+    minimizeChat.addEventListener("click", () => {
+      chatWidget.classList.remove("active");
+      chatToggleBtn.style.display = "flex";
+    });
 
-  // USER MESSAGE
-  const userDiv = document.createElement("div");
-  userDiv.className = "message me";
-  userDiv.innerText = text;
-  box.appendChild(userDiv);
+    // Send message
+    async function sendMessage() {
+      const msg = messageInput.value.trim();
+      if (msg === "") return;
 
-  // BOT MESSAGE
-  const botDiv = document.createElement("div");
-  botDiv.className = "message other";
+      try {
+        await addDoc(collection(db, "messages"), {
+          text: msg,
+          user: currentUser,
+          time: Date.now()
+        });
 
-  setTimeout(()=>{
-    botDiv.innerText = aiReply(text);
-    box.appendChild(botDiv);
-    box.scrollTop = box.scrollHeight;
-  },400);
+        messageInput.value = "";
+        messageInput.style.height = "48px";
+      } catch (error) {
+        console.error("Error sending message:", error);
+        alert("Message send nahi hua. Firestore rules/check zaroor karein.");
+      }
+    }
 
-  input.value="";
-}
+    sendBtn.addEventListener("click", sendMessage);
 
-</script>
+    // Enter to send / Shift+Enter for new line
+    messageInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
 
+    // Auto resize textarea
+    messageInput.addEventListener("input", function () {
+      this.style.height = "48px";
+      this.style.height = Math.min(this.scrollHeight, 110) + "px";
+    });
+
+    // Show messages live
+    const q = query(collection(db, "messages"), orderBy("time"));
+
+    onSnapshot(q, (snapshot) => {
+      chatBox.innerHTML = "";
+
+      if (snapshot.empty) {
+        chatBox.innerHTML = '<div class="empty-chat">No messages yet. Start the conversation 👋</div>';
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+
+        const div = document.createElement("div");
+        div.classList.add("message");
+        div.classList.add(data.user === currentUser ? "myMsg" : "otherMsg");
+
+        const textDiv = document.createElement("div");
+        textDiv.textContent = data.text;
+        div.appendChild(textDiv);
+
+        const meta = document.createElement("div");
+        meta.classList.add("message-meta");
+
+        const timeSpan = document.createElement("span");
+        const msgTime = data.time ? new Date(data.time) : new Date();
+        timeSpan.textContent = msgTime.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+
+        meta.appendChild(timeSpan);
+
+        if (data.user === currentUser) {
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.classList.add("deleteBtn");
+
+          delBtn.addEventListener("click", async () => {
+            try {
+              await deleteDoc(doc(db, "messages", docSnap.id));
+            } catch (error) {
+              console.error("Delete error:", error);
+            }
+          });
+
+          meta.appendChild(delBtn);
+        }
+
+        div.appendChild(meta);
+        chatBox.appendChild(div);
+      });
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+  </script>
 </body>
 </html>
