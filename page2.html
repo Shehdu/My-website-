@@ -586,6 +586,358 @@
     </div>
   </div>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wadi Soon Live Chat</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+    }
+
+    /* Floating Chat Button */
+    .chat-fab {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 50%;
+      background: #0d6efd;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .chat-fab:hover {
+      background: #0b5ed7;
+    }
+
+    /* Chat Widget */
+    .chat-widget {
+      position: fixed;
+      right: 20px;
+      bottom: 90px;
+      width: 360px;
+      max-width: calc(100vw - 30px);
+      height: 540px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      z-index: 9999;
+    }
+
+    .chat-widget.active {
+      display: flex;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #0d6efd, #2563eb);
+      color: #fff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .chat-title h4 {
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .chat-title small {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .chat-actions button {
+      border: none;
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .chat-actions button:hover {
+      background: rgba(255,255,255,0.28);
+    }
+
+    #chatBox {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      background: #f7f9fc;
+    }
+
+    .empty-chat {
+      text-align: center;
+      color: #777;
+      margin-top: 60px;
+      font-size: 14px;
+    }
+
+    .message-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .message-row.myRow {
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      word-wrap: break-word;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .myMsg {
+      background: #dff1ff;
+      border-top-right-radius: 4px;
+    }
+
+    .otherMsg {
+      background: #ffffff;
+      border-top-left-radius: 4px;
+    }
+
+    .msg-name {
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #222;
+    }
+
+    .msg-text {
+      font-size: 14px;
+      line-height: 1.45;
+      color: #222;
+      white-space: pre-wrap;
+    }
+
+    .message-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #777;
+    }
+
+    .deleteBtn {
+      border: none;
+      background: #ff4d4f;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .deleteBtn:hover {
+      background: #e53935;
+    }
+
+    .chat-input-area {
+      padding: 12px;
+      border-top: 1px solid #eaeaea;
+      background: #fff;
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    #messageInput {
+      flex: 1;
+      min-height: 48px;
+      max-height: 110px;
+      resize: none;
+      border: 1px solid #d8dbe2;
+      border-radius: 12px;
+      padding: 12px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    #messageInput:focus {
+      border-color: #0d6efd;
+    }
+
+    .send-btn {
+      border: none;
+      background: #0d6efd;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .send-btn:hover {
+      background: #0b5ed7;
+    }
+
+    /* Profile Modal */
+    .profile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 16px;
+    }
+
+    .profile-overlay.active {
+      display: flex;
+    }
+
+    .profile-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    }
+
+    .profile-card h3 {
+      margin-bottom: 8px;
+      color: #111;
+    }
+
+    .profile-card p {
+      margin-bottom: 16px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .profile-card label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .profile-card input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #d8dbe2;
+      border-radius: 10px;
+      padding: 0 12px;
+      margin-bottom: 14px;
+      outline: none;
+    }
+
+    .profile-card input:focus {
+      border-color: #0d6efd;
+    }
+
+    .profile-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      background: #f7f9fc;
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    .profile-preview img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #ddd;
+    }
+
+    .profile-save-btn {
+      width: 100%;
+      height: 46px;
+      border: none;
+      border-radius: 12px;
+      background: #0d6efd;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .profile-save-btn:hover {
+      background: #0b5ed7;
+    }
+
+    @media (max-width: 480px) {
+      .chat-widget {
+        right: 10px;
+        bottom: 80px;
+        width: calc(100vw - 20px);
+        height: 78vh;
+      }
+
+      .chat-fab {
+        right: 14px;
+        bottom: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
   <!-- Floating Chat Button -->
   <button id="chatToggleBtn" class="chat-fab" aria-label="Open Chat">💬</button>
 
@@ -599,7 +951,6 @@
           <small>Wadi Soon Support</small>
         </div>
       </div>
-
       <div class="chat-actions">
         <button id="minimizeChat" title="Minimize">−</button>
       </div>
@@ -612,6 +963,30 @@
     <div class="chat-input-area">
       <textarea id="messageInput" placeholder="Type message..."></textarea>
       <button id="sendBtn" class="send-btn">Send</button>
+    </div>
+  </div>
+
+  <!-- Profile Setup Modal -->
+  <div id="profileOverlay" class="profile-overlay">
+    <div class="profile-card">
+      <h3>Profile Setup</h3>
+      <p>Chat use karne ke liye apna naam aur DP set karein.</p>
+
+      <label for="userNameInput">Your Name</label>
+      <input type="text" id="userNameInput" placeholder="Enter your name" />
+
+      <label for="userPhotoInput">DP Image URL</label>
+      <input type="text" id="userPhotoInput" placeholder="https://example.com/photo.jpg" />
+
+      <div class="profile-preview">
+        <img id="profilePreviewImg" src="https://ui-avatars.com/api/?name=User&background=random&color=fff" alt="Preview">
+        <div>
+          <strong id="profilePreviewName">User Name</strong>
+          <div style="font-size: 12px; color: #666;">Display preview</div>
+        </div>
+      </div>
+
+      <button id="saveProfileBtn" class="profile-save-btn">Save Profile</button>
     </div>
   </div>
 
@@ -639,16 +1014,11 @@
       measurementId: "G-V81LVNRLQH"
     };
 
+    // Firebase Init
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Simple local user id
-    let currentUser = localStorage.getItem("wadiSoonChatUser");
-    if (!currentUser) {
-      currentUser = "user_" + Math.random().toString(36).slice(2, 8);
-      localStorage.setItem("wadiSoonChatUser", currentUser);
-    }
-
+    // Elements
     const chatWidget = document.getElementById("chatWidget");
     const chatToggleBtn = document.getElementById("chatToggleBtn");
     const minimizeChat = document.getElementById("minimizeChat");
@@ -656,10 +1026,65 @@
     const messageInput = document.getElementById("messageInput");
     const chatBox = document.getElementById("chatBox");
 
+    const profileOverlay = document.getElementById("profileOverlay");
+    const userNameInput = document.getElementById("userNameInput");
+    const userPhotoInput = document.getElementById("userPhotoInput");
+    const saveProfileBtn = document.getElementById("saveProfileBtn");
+    const profilePreviewImg = document.getElementById("profilePreviewImg");
+    const profilePreviewName = document.getElementById("profilePreviewName");
+
+    // Current User
+    let currentUser = JSON.parse(localStorage.getItem("wadiSoonChatUser"));
+
+    function generateAvatar(name) {
+      return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || "User")}&background=random&color=fff`;
+    }
+
+    function updateProfilePreview() {
+      const name = userNameInput.value.trim() || "User Name";
+      const photo = userPhotoInput.value.trim() || generateAvatar(name);
+      profilePreviewName.textContent = name;
+      profilePreviewImg.src = photo;
+    }
+
+    userNameInput.addEventListener("input", updateProfilePreview);
+    userPhotoInput.addEventListener("input", updateProfilePreview);
+
+    function requireProfileIfNeeded() {
+      if (!currentUser || !currentUser.id || !currentUser.name) {
+        profileOverlay.classList.add("active");
+      } else {
+        profileOverlay.classList.remove("active");
+      }
+    }
+
+    saveProfileBtn.addEventListener("click", () => {
+      const name = userNameInput.value.trim();
+      const photo = userPhotoInput.value.trim() || generateAvatar(name || "User");
+
+      if (!name) {
+        alert("Please enter your name.");
+        userNameInput.focus();
+        return;
+      }
+
+      currentUser = {
+        id: currentUser?.id || "user_" + Math.random().toString(36).slice(2, 10),
+        name: name,
+        photo: photo
+      };
+
+      localStorage.setItem("wadiSoonChatUser", JSON.stringify(currentUser));
+      profileOverlay.classList.remove("active");
+    });
+
+    requireProfileIfNeeded();
+
     // Open chat
     chatToggleBtn.addEventListener("click", () => {
       chatWidget.classList.add("active");
       chatToggleBtn.style.display = "none";
+      requireProfileIfNeeded();
       setTimeout(() => messageInput.focus(), 200);
     });
 
@@ -671,13 +1096,20 @@
 
     // Send message
     async function sendMessage() {
+      if (!currentUser || !currentUser.name) {
+        profileOverlay.classList.add("active");
+        return;
+      }
+
       const msg = messageInput.value.trim();
-      if (msg === "") return;
+      if (!msg) return;
 
       try {
         await addDoc(collection(db, "messages"), {
           text: msg,
-          user: currentUser,
+          userId: currentUser.id,
+          userName: currentUser.name,
+          userPhoto: currentUser.photo,
           time: Date.now()
         });
 
@@ -685,7 +1117,7 @@
         messageInput.style.height = "48px";
       } catch (error) {
         console.error("Error sending message:", error);
-        alert("Message send nahi hua. Firestore rules/check zaroor karein.");
+        alert("Message send nahi hua. Firestore rules aur Firebase setup check karein.");
       }
     }
 
@@ -705,7 +1137,7 @@
       this.style.height = Math.min(this.scrollHeight, 110) + "px";
     });
 
-    // Show messages live
+    // Live messages
     const q = query(collection(db, "messages"), orderBy("time"));
 
     onSnapshot(q, (snapshot) => {
@@ -718,14 +1150,28 @@
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
+        const isMine = currentUser && data.userId === currentUser.id;
 
-        const div = document.createElement("div");
-        div.classList.add("message");
-        div.classList.add(data.user === currentUser ? "myMsg" : "otherMsg");
+        const row = document.createElement("div");
+        row.classList.add("message-row");
+        if (isMine) row.classList.add("myRow");
+
+        const avatar = document.createElement("img");
+        avatar.classList.add("msg-avatar");
+        avatar.src = data.userPhoto || generateAvatar(data.userName || "User");
+        avatar.alt = data.userName || "User";
+
+        const bubble = document.createElement("div");
+        bubble.classList.add("message");
+        bubble.classList.add(isMine ? "myMsg" : "otherMsg");
+
+        const nameDiv = document.createElement("div");
+        nameDiv.classList.add("msg-name");
+        nameDiv.textContent = data.userName || "Unknown User";
 
         const textDiv = document.createElement("div");
-        textDiv.textContent = data.text;
-        div.appendChild(textDiv);
+        textDiv.classList.add("msg-text");
+        textDiv.textContent = data.text || "";
 
         const meta = document.createElement("div");
         meta.classList.add("message-meta");
@@ -739,7 +1185,7 @@
 
         meta.appendChild(timeSpan);
 
-        if (data.user === currentUser) {
+        if (isMine) {
           const delBtn = document.createElement("button");
           delBtn.textContent = "Delete";
           delBtn.classList.add("deleteBtn");
@@ -749,14 +1195,21 @@
               await deleteDoc(doc(db, "messages", docSnap.id));
             } catch (error) {
               console.error("Delete error:", error);
+              alert("Message delete nahi hua.");
             }
           });
 
           meta.appendChild(delBtn);
         }
 
-        div.appendChild(meta);
-        chatBox.appendChild(div);
+        bubble.appendChild(nameDiv);
+        bubble.appendChild(textDiv);
+        bubble.appendChild(meta);
+
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+
+        chatBox.appendChild(row);
       });
 
       chatBox.scrollTop = chatBox.scrollHeight;
