@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wadi Soon App</title>
+  <title>Wadi Soon - Login</title>
 
   <style>
     *{
@@ -15,268 +15,168 @@
 
     body{
       min-height:100vh;
-      background:linear-gradient(135deg,#1f3c88,#3b5998);
-      color:#fff;
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.35), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(16,185,129,0.25), transparent 30%),
+        linear-gradient(135deg,#0f172a,#1e3a8a 50%, #0f766e);
       display:flex;
       justify-content:center;
       align-items:center;
       padding:20px;
+      color:#fff;
     }
 
-    .wrap{
+    .container{
       width:100%;
       max-width:420px;
     }
 
-    .card,
-    .home-card{
+    .card{
       width:100%;
-      padding:25px;
-      border-radius:20px;
-      background:rgba(255,255,255,0.12);
-      backdrop-filter:blur(15px);
+      padding:30px 25px;
+      border-radius:24px;
+      background:rgba(255,255,255,0.10);
+      backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,0.15);
+      box-shadow:0 25px 60px rgba(0,0,0,0.35);
       text-align:center;
-      box-shadow:0 20px 50px rgba(0,0,0,0.25);
     }
 
-    .home-card{
-      display:none;
+    .logo{
+      width:74px;
+      height:74px;
+      margin:0 auto 14px;
+      border-radius:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:32px;
+      background:linear-gradient(135deg,#22c55e,#3b82f6);
+      box-shadow:0 10px 25px rgba(0,0,0,0.25);
     }
 
-    h2{
-      margin-bottom:18px;
-      font-size:28px;
+    h1{
+      font-size:30px;
+      margin-bottom:8px;
+      letter-spacing:0.5px;
     }
 
-    p{
+    .subtitle{
+      color:#dbeafe;
+      font-size:14px;
+      margin-bottom:22px;
+      line-height:1.5;
+    }
+
+    .form-group{
+      text-align:left;
       margin-bottom:12px;
-      color:#e2e8f0;
     }
 
-    input,
-    textarea{
+    .form-group label{
+      display:block;
+      margin-bottom:7px;
+      font-size:13px;
+      color:#e2e8f0;
+      font-weight:600;
+    }
+
+    input{
       width:100%;
-      padding:12px;
-      margin:8px 0;
+      padding:14px 14px;
       border:none;
       outline:none;
-      border-radius:10px;
-      font-size:14px;
+      border-radius:14px;
+      background:rgba(255,255,255,0.92);
+      color:#0f172a;
+      font-size:15px;
+    }
+
+    input::placeholder{
+      color:#64748b;
     }
 
     button{
       width:100%;
-      padding:12px;
-      margin-top:8px;
+      padding:14px;
+      margin-top:10px;
       border:none;
-      border-radius:10px;
+      border-radius:14px;
       color:#fff;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
+      font-weight:700;
       font-size:15px;
+      cursor:pointer;
+      transition:0.25s ease;
     }
 
     button:hover{
-      transform:translateY(-1px);
-      opacity:0.95;
+      transform:translateY(-2px);
+      box-shadow:0 12px 25px rgba(0,0,0,0.2);
     }
 
-    .login{ background:#2563eb; }
-    .signup{ background:#16a34a; }
-    .logout{ background:#dc2626; }
-    .open-chat{ background:#0ea5e9; }
-
-    .welcome-box{
-      background:rgba(255,255,255,0.08);
-      padding:15px;
-      border-radius:14px;
-      margin:15px 0;
-      text-align:left;
+    .login{
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
     }
 
-    .welcome-box h3{
-      margin-bottom:8px;
-      font-size:20px;
+    .signup{
+      background:linear-gradient(135deg,#16a34a,#15803d);
     }
 
-    .welcome-box span{
-      color:#bfdbfe;
-      font-weight:bold;
-      word-break:break-word;
-    }
-
-    /* CHAT BUTTON */
-    .chat-toggle{
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      width:70px;
-      height:70px;
-      border-radius:50%;
-      background:linear-gradient(135deg,#00c6ff,#0072ff);
-      border:none;
-      font-size:26px;
-      color:#fff;
-      z-index:9999;
-      cursor:pointer;
-      display:none;
-      justify-content:center;
-      align-items:center;
-      box-shadow:0 10px 25px rgba(0,0,0,0.3);
-    }
-
-    /* CHAT BOX */
-    .chat{
-      position:fixed;
-      bottom:100px;
-      right:20px;
-      width:330px;
-      height:460px;
-      display:none;
-      flex-direction:column;
-      border-radius:18px;
-      overflow:hidden;
-      background:rgba(15,23,42,0.95);
-      backdrop-filter:blur(12px);
-      box-shadow:0 20px 50px rgba(0,0,0,0.5);
-      z-index:9999;
-    }
-
-    .chat.active{
-      display:flex;
-    }
-
-    .chat-header{
-      padding:12px;
-      background:#020617;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-weight:bold;
-    }
-
-    #chatBox{
-      flex:1;
-      overflow:auto;
-      padding:10px;
-      background:rgba(2,6,23,0.4);
-    }
-
-    .msg{
-      margin:6px 0;
-      padding:10px;
-      border-radius:12px;
-      font-size:14px;
-      line-height:1.4;
-      word-wrap:break-word;
-    }
-
-    .me{
-      background:linear-gradient(135deg,#22c55e,#4ade80);
-      color:#022c22;
-    }
-
-    .other{
-      background:#1e293b;
-      color:#e2e8f0;
-    }
-
-    .input-area{
-      padding:10px;
-      background:#020617;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .input-area input,
-    .input-area textarea{
-      width:100%;
-      padding:10px;
-      border-radius:12px;
-      border:1px solid #334155;
-      background:#0f172a;
-      color:#fff;
-      margin:0;
-    }
-
-    .input-area textarea{
-      resize:none;
-      height:60px;
-    }
-
-    .send-btn{
-      background:linear-gradient(135deg,#22c55e,#16a34a);
-      padding:12px;
-      border-radius:12px;
-      font-weight:bold;
-    }
-
-    .small{
+    .bottom-note{
+      margin-top:15px;
       font-size:13px;
       color:#cbd5e1;
-      margin-top:10px;
+      line-height:1.5;
     }
 
-    .hidden{
-      display:none !important;
+    .status{
+      margin-top:12px;
+      font-size:13px;
+      color:#bfdbfe;
+      min-height:18px;
+    }
+
+    .footer-line{
+      margin-top:18px;
+      font-size:12px;
+      color:#cbd5e1;
+      opacity:0.9;
     }
   </style>
 </head>
-
 <body>
 
-  <div class="wrap">
-
-    <!-- LOGIN CARD -->
-    <div class="card" id="loginCard">
-      <h2>🌿 Wadi Soon</h2>
-      <p>Login ya signup karo</p>
-
-      <input type="email" id="email" placeholder="Email" />
-      <input type="password" id="pass" placeholder="Password" />
-
-      <button class="login" onclick="login()">Login</button>
-      <button class="signup" onclick="signup()">Signup</button>
-
-      <div class="small">Login ke baad isi page par Home open hoga</div>
-    </div>
-
-    <!-- HOME PAGE SAME FILE -->
-    <div class="home-card" id="homePage">
-      <h2>🏠 Home Page</h2>
-      <p>Welcome to Wadi Soon</p>
-
-      <div class="welcome-box">
-        <h3>Hello, <span id="userEmail">User</span></h3>
-        <div class="small" style="margin-top:6px;">
-          Chat button niche right side par available rahega.
-        </div>
+  <div class="container">
+    <div class="card">
+      <div class="logo">🌿</div>
+      <h1>Wadi Soon</h1>
+      <div class="subtitle">
+        Secure login portal<br>
+        Login ya signup karo aur seedha home page par jao
       </div>
 
-      <button class="open-chat" onclick="toggleChat()">💬 Open Chat</button>
-      <button class="logout" onclick="logout()">Logout</button>
-    </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" />
+      </div>
 
-  </div>
+      <div class="form-group">
+        <label for="pass">Password</label>
+        <input type="password" id="pass" placeholder="Enter your password" />
+      </div>
 
-  <!-- CHAT FLOAT BUTTON -->
-  <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">💬</button>
+      <button class="login" onclick="login()">Login</button>
+      <button class="signup" onclick="signup()">Create Account</button>
 
-  <!-- CHAT BOX -->
-  <div class="chat" id="chat">
-    <div class="chat-header">
-      <span>Live Chat</span>
-      <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
-    </div>
+      <div class="status" id="status"></div>
 
-    <div id="chatBox"></div>
+      <div class="bottom-note">
+        Agar login ya signup successful hua to app automatically <b>home.html</b> par chali jayegi.
+      </div>
 
-    <div class="input-area">
-      <input id="name" placeholder="Your name" />
-      <textarea id="msg" placeholder="Type message..."></textarea>
-      <button class="send-btn" onclick="send()">🚀 Send Message</button>
+      <div class="footer-line">
+        Modern • Clean • Fast
+      </div>
     </div>
   </div>
 
@@ -286,20 +186,9 @@
       getAuth,
       signInWithEmailAndPassword,
       createUserWithEmailAndPassword,
-      onAuthStateChanged,
-      signOut
+      onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      onSnapshot,
-      query,
-      orderBy
-    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-
-    /* FIREBASE CONFIG */
     const firebaseConfig = {
       apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
       authDomain: "wadi-soon-site.firebaseapp.com",
@@ -308,194 +197,65 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
 
-    /* ELEMENTS */
-    const loginCard = document.getElementById("loginCard");
-    const homePage = document.getElementById("homePage");
-    const userEmail = document.getElementById("userEmail");
-    const chat = document.getElementById("chat");
-    const chatToggleBtn = document.getElementById("chatToggle");
-    const chatBox = document.getElementById("chatBox");
-    const msg = document.getElementById("msg");
-    const name = document.getElementById("name");
     const emailInput = document.getElementById("email");
     const passInput = document.getElementById("pass");
+    const statusText = document.getElementById("status");
 
-    /* LOCAL CHAT USER FALLBACK */
-    let localUser = localStorage.getItem("u");
-    if (!localUser) {
-      localUser = "u" + Math.random().toString(36).slice(2);
-      localStorage.setItem("u", localUser);
+    function setStatus(message, color = "#bfdbfe") {
+      statusText.textContent = message;
+      statusText.style.color = color;
     }
 
-    /* UI FUNCTIONS */
-    function showHome(user) {
-      loginCard.style.display = "none";
-      homePage.style.display = "block";
-      chatToggleBtn.style.display = "flex";
+    function goHome() {
+      location.replace("home.html");
+    }
 
-      userEmail.textContent = user?.email || "User";
-
-      if (!name.value.trim()) {
-        const defaultName =
-          user?.email?.split("@")[0] ||
-          "Guest";
-        name.value = defaultName;
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        goHome();
       }
-    }
+    });
 
-    function showLogin() {
-      loginCard.style.display = "block";
-      homePage.style.display = "none";
-      chatToggleBtn.style.display = "none";
-      chat.classList.remove("active");
-    }
-
-    /* LOGIN */
     window.login = async () => {
       const email = emailInput.value.trim();
       const pass = passInput.value.trim();
 
       if (!email || !pass) {
-        alert("Email aur password likho");
+        setStatus("Email aur password likho", "#fecaca");
         return;
       }
 
       try {
+        setStatus("Logging in...");
         await signInWithEmailAndPassword(auth, email, pass);
-        alert("Login Successful");
+        setStatus("Login successful", "#bbf7d0");
+        goHome();
       } catch (e) {
-        alert("Login Failed: " + e.message);
+        setStatus("Login failed: " + e.message, "#fecaca");
         console.error(e);
       }
     };
 
-    /* SIGNUP */
     window.signup = async () => {
       const email = emailInput.value.trim();
       const pass = passInput.value.trim();
 
       if (!email || !pass) {
-        alert("Email aur password likho");
+        setStatus("Email aur password likho", "#fecaca");
         return;
       }
 
       try {
+        setStatus("Creating account...");
         await createUserWithEmailAndPassword(auth, email, pass);
-        alert("Account Created");
+        setStatus("Account created successfully", "#bbf7d0");
+        goHome();
       } catch (e) {
-        alert("Signup Failed: " + e.message);
+        setStatus("Signup failed: " + e.message, "#fecaca");
         console.error(e);
       }
     };
-
-    /* LOGOUT */
-    window.logout = async () => {
-      try {
-        await signOut(auth);
-        alert("Logged out");
-      } catch (e) {
-        alert("Logout Failed");
-        console.error(e);
-      }
-    };
-
-    /* TOGGLE CHAT */
-    window.toggleChat = () => {
-      if (!auth.currentUser) {
-        alert("Pehle login karo");
-        return;
-      }
-      chat.classList.toggle("active");
-    };
-
-    /* AUTH STATE */
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        showHome(user);
-      } else {
-        showLogin();
-      }
-    });
-
-    /* SEND MESSAGE */
-    window.send = async () => {
-      const text = msg.value.trim();
-      if (!text) return;
-
-      if (!auth.currentUser) {
-        alert("Pehle login karo");
-        return;
-      }
-
-      const senderName =
-        name.value.trim() ||
-        auth.currentUser.email?.split("@")[0] ||
-        "Guest";
-
-      const senderUser =
-        auth.currentUser.uid || localUser;
-
-      try {
-        await addDoc(collection(db, "chat"), {
-          text: text,
-          user: senderUser,
-          name: senderName,
-          time: Date.now()
-        });
-
-        msg.value = "";
-      } catch (e) {
-        alert("Message send nahi hua");
-        console.error(e);
-      }
-    };
-
-    /* ENTER SEND */
-    msg.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        send();
-      }
-    });
-
-    /* LOAD MESSAGES */
-    onSnapshot(query(collection(db, "chat"), orderBy("time")), (snap) => {
-      chatBox.innerHTML = "";
-
-      if (snap.empty) {
-        chatBox.innerHTML = `
-          <div class="msg other">Abhi koi message nahi hai</div>
-        `;
-        return;
-      }
-
-      snap.forEach((docSnap) => {
-        const m = docSnap.data();
-
-        const currentUserId = auth.currentUser?.uid || localUser;
-
-        const div = document.createElement("div");
-        div.className = "msg " + (m.user === currentUserId ? "me" : "other");
-
-        const strong = document.createElement("strong");
-        strong.textContent = m.name || "Guest";
-
-        const br = document.createElement("br");
-
-        const span = document.createElement("span");
-        span.textContent = m.text || "";
-
-        div.appendChild(strong);
-        div.appendChild(br);
-        div.appendChild(span);
-
-        chatBox.appendChild(div);
-      });
-
-      chatBox.scrollTop = chatBox.scrollHeight;
-    });
   </script>
 
 </body>
