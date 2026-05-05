@@ -1,1584 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wadi Soon Tourism</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wadi Soon Chat</title>
 
-  <style>
-    :root {
-      --bg-1: #0f172a;
-      --bg-2: #1e293b;
-      --card: rgba(255, 255, 255, 0.1);
-      --text: #f8fafc;
-      --muted: #cbd5e1;
-      --accent-1: #38bdf8;
-      --accent-2: #22c55e;
-      --radius: 22px;
-      --shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-    }
+<style>
+body {
+  font-family: Arial;
+  background:#0f172a;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+/* Chat Button */
+#chatBtn {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#14b8a6;
+  color:#fff;
+  border:none;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  font-size:22px;
+}
 
-    body {
-      min-height: 100vh;
-      background:
-        linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 59, 0.78)),
-        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat fixed;
-      color: var(--text);
-      padding: 20px;
-    }
+/* Chat Box */
+#chatBox {
+  position:fixed;
+  bottom:90px;
+  right:20px;
+  width:330px;
+  height:500px;
+  background:#fff;
+  border-radius:15px;
+  display:none;
+  flex-direction:column;
+}
 
-    .container {
-      max-width: 1150px;
-      margin: auto;
-    }
+/* Header */
+.header {
+  background:#14b8a6;
+  color:#fff;
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+}
 
-    .hero {
-      text-align: center;
-      padding: 40px 20px 28px;
-    }
+/* Messages */
+.messages {
+  flex:1;
+  overflow:auto;
+  padding:10px;
+}
 
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.1rem);
-      margin-bottom: 12px;
-      color: #fff;
-      text-shadow: 0 5px 22px rgba(0, 0, 0, 0.35);
-    }
+/* Input */
+.inputArea {
+  display:flex;
+  border-top:1px solid #ccc;
+}
+input {
+  flex:1;
+  padding:10px;
+  border:none;
+}
+button.send {
+  background:#14b8a6;
+  color:#fff;
+  border:none;
+  padding:10px;
+}
 
-    .hero p {
-      max-width: 850px;
-      margin: auto;
-      color: #e2e8f0;
-      font-size: 1rem;
-      line-height: 1.7;
-    }
+/* Message */
+.msg {
+  margin:5px;
+  padding:8px;
+  border-radius:10px;
+}
+.me { background:#14b8a6; color:#fff; margin-left:auto; }
+.other { background:#eee; }
 
-    .card,
-    .map-section {
-      max-width: 950px;
-      margin: 30px auto;
-      padding: 28px;
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      text-align: center;
-      transition: 0.3s ease;
-    }
-
-    .card:hover,
-    .map-section:hover {
-      transform: translateY(-4px);
-    }
-
-    .card h2,
-    .map-section h2 {
-      font-size: clamp(1.45rem, 3.8vw, 2rem);
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
-    .card p,
-    .map-section p {
-      color: #e2e8f0;
-      font-size: 0.97rem;
-      line-height: 1.8;
-      max-width: 820px;
-      margin: auto;
-    }
-
-    .map-section iframe {
-      width: 100%;
-      height: 360px;
-      border: 0;
-      border-radius: 18px;
-      margin-top: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 24px;
-    }
-
-    .pro-btn,
-    .map-btn {
-      display: inline-block;
-      padding: 13px 26px;
-      font-size: 0.96rem;
-      font-weight: bold;
-      color: #fff;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      transition: 0.3s ease;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .pro-btn:hover,
-    .map-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    .back-btn-area {
-      text-align: center;
-      margin: 35px 0;
-    }
-
-    .info-box {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 26px;
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.94);
-      color: #1e293b;
-      border: 2px solid var(--accent-2);
-      box-shadow: var(--shadow);
-      transition: 0.35s ease;
-    }
-
-    .info-box:hover {
-      transform: translateY(-5px);
-    }
-
-    .info-box h3 {
-      text-align: center;
-      font-size: 1.55rem;
-      margin-bottom: 14px;
-      color: #0f172a;
-    }
-
-    .info-box p {
-      color: #334155;
-      text-align: center;
-      font-size: 0.95rem;
-      line-height: 1.8;
-    }
-
-    .highlight-box {
-      max-width: 950px;
-      margin: 30px auto;
-      padding: 28px;
-      border-radius: var(--radius);
-      background:
-        linear-gradient(rgba(30, 41, 59, 0.94), rgba(30, 41, 59, 0.94)) padding-box,
-        linear-gradient(135deg, var(--accent-2), var(--accent-1)) border-box;
-      border: 2px solid transparent;
-      box-shadow:
-        0 15px 30px rgba(0, 0, 0, 0.2),
-        0 25px 60px rgba(0, 0, 0, 0.15),
-        0 0 25px rgba(79, 172, 254, 0.25);
-      transition: 0.35s ease;
-      text-align: center;
-    }
-
-    .highlight-box:hover {
-      transform: translateY(-8px) scale(1.01);
-      box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.25),
-        0 35px 80px rgba(0, 0, 0, 0.2),
-        0 0 40px rgba(0, 242, 254, 0.45);
-    }
-
-    .highlight-box h3 {
-      font-size: 1.75rem;
-      margin-bottom: 14px;
-      color: #86efac;
-    }
-
-    .highlight-box p {
-      font-size: 0.96rem;
-      color: #f8fafc;
-      text-align: center;
-      line-height: 1.8;
-    }
-
-    footer {
-      text-align: center;
-      color: #cbd5e1;
-      font-size: 0.88rem;
-      margin-top: 30px;
-      padding-bottom: 20px;
-    }
-
-    /* =========================
-       Chat UI
-    ========================= */
-
-    .ws-chat-fab {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      width: 60px;
-      height: 60px;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 9999;
-      background: linear-gradient(135deg, #0f766e, #14b8a6, #2dd4bf);
-      color: #fff;
-      font-size: 24px;
-      box-shadow: 0 14px 35px rgba(20, 184, 166, 0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .ws-chat-fab:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 18px 40px rgba(20, 184, 166, 0.45);
-    }
-
-    .ws-chat-widget {
-      position: fixed;
-      right: 20px;
-      bottom: 92px;
-      width: 360px;
-      max-width: calc(100vw - 24px);
-      height: 540px;
-      max-height: 78vh;
-      background: #ffffff;
-      border-radius: 22px;
-      overflow: hidden;
-      display: none;
-      flex-direction: column;
-      z-index: 9999;
-      box-shadow: 0 24px 70px rgba(2, 8, 23, 0.22);
-      border: 1px solid rgba(15, 118, 110, 0.12);
-    }
-
-    .ws-chat-widget.active {
-      display: flex;
-      animation: wsChatPop 0.22s ease;
-    }
-
-    @keyframes wsChatPop {
-      from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .ws-chat-header {
-      background: linear-gradient(135deg, #0f766e, #14b8a6);
-      color: #fff;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .ws-chat-header-left,
-    .ws-chat-header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .ws-chat-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .ws-chat-title h4 {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.2;
-    }
-
-    .ws-chat-title small {
-      opacity: 0.92;
-      font-size: 11px;
-    }
-
-    .ws-user-badge {
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.18);
-      white-space: nowrap;
-      max-width: 120px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .ws-icon-btn {
-      border: none;
-      background: rgba(255, 255, 255, 0.16);
-      color: #fff;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    .ws-chat-box {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      background:
-        radial-gradient(circle at top left, rgba(20, 184, 166, 0.08), transparent 25%),
-        #f8fafc;
-    }
-
-    .ws-empty-chat {
-      text-align: center;
-      color: #64748b;
-      margin-top: 40px;
-      font-size: 13px;
-    }
-
-    .ws-message {
-      max-width: 82%;
-      margin-bottom: 14px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      position: relative;
-      word-wrap: break-word;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-      font-size: 13px;
-    }
-
-    .ws-myMsg {
-      margin-left: auto;
-      background: linear-gradient(135deg, #14b8a6, #0f766e);
-      color: #fff;
-      border-bottom-right-radius: 6px;
-    }
-
-    .ws-otherMsg {
-      margin-right: auto;
-      background: #ffffff;
-      color: #0f172a;
-      border: 1px solid #e2e8f0;
-      border-bottom-left-radius: 6px;
-    }
-
-    .ws-sender-name {
-      font-size: 10px;
-      font-weight: 700;
-      opacity: 0.85;
-      margin-bottom: 4px;
-    }
-
-    .ws-message-text {
-      white-space: pre-wrap;
-      line-height: 1.45;
-      font-size: 13px;
-    }
-
-    .ws-message-meta {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .ws-otherMsg .ws-message-meta {
-      justify-content: flex-start;
-    }
-
-    .ws-message-time {
-      font-size: 10px;
-      opacity: 0.8;
-    }
-
-    .ws-deleteBtn {
-      border: none;
-      cursor: pointer;
-      border-radius: 10px;
-      padding: 4px 8px;
-      font-size: 10px;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-    }
-
-    .ws-otherMsg .ws-deleteBtn {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .ws-chat-input-area {
-      border-top: 1px solid #e2e8f0;
-      padding: 12px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-end;
-      background: #fff;
-    }
-
-    #wsMessageInput {
-      flex: 1;
-      min-height: 46px;
-      max-height: 100px;
-      resize: none;
-      border: 1px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-size: 13px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    #wsMessageInput:focus {
-      border-color: #14b8a6;
-      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.12);
-    }
-
-    .ws-send-btn {
-      border: none;
-      cursor: pointer;
-      min-width: 74px;
-      height: 46px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #0f766e, #14b8a6);
-      color: #fff;
-      font-weight: 700;
-      padding: 0 18px;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    .ws-send-btn:hover:not(:disabled) {
-      transform: translateY(-1px);
-    }
-
-    .ws-send-btn:disabled,
-    #wsMessageInput:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    @media (max-width: 600px) {
-      .card,
-      .map-section,
-      .info-box,
-      .highlight-box {
-        padding: 22px 18px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .ws-chat-widget {
-        right: 12px;
-        left: 12px;
-        bottom: 84px;
-        width: auto;
-        height: 72vh;
-      }
-
-      .ws-chat-fab {
-        right: 14px;
-        bottom: 14px;
-        width: 56px;
-        height: 56px;
-      }
-    }
-  </style>
+.delete {
+  font-size:10px;
+  margin-left:5px;
+  cursor:pointer;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <section class="hero">
-      <h1>🌿 Wadi Soon Tourism 🌿</h1>
-      <p>
-        Discover the peaceful beauty of Kanhatti Garden, Sakesar, Maiwali Dheri, and Uchali Lake
-        with a modern, elegant, and visitor-friendly design.
-      </p>
-    </section>
+<button id="chatBtn">💬</button>
 
-    <div class="card">
-      <h2>🌿 Kanhatti Garden – Wadi Soon 🌿</h2>
-      <p>
-        Kanhatti Garden is one of the most attractive and peaceful tourist spots in Wadi Soon Valley,
-        located in the Khushab District of Pakistan. Surrounded by lush green hills, natural landscapes,
-        and fresh air, this beautiful garden offers a perfect escape from busy and noisy city life.
-        The calm and refreshing environment makes it an ideal destination for families, tourists, and
-        nature lovers who want to relax and enjoy the beauty of nature.
-        <br><br>
-        The garden is well known for its greenery, open spaces, and scenic views. Visitors can enjoy
-        peaceful walks, take photographs, and spend quality time with their loved ones. It is also a
-        great place for picnics and small gatherings. During the spring season, the beauty of Kanhatti
-        Garden increases even more as flowers bloom and the entire area looks colorful and vibrant.
-        <br><br>
-        In winter, the cool weather and foggy atmosphere create a unique and relaxing experience for visitors.
-        Kanhatti Garden is not just a place to visit, but a complete natural experience that gives peace
-        of mind and freshness to the soul. It truly represents the hidden beauty of Wadi Soon and remains
-        one of the must-visit locations for anyone exploring this region.
-      </p>
-    </div>
-
-    <div class="back-btn-area">
-      <a href="home.html" class="pro-btn">⬅ Back to Home</a>
-    </div>
-
-    <section class="map-section">
-      <h2>📍 Wadi Soon Sakesar</h2>
-      <p>
-        Soon Valley is one of the most beautiful areas in Punjab, Pakistan.
-        Sakesar is the highest peak, offering breathtaking views, lush greenery,
-        and a peaceful environment for visitors and nature lovers.
-      </p>
-
-      <iframe
-        src="https://www.google.com/maps?q=Soon+Valley+Sakesar&output=embed"
-        loading="lazy"
-        allowfullscreen>
-      </iframe>
-
-      <div class="btn-wrap">
-        <a href="https://www.google.com/maps?q=Soon+Valley+Sakesar" target="_blank" class="map-btn">
-          📍 View Full Location
-        </a>
-      </div>
-    </section>
-
-    <div class="info-box">
-      <h3>🏔️ Sakesar Height</h3>
-      <p>
-        Sakesar, the highest peak of Soon Valley, stands approximately
-        <strong>1,522 meters (4,993 feet)</strong> above sea level.
-        This impressive height makes it one of the most prominent points in the Salt Range,
-        offering breathtaking panoramic views of the surrounding landscape.
-        The cool climate and peaceful environment attract tourists, nature lovers,
-        and photographers throughout the year.
-      </p>
-    </div>
-
-    <div class="highlight-box">
-      <h3>🏔️ Maiwali Dheri</h3>
-      <p>
-        Maiwali Dheri is a beautiful hilltop viewpoint in Soon Valley, located at
-        approximately <strong>900–1,100 meters</strong> above sea level. From this height,
-        cool fresh winds blow from all directions, creating a peaceful and refreshing atmosphere.
-        From this point, almost the entire Wadi Soon can be seen, including its green hills and wide plains.
-        The panoramic view and natural beauty make it a perfect place for visitors and nature lovers.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>🌊 Uchali Lake – Wadi Soon 🌊</h2>
-      <p>
-        Uchali Lake is located in the Soon Valley (Wadi Soon) of Khushab District in Punjab, Pakistan.
-        It lies about 30 kilometers from Naushera and is surrounded by green hills and natural landscapes.
-        The lake is famous for its saltwater, peaceful environment, and scenic beauty.
-        It is easily accessible by road, and the journey itself offers beautiful views,
-        making it a popular destination for tourists and nature lovers.
-      </p>
-    </div>
-
-    <footer>
-      © 2026 Wadi Soon Tourism — Designed with nature-inspired modern style.
-    </footer>
+<div id="chatBox">
+  <div class="header">
+    <span>Private Chat</span>
+    <button onclick="logout()">⎋</button>
   </div>
 
-  <!-- Floating Chat Button -->
-  <button id="wsChatToggleBtn" class="ws-chat-fab" aria-label="Open Chat">
-    <span>💬</span>
-  </button>
+  <div id="messages" class="messages"></div>
 
-  <!-- Chat Widget -->
-  <div id="wsChatWidget" class="ws-chat-widget">
-    <div class="ws-chat-header">
-      <div class="ws-chat-header-left">
-        <div class="ws-chat-avatar">W</div>
-        <div class="ws-chat-title">
-          <h4>Private Live Chat</h4>
-          <small>Wadi Soon Support</small>
-        </div>
-      </div>
-
-      <div class="ws-chat-header-right">
-        <div id="wsCurrentUserBadge" class="ws-user-badge">Login required</div>
-        <button id="wsLogoutBtn" class="ws-icon-btn" title="Logout">⎋</button>
-        <button id="wsMinimizeChat" class="ws-icon-btn" title="Minimize">−</button>
-      </div>
-    </div>
-
-    <div id="wsChatBox" class="ws-chat-box">
-      <div class="ws-empty-chat">Private chat ke liye Gmail login karein 👋</div>
-    </div>
-
-    <div class="ws-chat-input-area">
-      <textarea id="wsMessageInput" placeholder="Type message..." disabled></textarea>
-      <button id="wsSendBtn" class="ws-send-btn" disabled>Send</button>
-    </div>
+  <div class="inputArea">
+    <input id="msgInput" placeholder="Type...">
+    <button class="send" onclick="sendMsg()">Send</button>
   </div>
+</div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      onSnapshot,
-      query,
-      orderBy,
-      deleteDoc,
-      doc,
-      getDoc,
-      setDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
-      authDomain: "wadi-soon-site.firebaseapp.com",
-      projectId: "wadi-soon-site",
-      storageBucket: "wadi-soon-site.firebasestorage.app",
-      messagingSenderId: "306902521128",
-      appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
-      measurementId: "G-V81LVNRLQH"
-    };
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_ID"
+};
 
-    const SUPPORT_UID = "3zfYxvDKyxV4RgD8SLeybDrhdto2";
+const SUPPORT_UID = "3zfYxvDKyxV4RgD8SLeybDrhdto2";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
+const provider = new GoogleAuthProvider();
 
-    let currentUser = null;
-    let currentChatId = null;
-    let unsubscribeMessages = null;
+let user, chatId;
 
-    const chatWidget = document.getElementById("wsChatWidget");
-    const chatToggleBtn = document.getElementById("wsChatToggleBtn");
-    const minimizeChat = document.getElementById("wsMinimizeChat");
-    const logoutBtn = document.getElementById("wsLogoutBtn");
-    const sendBtn = document.getElementById("wsSendBtn");
-    const messageInput = document.getElementById("wsMessageInput");
-    const chatBox = document.getElementById("wsChatBox");
-    const currentUserBadge = document.getElementById("wsCurrentUserBadge");
+document.getElementById("chatBtn").onclick = async () => {
+  if (!user) {
+    const res = await signInWithPopup(auth, provider);
+    user = res.user;
+  }
+  document.getElementById("chatBox").style.display = "flex";
+};
 
-    function getPrivateChatId(uid1, uid2) {
-      return [uid1, uid2].sort().join("_");
-    }
+onAuthStateChanged(auth, (u)=>{
+  user = u;
+  if(u){
+    chatId = [u.uid, SUPPORT_UID].sort().join("_");
+    loadMessages();
+  }
+});
 
-    function openChat() {
-      chatWidget.classList.add("active");
-      chatToggleBtn.style.display = "none";
-      setTimeout(() => {
-        if (!messageInput.disabled) messageInput.focus();
-      }, 200);
-    }
-
-    function closeChat() {
-      chatWidget.classList.remove("active");
-      chatToggleBtn.style.display = "flex";
-    }
-
-    function enableChatUI() {
-      messageInput.disabled = false;
-      sendBtn.disabled = false;
-    }
-
-    function disableChatUI() {
-      messageInput.disabled = true;
-      sendBtn.disabled = true;
-    }
-
-    async function loginWithGoogle() {
-      try {
-        const result = await signInWithPopup(auth, provider);
-        currentUser = result.user;
-        return result.user;
-      } catch (error) {
-        console.error("Google login error:", error);
-        alert("Google login fail ho gaya.");
-        return null;
-      }
-    }
-
-    async function ensureConversationExists() {
-      if (!currentUser) return;
-
-      currentChatId = getPrivateChatId(currentUser.uid, SUPPORT_UID);
-      const convRef = doc(db, "conversations", currentChatId);
-      const convSnap = await getDoc(convRef);
-
-      if (!convSnap.exists()) {
-        await setDoc(convRef, {
-          members: [currentUser.uid, SUPPORT_UID],
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-          lastMessage: "",
-          lastMessageTime: serverTimestamp(),
-          createdBy: currentUser.uid,
-          customer: {
-            uid: currentUser.uid,
-            name: currentUser.displayName || "User",
-            email: currentUser.email || ""
-          },
-          support: {
-            uid: SUPPORT_UID
-          }
-        });
-      }
-    }
-
-    function renderEmptyMessage(text) {
-      chatBox.innerHTML = `<div class="ws-empty-chat">${text}</div>`;
-    }
-
-    function listenMessages() {
-      if (!currentChatId) return;
-
-      if (unsubscribeMessages) {
-        unsubscribeMessages();
-        unsubscribeMessages = null;
-      }
-
-      const q = query(
-        collection(db, "conversations", currentChatId, "messages"),
-        orderBy("createdAt", "asc")
-      );
-
-      unsubscribeMessages = onSnapshot(
-        q,
-        (snapshot) => {
-          chatBox.innerHTML = "";
-
-          if (snapshot.empty) {
-            renderEmptyMessage("No messages yet. Start the conversation 👋");
-            return;
-          }
-
-          snapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            const isMine = data.senderUid === currentUser.uid;
-
-            const div = document.createElement("div");
-            div.classList.add("ws-message", isMine ? "ws-myMsg" : "ws-otherMsg");
-
-            const sender = document.createElement("div");
-            sender.classList.add("ws-sender-name");
-            sender.textContent = isMine ? "You" : (data.senderName || "Support");
-            div.appendChild(sender);
-
-            const textDiv = document.createElement("div");
-            textDiv.classList.add("ws-message-text");
-            textDiv.textContent = data.text || "";
-            div.appendChild(textDiv);
-
-            const meta = document.createElement("div");
-            meta.classList.add("ws-message-meta");
-
-            const timeSpan = document.createElement("span");
-            timeSpan.classList.add("ws-message-time");
-
-            let msgDate = new Date();
-            if (data.createdAt && data.createdAt.toDate) {
-              msgDate = data.createdAt.toDate();
-            }
-
-            timeSpan.textContent = msgDate.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit"
-            });
-            meta.appendChild(timeSpan);
-
-            if (isMine) {
-              const delBtn = document.createElement("button");
-              delBtn.textContent = "Delete";
-              delBtn.classList.add("ws-deleteBtn");
-
-              delBtn.addEventListener("click", async () => {
-                try {
-                  await deleteDoc(doc(db, "conversations", currentChatId, "messages", docSnap.id));
-                } catch (error) {
-                  console.error("Delete error:", error);
-                  alert("Message delete nahi hua.");
-                }
-              });
-
-              meta.appendChild(delBtn);
-            }
-
-            div.appendChild(meta);
-            chatBox.appendChild(div);
-          });
-
-          chatBox.scrollTop = chatBox.scrollHeight;
-        },
-        (error) => {
-          console.error("Message load error:", error);
-          renderEmptyMessage("Chat load nahi hui.");
-        }
-      );
-    }
-
-    async function sendMessage() {
-      const msg = messageInput.value.trim();
-      if (!msg || !currentUser || !currentChatId) return;
-
-      try {
-        await addDoc(collection(db, "conversations", currentChatId, "messages"), {
-          text: msg,
-          senderUid: currentUser.uid,
-          senderName: currentUser.displayName || "User",
-          senderEmail: currentUser.email || "",
-          createdAt: serverTimestamp()
-        });
-
-        await setDoc(doc(db, "conversations", currentChatId), {
-          updatedAt: serverTimestamp(),
-          lastMessage: msg,
-          lastMessageTime: serverTimestamp(),
-          lastSenderUid: currentUser.uid
-        }, { merge: true });
-
-        messageInput.value = "";
-        messageInput.style.height = "46px";
-      } catch (error) {
-        console.error("Send error:", error);
-        alert("Message send nahi hua.");
-      }
-    }
-
-    chatToggleBtn.addEventListener("click", async () => {
-      if (!currentUser) {
-        const user = await loginWithGoogle();
-        if (!user) return;
-      }
-
-      if (currentUser.uid === SUPPORT_UID) {
-        renderEmptyMessage("Support account ke liye admin panel use karein.");
-        openChat();
-        disableChatUI();
-        return;
-      }
-
-      await ensureConversationExists();
-      listenMessages();
-      enableChatUI();
-      openChat();
+function loadMessages(){
+  const q = query(collection(db,"chats",chatId,"msgs"), orderBy("time"));
+  onSnapshot(q,(snap)=>{
+    let html="";
+    snap.forEach(d=>{
+      const m=d.data();
+      const mine = m.uid===user.uid;
+      html+=`
+      <div class="msg ${mine?'me':'other'}">
+        ${m.text}
+        ${mine?`<span class="delete" onclick="del('${d.id}')">❌</span>`:""}
+      </div>`;
     });
+    document.getElementById("messages").innerHTML=html;
+  });
+}
 
-    minimizeChat.addEventListener("click", closeChat);
+window.sendMsg = async ()=>{
+  const text = msgInput.value.trim();
+  if(!text) return;
 
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-        closeChat();
-      } catch (error) {
-        console.error("Logout error:", error);
-      }
-    });
+  await addDoc(collection(db,"chats",chatId,"msgs"),{
+    text,
+    uid:user.uid,
+    time:serverTimestamp()
+  });
 
-    sendBtn.addEventListener("click", sendMessage);
+  msgInput.value="";
+};
 
-    messageInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
+window.del = async (id)=>{
+  await deleteDoc(doc(db,"chats",chatId,"msgs",id));
+};
 
-    messageInput.addEventListener("input", function () {
-      this.style.height = "46px";
-      this.style.height = Math.min(this.scrollHeight, 100) + "px";
-    });
+window.logout = ()=> signOut(auth);
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUser = user;
-        currentUserBadge.textContent = user.displayName || user.email || "Logged in";
+</script>
+<!-- ADMIN PANEL (hidden) -->
+<div id="adminPanel" style="display:none;">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wadi Soon Chat</title>
 
-        if (user.uid !== SUPPORT_UID) {
-          currentChatId = getPrivateChatId(user.uid, SUPPORT_UID);
-          enableChatUI();
-        } else {
-          disableChatUI();
-        }
-      } else {
-        currentUser = null;
-        currentChatId = null;
-        currentUserBadge.textContent = "Login required";
-        disableChatUI();
-        renderEmptyMessage("Private chat ke liye Gmail login karein 👋");
+<style>
+body {
+  font-family: Arial;
+  background:#0f172a;
+}
 
-        if (unsubscribeMessages) {
-          unsubscribeMessages();
-          unsubscribeMessages = null;
-        }
-      }
-    });
-  </script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wadi Soon Support Panel</title>
+/* Chat Button */
+#chatBtn {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#14b8a6;
+  color:#fff;
+  border:none;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  font-size:22px;
+}
 
-  <style>
-    :root {
-      --bg: #0f172a;
-      --panel: #ffffff;
-      --line: #e2e8f0;
-      --text: #0f172a;
-      --muted: #64748b;
-      --primary: #0f766e;
-      --primary2: #14b8a6;
-      --danger: #b91c1c;
-      --dangerBg: #fee2e2;
-    }
+/* Chat Box */
+#chatBox {
+  position:fixed;
+  bottom:90px;
+  right:20px;
+  width:330px;
+  height:500px;
+  background:#fff;
+  border-radius:15px;
+  display:none;
+  flex-direction:column;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+/* Header */
+.header {
+  background:#14b8a6;
+  color:#fff;
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+}
 
-    body {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      min-height: 100vh;
-      color: #fff;
-      padding: 20px;
-    }
+/* Messages */
+.messages {
+  flex:1;
+  overflow:auto;
+  padding:10px;
+}
 
-    .topbar {
-      max-width: 1400px;
-      margin: 0 auto 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+/* Input */
+.inputArea {
+  display:flex;
+  border-top:1px solid #ccc;
+}
+input {
+  flex:1;
+  padding:10px;
+  border:none;
+}
+button.send {
+  background:#14b8a6;
+  color:#fff;
+  border:none;
+  padding:10px;
+}
 
-    .topbar h1 {
-      font-size: 28px;
-    }
+/* Message */
+.msg {
+  margin:5px;
+  padding:8px;
+  border-radius:10px;
+}
+.me { background:#14b8a6; color:#fff; margin-left:auto; }
+.other { background:#eee; }
 
-    .topbar-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      background: rgba(255,255,255,0.12);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-    }
-
-    .btn {
-      border: none;
-      cursor: pointer;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-weight: 700;
-      color: #fff;
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
-    }
-
-    .btn.secondary {
-      background: rgba(255,255,255,0.15);
-    }
-
-    .layout {
-      max-width: 1400px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 20px;
-      min-height: 78vh;
-    }
-
-    .sidebar,
-    .chat-panel {
-      background: var(--panel);
-      color: var(--text);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-    }
-
-    .sidebar-header,
-    .chat-header {
-      padding: 18px;
-      border-bottom: 1px solid var(--line);
-      background: #f8fafc;
-    }
-
-    .sidebar-header h2,
-    .chat-header h2 {
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .sidebar-header p,
-    .chat-header p {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .conversation-list {
-      height: calc(78vh - 80px);
-      overflow-y: auto;
-    }
-
-    .conversation-item {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line);
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .conversation-item:hover,
-    .conversation-item.active {
-      background: #ecfeff;
-    }
-
-    .conversation-item h3 {
-      font-size: 15px;
-      margin-bottom: 6px;
-    }
-
-    .conversation-item .email {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .conversation-item .last-msg {
-      font-size: 12px;
-      color: #334155;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .chat-panel {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chat-box {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px;
-      background:
-        radial-gradient(circle at top left, rgba(20, 184, 166, 0.08), transparent 22%),
-        #f8fafc;
-    }
-
-    .empty {
-      text-align: center;
-      color: var(--muted);
-      margin-top: 60px;
-      font-size: 14px;
-    }
-
-    .msg {
-      max-width: 76%;
-      margin-bottom: 14px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .mine {
-      margin-left: auto;
-      background: linear-gradient(135deg, var(--primary2), var(--primary));
-      color: #fff;
-      border-bottom-right-radius: 6px;
-    }
-
-    .other {
-      margin-right: auto;
-      background: #fff;
-      color: #0f172a;
-      border: 1px solid var(--line);
-      border-bottom-left-radius: 6px;
-    }
-
-    .sender {
-      font-size: 11px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      opacity: 0.85;
-    }
-
-    .meta {
-      margin-top: 8px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .other .meta {
-      justify-content: flex-start;
-    }
-
-    .time {
-      font-size: 10px;
-      opacity: 0.8;
-    }
-
-    .deleteBtn {
-      border: none;
-      padding: 4px 8px;
-      border-radius: 10px;
-      font-size: 10px;
-      cursor: pointer;
-      background: rgba(255,255,255,0.18);
-      color: #fff;
-    }
-
-    .other .deleteBtn {
-      background: var(--dangerBg);
-      color: var(--danger);
-    }
-
-    .chat-input {
-      border-top: 1px solid var(--line);
-      padding: 14px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-end;
-      background: #fff;
-    }
-
-    .chat-input textarea {
-      flex: 1;
-      min-height: 50px;
-      max-height: 110px;
-      resize: none;
-      border: 1px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 12px 14px;
-      outline: none;
-      font-size: 13px;
-    }
-
-    .chat-input textarea:focus {
-      border-color: var(--primary2);
-      box-shadow: 0 0 0 4px rgba(20,184,166,0.12);
-    }
-
-    .chat-input button {
-      border: none;
-      min-width: 90px;
-      height: 50px;
-      border-radius: 14px;
-      color: #fff;
-      font-weight: 700;
-      cursor: pointer;
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
-    }
-
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .conversation-list {
-        height: 280px;
-      }
-    }
-  </style>
+.delete {
+  font-size:10px;
+  margin-left:5px;
+  cursor:pointer;
+}
+</style>
 </head>
+
 <body>
-  <div class="topbar">
-    <h1>Wadi Soon Support Panel</h1>
-    <div class="topbar-actions">
-      <div id="adminBadge" class="badge">Not logged in</div>
-      <button id="loginBtn" class="btn">Login with Google</button>
-      <button id="logoutBtn" class="btn secondary">Logout</button>
-    </div>
+
+<button id="chatBtn">💬</button>
+
+<div id="chatBox">
+  <div class="header">
+    <span>Private Chat</span>
+    <button onclick="logout()">⎋</button>
   </div>
 
-  <div class="layout">
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h2>Private Conversations</h2>
-        <p>Yahan sab users ki alag private chats nazar aayengi.</p>
-      </div>
-      <div id="conversationList" class="conversation-list">
-        <div class="empty">Login kar ke conversations dekhein.</div>
-      </div>
-    </div>
+  <div id="messages" class="messages"></div>
 
-    <div class="chat-panel">
-      <div class="chat-header">
-        <h2 id="chatTitle">No chat selected</h2>
-        <p id="chatSubTitle">User select karein taake private messages khul saken.</p>
-      </div>
-
-      <div id="chatBox" class="chat-box">
-        <div class="empty">Abhi koi chat select nahi hui.</div>
-      </div>
-
-      <div class="chat-input">
-        <textarea id="messageInput" placeholder="Type reply..." disabled></textarea>
-        <button id="sendBtn" disabled>Send</button>
-      </div>
-    </div>
+  <div class="inputArea">
+    <input id="msgInput" placeholder="Type...">
+    <button class="send" onclick="sendMsg()">Send</button>
   </div>
+</div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      query,
-      where,
-      onSnapshot,
-      orderBy,
-      addDoc,
-      deleteDoc,
-      doc,
-      setDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
-      authDomain: "wadi-soon-site.firebaseapp.com",
-      projectId: "wadi-soon-site",
-      storageBucket: "wadi-soon-site.firebasestorage.app",
-      messagingSenderId: "306902521128",
-      appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
-      measurementId: "G-V81LVNRLQH"
-    };
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_ID"
+};
 
-    const SUPPORT_UID = "3zfYxvDKyxV4RgD8SLeybDrhdto2";
+const SUPPORT_UID = "3zfYxvDKyxV4RgD8SLeybDrhdto2";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
+const provider = new GoogleAuthProvider();
 
-    let currentUser = null;
-    let currentChatId = null;
-    let unsubscribeMessages = null;
-    let unsubscribeConversations = null;
+let user, chatId;
 
-    const adminBadge = document.getElementById("adminBadge");
-    const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const conversationList = document.getElementById("conversationList");
-    const chatBox = document.getElementById("chatBox");
-    const chatTitle = document.getElementById("chatTitle");
-    const chatSubTitle = document.getElementById("chatSubTitle");
-    const messageInput = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
+document.getElementById("chatBtn").onclick = async () => {
+  if (!user) {
+    const res = await signInWithPopup(auth, provider);
+    user = res.user;
+  }
+  document.getElementById("chatBox").style.display = "flex";
+};
 
-    let selectedCustomer = null;
+onAuthStateChanged(auth, (u)=>{
+  user = u;
+  if(u){
+    chatId = [u.uid, SUPPORT_UID].sort().join("_");
+    loadMessages();
+  }
+});
 
-    function enableReply() {
-      messageInput.disabled = false;
-      sendBtn.disabled = false;
-    }
-
-    function disableReply() {
-      messageInput.disabled = true;
-      sendBtn.disabled = true;
-    }
-
-    function formatTime(ts) {
-      try {
-        if (ts && ts.toDate) {
-          return ts.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        }
-      } catch (e) {}
-      return "";
-    }
-
-    async function loginWithGoogle() {
-      try {
-        const result = await signInWithPopup(auth, provider);
-        currentUser = result.user;
-      } catch (error) {
-        console.error("Admin login error:", error);
-        alert("Login fail ho gaya.");
-      }
-    }
-
-    function renderConversations(items) {
-      conversationList.innerHTML = "";
-
-      if (!items.length) {
-        conversationList.innerHTML = '<div class="empty">Abhi koi private conversation nahi hai.</div>';
-        return;
-      }
-
-      items.forEach((item) => {
-        const div = document.createElement("div");
-        div.className = "conversation-item" + (item.id === currentChatId ? " active" : "");
-
-        const customerName = item.customer?.name || "User";
-        const customerEmail = item.customer?.email || "No email";
-
-        div.innerHTML = `
-          <h3>${customerName}</h3>
-          <div class="email">${customerEmail}</div>
-          <div class="last-msg">${item.lastMessage || "No message yet"}</div>
-        `;
-
-        div.addEventListener("click", () => {
-          currentChatId = item.id;
-          selectedCustomer = item.customer || null;
-          chatTitle.textContent = customerName;
-          chatSubTitle.textContent = customerEmail;
-          enableReply();
-          listenMessages(item.id);
-          renderConversations(items);
-        });
-
-        conversationList.appendChild(div);
-      });
-    }
-
-    function listenConversations() {
-      if (unsubscribeConversations) {
-        unsubscribeConversations();
-        unsubscribeConversations = null;
-      }
-
-      const q = query(
-        collection(db, "conversations"),
-        where("members", "array-contains", SUPPORT_UID)
-      );
-
-      unsubscribeConversations = onSnapshot(q, (snapshot) => {
-        const items = [];
-
-        snapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          items.push({
-            id: docSnap.id,
-            ...data
-          });
-        });
-
-        items.sort((a, b) => {
-          const aTime = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : 0;
-          const bTime = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : 0;
-          return bTime - aTime;
-        });
-
-        renderConversations(items);
-      }, (error) => {
-        console.error("Conversation load error:", error);
-        conversationList.innerHTML = '<div class="empty">Conversations load nahi hui.</div>';
-      });
-    }
-
-    function listenMessages(chatId) {
-      if (unsubscribeMessages) {
-        unsubscribeMessages();
-        unsubscribeMessages = null;
-      }
-
-      const q = query(
-        collection(db, "conversations", chatId, "messages"),
-        orderBy("createdAt", "asc")
-      );
-
-      unsubscribeMessages = onSnapshot(q, (snapshot) => {
-        chatBox.innerHTML = "";
-
-        if (snapshot.empty) {
-          chatBox.innerHTML = '<div class="empty">Abhi koi message nahi.</div>';
-          return;
-        }
-
-        snapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          const isMine = data.senderUid === currentUser.uid;
-
-          const div = document.createElement("div");
-          div.className = "msg " + (isMine ? "mine" : "other");
-
-          const sender = document.createElement("div");
-          sender.className = "sender";
-          sender.textContent = isMine ? "You" : (data.senderName || data.senderEmail || "User");
-          div.appendChild(sender);
-
-          const text = document.createElement("div");
-          text.textContent = data.text || "";
-          div.appendChild(text);
-
-          const meta = document.createElement("div");
-          meta.className = "meta";
-
-          const time = document.createElement("span");
-          time.className = "time";
-          time.textContent = formatTime(data.createdAt);
-          meta.appendChild(time);
-
-          if (isMine) {
-            const delBtn = document.createElement("button");
-            delBtn.className = "deleteBtn";
-            delBtn.textContent = "Delete";
-
-            delBtn.addEventListener("click", async () => {
-              try {
-                await deleteDoc(doc(db, "conversations", chatId, "messages", docSnap.id));
-              } catch (error) {
-                console.error("Delete message error:", error);
-              }
-            });
-
-            meta.appendChild(delBtn);
-          }
-
-          div.appendChild(meta);
-          chatBox.appendChild(div);
-        });
-
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }, (error) => {
-        console.error("Messages error:", error);
-        chatBox.innerHTML = '<div class="empty">Messages load nahi hue.</div>';
-      });
-    }
-
-    async function sendReply() {
-      const msg = messageInput.value.trim();
-      if (!msg || !currentChatId || !currentUser) return;
-
-      try {
-        await addDoc(collection(db, "conversations", currentChatId, "messages"), {
-          text: msg,
-          senderUid: currentUser.uid,
-          senderName: currentUser.displayName || "Support",
-          senderEmail: currentUser.email || "",
-          createdAt: serverTimestamp()
-        });
-
-        await setDoc(doc(db, "conversations", currentChatId), {
-          updatedAt: serverTimestamp(),
-          lastMessage: msg,
-          lastMessageTime: serverTimestamp(),
-          lastSenderUid: currentUser.uid
-        }, { merge: true });
-
-        messageInput.value = "";
-        messageInput.style.height = "50px";
-      } catch (error) {
-        console.error("Reply error:", error);
-        alert("Reply send nahi hui.");
-      }
-    }
-
-    loginBtn.addEventListener("click", loginWithGoogle);
-
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-      } catch (error) {
-        console.error("Logout error:", error);
-      }
+function loadMessages(){
+  const q = query(collection(db,"chats",chatId,"msgs"), orderBy("time"));
+  onSnapshot(q,(snap)=>{
+    let html="";
+    snap.forEach(d=>{
+      const m=d.data();
+      const mine = m.uid===user.uid;
+      html+=`
+      <div class="msg ${mine?'me':'other'}">
+        ${m.text}
+        ${mine?`<span class="delete" onclick="del('${d.id}')">❌</span>`:""}
+      </div>`;
     });
+    document.getElementById("messages").innerHTML=html;
+  });
+}
 
-    sendBtn.addEventListener("click", sendReply);
+window.sendMsg = async ()=>{
+  const text = msgInput.value.trim();
+  if(!text) return;
 
-    messageInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendReply();
-      }
-    });
+  await addDoc(collection(db,"chats",chatId,"msgs"),{
+    text,
+    uid:user.uid,
+    time:serverTimestamp()
+  });
 
-    messageInput.addEventListener("input", function () {
-      this.style.height = "50px";
-      this.style.height = Math.min(this.scrollHeight, 110) + "px";
-    });
+  msgInput.value="";
+};
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUser = user;
-        adminBadge.textContent = user.displayName || user.email || "Logged in";
+window.del = async (id)=>{
+  await deleteDoc(doc(db,"chats",chatId,"msgs",id));
+};
 
-        if (user.uid !== SUPPORT_UID) {
-          conversationList.innerHTML = '<div class="empty">Access denied. Yeh support account nahi hai.</div>';
-          chatBox.innerHTML = '<div class="empty">Sahi support Gmail se login karein.</div>';
-          chatTitle.textContent = "Access denied";
-          chatSubTitle.textContent = "Aapka UID support UID se match nahi karta.";
-          disableReply();
-          return;
-        }
+window.logout = ()=> signOut(auth);
 
-        listenConversations();
-      } else {
-        currentUser = null;
-        currentChatId = null;
-        selectedCustomer = null;
-        adminBadge.textContent = "Not logged in";
-        conversationList.innerHTML = '<div class="empty">Login kar ke conversations dekhein.</div>';
-        chatBox.innerHTML = '<div class="empty">Abhi koi chat select nahi hui.</div>';
-        chatTitle.textContent = "No chat selected";
-        chatSubTitle.textContent = "User select karein taake private messages khul saken.";
-        disableReply();
-
-        if (unsubscribeMessages) {
-          unsubscribeMessages();
-          unsubscribeMessages = null;
-        }
-
-        if (unsubscribeConversations) {
-          unsubscribeConversations();
-          unsubscribeConversations = null;
-        }
-      }
-    });
-  </script>
+</script>
 </body>
 </html>
