@@ -1,125 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wadi Soon Login</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-body{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(135deg,#020617,#1e3a8a);
-  color:#fff;
-}
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #03142c, #0d2f66, #1d4f91);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      position: relative;
+    }
 
-/* CARD */
-.card{
-  width:340px;
-  padding:30px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(20px);
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  text-align:center;
-}
+    /* Background glow circles */
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      z-index: 0;
+    }
 
-/* TITLE */
-.card h2{
-  margin-bottom:20px;
-}
+    body::before {
+      width: 260px;
+      height: 260px;
+      background: #00c6ff;
+      top: 40px;
+      left: 40px;
+    }
 
-/* INPUT */
-input{
-  width:100%;
-  padding:14px;
-  margin:8px 0;
-  border:none;
-  border-radius:10px;
-  background:#0f172a;
-  color:#fff;
-}
+    body::after {
+      width: 320px;
+      height: 320px;
+      background: #ff0066;
+      bottom: 40px;
+      right: 40px;
+    }
 
-/* BUTTON */
-button{
-  width:100%;
-  padding:13px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
+    .auth-wrapper {
+      width: 100%;
+      max-width: 430px;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
 
-.login{background:#2563eb;}
-.signup{background:#22c55e;}
+    .auth-box {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+    }
 
-#msg{
-  margin-top:10px;
-  font-size:13px;
-}
-</style>
+    .brand {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .brand h1 {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(0,198,255,0.5);
+    }
+
+    .brand p {
+      color: #dce9ff;
+      margin-top: 8px;
+      font-size: 15px;
+    }
+
+    .tabs {
+      display: flex;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50px;
+      padding: 5px;
+      margin-bottom: 22px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: white;
+      padding: 12px;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-weight: 600;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      box-shadow: 0 6px 18px rgba(0,114,255,0.35);
+    }
+
+    .form-title {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 7px;
+      color: #eef5ff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 15px;
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.10);
+      transition: 0.3s;
+    }
+
+    .input-group input::placeholder {
+      color: #c9d8f0;
+    }
+
+    .input-group input:focus {
+      border-color: #00c6ff;
+      box-shadow: 0 0 0 3px rgba(0,198,255,0.18);
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff7a18, #ff0066);
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 8px;
+      box-shadow: 0 10px 20px rgba(255,0,102,0.25);
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .message {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      min-height: 22px;
+      color: #ffe082;
+    }
+
+    .extra-text {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #dce9ff;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .welcome-badge {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 13px;
+      color: #bfe9ff;
+      background: rgba(255,255,255,0.08);
+      padding: 8px 14px;
+      border-radius: 30px;
+      display: inline-block;
+      width: 100%;
+    }
+
+    @media (max-width: 480px) {
+      .auth-box {
+        padding: 26px 18px;
+      }
+
+      .brand h1 {
+        font-size: 28px;
+      }
+
+      .form-title {
+        font-size: 22px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="card">
-  <h2>🌿 Wadi Soon</h2>
+  <div class="auth-wrapper">
+    <div class="auth-box">
+      <div class="brand">
+        <h1>Wadi Soon</h1>
+        <p>Login / Sign Up to continue</p>
+      </div>
 
-  <input id="email" placeholder="Email">
-  <input id="pass" type="password" placeholder="Password">
+      <div class="welcome-badge">
+        Welcome to Wadi Soon official login portal
+      </div>
 
-  <button class="login" onclick="login()">Login</button>
-  <button class="signup" onclick="signup()">Sign Up</button>
+      <div class="tabs">
+        <button class="tab-btn active" id="loginTab">Login</button>
+        <button class="tab-btn" id="signupTab">Sign Up</button>
+      </div>
 
-  <div id="msg"></div>
-</div>
+      <!-- Login Form -->
+      <div id="loginForm">
+        <div class="form-title">Login to Your Account</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" />
+        </div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
-  authDomain: "wadi-soon-site.firebaseapp.com",
-  projectId: "wadi-soon-site"
-};
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" />
+        </div>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+        <button class="auth-btn" id="loginBtn">Login</button>
+      </div>
 
-function show(t){
-  document.getElementById("msg").innerText = t;
-}
+      <!-- Signup Form -->
+      <div id="signupForm" class="hidden">
+        <div class="form-title">Create New Account</div>
 
-window.login = async ()=>{
-  try{
-    await signInWithEmailAndPassword(auth, email.value, pass.value);
-    show("Login Success ✅");
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" id="signupName" placeholder="Enter your full name" />
+        </div>
 
-    setTimeout(()=>{
-      window.location.href = "home.html";
-    },800);
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" id="signupEmail" placeholder="Enter your email" />
+        </div>
 
-  }catch(e){
-    show(e.message);
-  }
-};
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="signupPassword" placeholder="Create password" />
+        </div>
 
-window.signup = async ()=>{
-  try{
-    await createUserWithEmailAndPassword(auth, email.value, pass.value);
-    show("Account Created ✅");
-  }catch(e){
-    show(e.message);
-  }
-};
-</script>
+        <button class="auth-btn" id="signupBtn">Create Account</button>
+      </div>
 
+      <div class="message" id="message"></div>
+
+      <div class="extra-text">
+        Secure access for Wadi Soon website users
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+    // SAME Firebase config use karo jo tum home page par rakhna chahte ho
+    const firebaseConfig = {
+      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+      authDomain: "wadi-soon-site.firebaseapp.com",
+      projectId: "wadi-soon-site",
+      appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginTab = document.getElementById("loginTab");
+    const signupTab = document.getElementById("signupTab");
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+    const message = document.getElementById("message");
+
+    loginTab.addEventListener("click", () => {
+      loginTab.classList.add("active");
+      signupTab.classList.remove("active");
+      loginForm.classList.remove("hidden");
+      signupForm.classList.add("hidden");
+      message.textContent = "";
+    });
+
+    signupTab.addEventListener("click", () => {
+      signupTab.classList.add("active");
+      loginTab.classList.remove("active");
+      signupForm.classList.remove("hidden");
+      loginForm.classList.add("hidden");
+      message.textContent = "";
+    });
+
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (!email || !password) {
+        message.textContent = "Please enter email and password.";
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        message.style.color = "#9cff9c";
+        message.textContent = "Login successful! Redirecting...";
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 1000);
+      } catch (error) {
+        message.style.color = "#ffd6d6";
+        message.textContent = error.message;
+      }
+    });
+
+    document.getElementById("signupBtn").addEventListener("click", async () => {
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value.trim();
+
+      if (!name || !email || !password) {
+        message.textContent = "Please fill all fields.";
+        return;
+      }
+
+      if (password.length < 6) {
+        message.textContent = "Password must be at least 6 characters.";
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, {
+          displayName: name
+        });
+
+        message.style.color = "#9cff9c";
+        message.textContent = "Account created successfully! Redirecting...";
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 1200);
+      } catch (error) {
+        message.style.color = "#ffd6d6";
+        message.textContent = error.message;
+      }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Agar already login hai to direct home bhej do
+        // Agar nahi chahte to is block ko hata do
+        // window.location.href = "home.html";
+      }
+    });
+  </script>
 </body>
 </html>
