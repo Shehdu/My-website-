@@ -6,44 +6,57 @@
 <title>Wadi Soon Login</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+
 body{
-  margin:0;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a);
-  font-family:Arial;
+  background:linear-gradient(135deg,#020617,#1e3a8a);
   color:#fff;
 }
 
-.box{
-  width:320px;
-  padding:25px;
-  background:#1e293b;
-  border-radius:12px;
+/* CARD */
+.card{
+  width:340px;
+  padding:30px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
   text-align:center;
 }
 
-input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border:none;
-  border-radius:6px;
+/* TITLE */
+.card h2{
+  margin-bottom:20px;
 }
 
+/* INPUT */
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border:none;
+  border-radius:10px;
+  background:#0f172a;
+  color:#fff;
+}
+
+/* BUTTON */
 button{
   width:100%;
-  padding:12px;
+  padding:13px;
   margin-top:10px;
   border:none;
-  border-radius:6px;
-  background:#22c55e;
-  color:#fff;
+  border-radius:10px;
   font-weight:bold;
   cursor:pointer;
 }
+
+.login{background:#2563eb;}
+.signup{background:#22c55e;}
 
 #msg{
   margin-top:10px;
@@ -54,14 +67,14 @@ button{
 
 <body>
 
-<div class="box">
+<div class="card">
   <h2>🌿 Wadi Soon</h2>
 
   <input id="email" placeholder="Email">
   <input id="pass" type="password" placeholder="Password">
 
-  <button onclick="login()">Login</button>
-  <button onclick="signup()">Sign Up</button>
+  <button class="login" onclick="login()">Login</button>
+  <button class="signup" onclick="signup()">Sign Up</button>
 
   <div id="msg"></div>
 </div>
@@ -71,7 +84,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/fireba
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-/* 🔴 APNA CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
   authDomain: "wadi-soon-site.firebaseapp.com",
@@ -85,21 +97,20 @@ function show(t){
   document.getElementById("msg").innerText = t;
 }
 
-/* LOGIN */
 window.login = async ()=>{
   try{
     await signInWithEmailAndPassword(auth, email.value, pass.value);
     show("Login Success ✅");
 
-    // redirect
-    window.location.replace("home.html");
+    setTimeout(()=>{
+      window.location.href = "home.html";
+    },800);
 
   }catch(e){
     show(e.message);
   }
 };
 
-/* SIGNUP */
 window.signup = async ()=>{
   try{
     await createUserWithEmailAndPassword(auth, email.value, pass.value);
