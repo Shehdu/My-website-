@@ -1,273 +1,624 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon Tourism</title>
+<style>
+body {
+  background-color: #2f4f88; /* same blue jaisa screenshot */
+  color: white;              /* poora text white */
+}
+
+/* headings bhi white rahen */
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
+
+/* links bhi white */
+a {
+  color: white;
+}
+</style>
+<div class="kanhatti-card">
+
+  <h2 class="kanhatti-heading">
+    🌿 Kanhatti Garden – Wadi Soon 🌿
+  </h2>
+
+  <p class="kanhatti-text">
+    Kanhatti Garden is one of the most attractive and peaceful tourist spots in Wadi Soon Valley, located in the Khushab District of Pakistan. Surrounded by lush green hills, natural landscapes, and fresh air, this beautiful garden offers a perfect escape from the busy and noisy city life. The calm and refreshing environment makes it an ideal destination for families, tourists, and nature lovers who want to relax and enjoy the beauty of nature.
+
+    The garden is well known for its greenery, open spaces, and scenic views. Visitors can enjoy peaceful walks, take photographs, and spend quality time with their loved ones. It is also a great place for picnics and small gatherings. During the spring season, the beauty of Kanhatti Garden increases even more as the flowers bloom and the entire area looks colorful and vibrant.
+
+    In winter, the cool weather and foggy atmosphere create a unique and relaxing experience for visitors. Kanhatti Garden is not just a place to visit, but a complete natural experience that gives peace of mind and freshness to the soul. It truly represents the hidden beauty of Wadi Soon and remains one of the must-visit locations for anyone exploring this region.
+  </p>
+
+</div>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-:root{
---bg1:#020617;
---bg2:#0f172a;
---bg3:#1e40af;
---text:#fff;
---accent:#14b8a6;
+.kanhatti-card {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #3a3a3a, #1f1f1f);
+}
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: 0.3s;
 }
 
-body{
-font-family:Arial;
-color:#fff;
-background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+/* hover effect */
+.kanhatti-card:hover {
+    transform: scale(1.02);
 }
 
-/* CONTAINER */
-.container{
-width:min(500px,92%);
-margin:auto;
-padding:30px 0 100px;
+/* heading style */
+.kanhatti-heading {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
 }
 
-/* HERO */
-.hero{text-align:center;margin-bottom:25px;}
-.hero h1{font-size:26px;}
-.hero p{font-size:14px;color:#cbd5e1;}
-
-/* CARD */
-.card{
-background:#0f172a;
-padding:20px;
-border-radius:16px;
-margin:20px 0;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
+/* paragraph style */
+.kanhatti-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: white;
+    text-align: justify;
 }
-.card h2{text-align:center;margin-bottom:10px;}
-.card p{font-size:14px;color:#e2e8f0;}
+</style>
+<div class="btn-center">
+  <a href="home.html" class="pro-btn">⬅ Back to Home</a>
+</div>
 
-/* MAP */
-.map iframe{
-width:100%;
-height:250px;
-border-radius:12px;
-border:none;
+<style>
+.btn-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
 }
 
-/* CHAT BUTTON */
-.chat-btn{
-position:fixed;
-bottom:20px;
-right:20px;
-width:60px;
-height:60px;
-border-radius:50%;
-background:var(--accent);
-color:#fff;
-border:none;
-font-size:24px;
-cursor:pointer;
+.pro-btn {
+  padding: 14px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  animation: blink 1s infinite; /* 🔥 blinking */
+  transition: 0.3s;
 }
 
-/* CHAT BOX */
-.chat-box{
-position:fixed;
-bottom:90px;
-right:20px;
-width:320px;
-height:420px;
-background:#fff;
-border-radius:15px;
-display:none;
-flex-direction:column;
-overflow:hidden;
+.pro-btn:hover {
+  transform: scale(1.05);
+  animation: none; /* hover pe blinking band */
 }
 
-.chat-box.active{display:flex;}
+/* 🔥 Animation */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+</style>
+<section class="wadi-section">
 
-.chat-header{
-background:var(--accent);
-color:#fff;
-padding:10px;
-display:flex;
-justify-content:space-between;
+  <h2>📍 Wadi Soon Sakesar</h2>
+
+  <p>
+    Soon Valley is one of the most beautiful مناطق in Punjab, Pakistan. 
+    Sakesar is the highest peak, offering breathtaking views, lush greenery, 
+    and a peaceful environment for visitors and nature lovers.
+  </p>
+
+  <iframe 
+    src="https://www.google.com/maps?q=Soon+Valley+Sakesar&output=embed"
+    loading="lazy">
+  </iframe>
+
+  <a href="https://www.google.com/maps?q=Soon+Valley+Sakesar" target="_blank" class="map-btn">
+    📍 View Full Location
+  </a>
+
+</section>
+
+<style>
+<section class="wadi-section">
+
+  <h2>📍 Wadi Soon Sakesar</h2>
+
+  <p>
+    Soon Valley is one of the most beautiful مناطق in Punjab, Pakistan. 
+    Sakesar is the highest peak, offering breathtaking views, lush greenery, 
+    and a peaceful environment for visitors and nature lovers.
+  </p>
+
+  <iframe 
+    src="https://www.google.com/maps?q=Soon+Valley+Sakesar&output=embed"
+    loading="lazy">
+  </iframe>
+
+  <a href="https://www.google.com/maps?q=Soon+Valley+Sakesar" target="_blank" class="map-btn">
+    📍 View Full Location
+  </a>
+
+</section>
+
+<style>
+.wadi-section {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f5f7fa;
+  border-radius: 20px;
+  margin: 40px auto;
+  max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.chat-messages{
-flex:1;
-overflow-y:auto;
-padding:10px;
-background:#f1f5f9;
+.wadi-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
-.msg{
-margin:6px 0;
-padding:8px;
-border-radius:10px;
-font-size:12px;
-max-width:75%;
+.wadi-section p {
+  color: #fff;
+  max-width: 600px;
+  margin: auto;
+  line-height: 1.6;
 }
 
-.my{background:#14b8a6;color:#fff;margin-left:auto;}
-.other{background:#fff;color:#000;}
-
-.chat-input{
-display:flex;
-padding:10px;
-gap:5px;
+.wadi-section iframe {
+  width: 100%;
+  height: 350px;
+  border: 0;
+  border-radius: 15px;
+  margin-top: 20px;
 }
 
-.chat-input input{
-flex:1;
-padding:8px;
-border-radius:10px;
-border:1px solid #ccc;
+/* 🔥 Stylish Button */
+.map-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg,#4facfe,#00f2fe);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  animation: pulse 1.5s infinite;
 }
 
-.send-btn{
-background:var(--accent);
-color:#fff;
-border:none;
-padding:8px 12px;
-border-radius:10px;
+.map-btn:hover {
+  transform: scale(1.05);
 }
 
-footer{text-align:center;margin-top:20px;font-size:12px;color:#aaa;}
+/* 🔥 Glow Pulse Animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79,172,254,0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(79,172,254,0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79,172,254,0);
+  }
+}
+</style>
+<div class="info-box">
+
+  <h3>🏔️ Sakesar Height</h3>
+
+  <p>
+    Sakesar, the highest peak of Soon Valley, stands approximately 
+    <strong>1,522 meters (4,993 feet)</strong> above sea level. 
+    This impressive height makes it one of the most prominent points 
+    in the Salt Range, offering breathtaking panoramic views of the 
+    surrounding landscape. The cool climate and peaceful environment 
+    attract tourists, nature lovers, and photographers throughout the year.
+  </p>
+
+</div>
+
+<style>
+.info-box {
+  background: #ffffff;
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 750px;
+  border-radius: 18px;
+
+  /* 🔥 Stylish Border */
+  border: 2px solid #4facfe;
+
+  /* 🔥 Premium Shadow */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+  text-align: center;
+  transition: 0.3s;
+}
+
+/* 🔥 Hover Effect (Pro Look) */
+.info-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+.info-box h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.info-box p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.7;
+}
+</style>
+<section class="maiwali-wrapper">
+
+  <div class="maiwali-box">
+    <h3>🏔️ Maiwali Dheri</h3>
+
+    <p>
+      Maiwali Dheri is a beautiful hilltop viewpoint in Soon Valley, located at 
+      approximately <strong>900–1,100 meters</strong> above sea level. From this 
+      height, cool fresh winds blow from all directions, creating a peaceful and 
+      refreshing atmosphere. From this point, almost the entire Wadi Soon can be 
+      seen, including its green hills and wide plains. The panoramic view and 
+      natural beauty make it a perfect place for visitors and nature lovers.
+    </p>
+  </div>
+
+</section>
+
+<style>
+
+/* 🔥 Centering Wrapper */
+.maiwali-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 15px;
+}
+
+/* 🔥 Main Box */
+.maiwali-box {
+  width: 100%;          /* ✅ fixed */
+  max-width: 900px;     /* ✅ same as Uchali Lake */
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.95);
+
+  /* 🔥 Gradient Border */
+  border: 3px solid transparent;
+  background-image: linear-gradient(#555, #555),
+                    linear-gradient(135deg, #4facfe, #00f2fe);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  /* 🔥 PREMIUM SHADOW */
+  box-shadow:
+    0 15px 30px rgba(0,0,0,0.2),
+    0 25px 60px rgba(0,0,0,0.15),
+    0 0 25px rgba(79,172,254,0.5);
+
+  transition: 0.4s;
+}
+
+/* 🔥 HOVER EFFECT */
+.maiwali-box:hover {
+  transform: translateY(-12px) scale(1.03);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.25),
+    0 35px 80px rgba(0,0,0,0.2),
+    0 0 40px rgba(0,242,254,0.8);
+}
+
+/* 🔥 HEADING */
+.maiwali-box h3 {
+  font-size: 30px;
+  margin-bottom: 15px;
+  color: #28a745;
+}
+
+/* 🔥 TEXT */
+.maiwali-box p {
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.8;
+}
 
 </style>
+</style>
+<div class="lake-card">
+
+  <h2 class="lake-heading">🌊 Uchali Lake – Wadi Soon 🌊</h2>
+
+  <p class="lake-text">
+  Uchali Lake is located in the Soon Valley (Wadi Soon) of Khushab District in Punjab, Pakistan. It lies about 30 kilometers from Naushera and is surrounded by green hills and natural landscapes. The lake is famous for its saltwater, peaceful environment, and scenic beauty. It is easily accessible by road, and the journey itself offers beautiful views, making it a popular destination for tourists and nature lovers.
+  </p>
+
+</div>
+<style>
+
+/* ❌ body ka background hata diya */
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* CARD DESIGN */
+.lake-card {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #2c2c2c, #1a1a1a); /* 👈 sirf box ka color */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: 0.3s; /* ✅ semicolon add */
+}
+
+/* hover */
+.lake-card:hover {
+  transform: scale(1.02);
+}
+
+/* HEADING */
+.lake-heading {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* TEXT */
+.lake-text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: white;
+  text-align: justify;
+}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Chat</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0f2027;
+    }
+
+    .chat-container {
+      max-width: 500px;
+      height: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      background: #ece5dd;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .header {
+      background: linear-gradient(45deg, #075e54, #128c7e);
+      color: white;
+      padding: 15px;
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #chatBox {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 15px;
+      font-size: 15px;
+      line-height: 1.4;
+      position: relative;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .myMsg {
+  background: #dcf8c6;
+  margin-left: auto;
+  color: black;   /* 🔥 yeh line add karo */
+    }
+
+    .otherMsg {
+      background: white;
+      margin-right: auto;
+    }
+
+    .deleteBtn {
+      font-size: 12px;
+      color: red;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    .input-area {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #f0f0f0;
+    }
+
+    .input-area textarea {
+      flex: 1;
+      min-height: 50px;
+      max-height: 120px;
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 15px;
+    }
+
+    .input-area button {
+      margin-left: 10px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 25px;
+      background: #075e54;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .input-area button:hover {
+      background: #128c7e;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 15px;
+
+  width: 320px;
+  height: 420px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #ece5dd;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+
+  z-index: 9999;
+}
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="chat-container">
 
-<div class="hero">
-<h1>🌿 Wadi Soon Tourism 🌿</h1>
-<p>Explore beautiful places of Soon Valley</p>
-</div>
+  <div class="header">💬 Live Chat</div>
 
-<div class="card">
-<h2>Kanhatti Garden</h2>
-<p>Peaceful green garden perfect for families and tourists.</p>
-</div>
+  <div id="chatBox"></div>
 
-<div class="card">
-<h2>Uchali Lake</h2>
-<p>Famous saltwater lake surrounded by hills.</p>
-</div>
-
-<div class="card">
-<h2>Khabeki Lake</h2>
-<p>Beautiful lake with calm environment.</p>
-</div>
-
-<div class="card">
-<h2>Sakesar Top</h2>
-<p>Highest peak with amazing views.</p>
-</div>
-
-<div class="card map">
-<h2>📍 Location</h2>
-<iframe src="https://www.google.com/maps?q=Soon+Valley&output=embed"></iframe>
-</div>
-
-<footer>© 2026 Wadi Soon</footer>
+  <div class="input-area">
+    <textarea id="messageInput" placeholder="Type message..."></textarea>
+    <button onclick="sendMessage()">Send</button>
+  </div>
 
 </div>
-
-<!-- CHAT BUTTON -->
-<button class="chat-btn" onclick="toggleChat()">💬</button>
-
-<!-- CHAT -->
-<div id="chat" class="chat-box">
-<div class="chat-header">
-<span>Live Chat</span>
-<button onclick="toggleChat()">X</button>
-</div>
-
-<div id="messages" class="chat-messages"></div>
-
-<div class="chat-input">
-<input id="input" placeholder="Type message">
-<button onclick="sendMsg()" class="send-btn">Send</button>
-</div>
-</div>
-
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
+// 🔑 YOUR FIREBASE CONFIG (already correct)
 const firebaseConfig = {
-apiKey: "AIzaSyDpER...",
-authDomain: "wadi-soon-site.firebaseapp.com",
-projectId: "wadi-soon-site"
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site",
+  storageBucket: "wadi-soon-site.firebasestorage.app",
+  messagingSenderId: "306902521128",
+  appId: "1:306902521128:web:d9bfa631b4e5544696ec1d",
+  measurementId: "G-V81LVNRLQH"
 };
 
+// ✅ Init
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
-let uid=null;
+// 👤 Simple user (future me login se replace kar sakte ho)
+const currentUser = "user1";
 
-/* AUTH */
-signInAnonymously(auth);
+// ✅ SEND MESSAGE
+window.sendMessage = async function () {
+  const input = document.getElementById("messageInput");
+  const msg = input.value;
 
-onAuthStateChanged(auth,user=>{
-if(user){
-uid=user.uid;
-loadMessages();
-}
+  if (msg.trim() === "") return;
+
+  await addDoc(collection(db, "messages"), {
+    text: msg,
+    user: currentUser,
+    time: Date.now()
+  });
+
+  input.value = "";
+};
+
+// ✅ SHOW + DELETE
+const chatBox = document.getElementById("chatBox");
+
+const q = query(collection(db, "messages"), orderBy("time"));
+
+onSnapshot(q, (snapshot) => {
+  chatBox.innerHTML = "";
+
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+
+    const div = document.createElement("div");
+    div.classList.add("message");
+
+    // left / right style
+    if (data.user === currentUser) {
+      div.classList.add("myMsg");
+    } else {
+      div.classList.add("otherMsg");
+    }
+
+    div.innerText = data.text;
+
+    // delete button
+    if (data.user === currentUser) {
+      const del = document.createElement("span");
+      del.innerText = " ❌";
+      del.classList.add("deleteBtn");
+
+      del.onclick = async () => {
+        await deleteDoc(doc(db, "messages", docSnap.id));
+      };
+
+      div.appendChild(del);
+    }
+
+    chatBox.appendChild(div);
+  });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 });
 
-/* LOAD */
-function loadMessages(){
-const q=query(collection(db,"messages"),orderBy("time"));
-onSnapshot(q,snap=>{
-let box=document.getElementById("messages");
-box.innerHTML="";
-snap.forEach(doc=>{
-let d=doc.data();
-let div=document.createElement("div");
-div.className="msg "+(d.uid===uid?"my":"other");
-
-let t=d.time?.toDate?d.time.toDate():new Date();
-div.innerText=d.text+" ("+t.toLocaleTimeString()+")";
-
-box.appendChild(div);
+// ⌨️ Enter = Send
+document.getElementById("messageInput")
+  .addEventListener("keypress", function(e) {
+    if (e.key === "Enter") sendMessage();
 });
-box.scrollTop=box.scrollHeight;
-});
-}
-
-/* SEND */
-window.sendMsg=async function(){
-let input=document.getElementById("input");
-let text=input.value.trim();
-if(!text) return;
-
-try{
-await addDoc(collection(db,"messages"),{
-text:text,
-uid:uid,
-time:serverTimestamp()
-});
-input.value="";
-}catch(e){
-alert("Send failed");
-}
-}
-
-/* ENTER */
-document.getElementById("input").addEventListener("keypress",e=>{
-if(e.key==="Enter") sendMsg();
-});
-
-/* TOGGLE */
-window.toggleChat=function(){
-document.getElementById("chat").classList.toggle("active");
-}
 </script>
 
 </body>
