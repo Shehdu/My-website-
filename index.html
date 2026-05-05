@@ -36,6 +36,7 @@ input{
   border-radius:10px;
 }
 
+/* BUTTONS */
 button{
   width:100%;
   padding:12px;
@@ -58,11 +59,12 @@ button{
   width:70px;
   height:70px;
   border-radius:50%;
-  background:#00c6ff;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
   border:none;
-  font-size:25px;
+  font-size:26px;
   color:#fff;
   z-index:9999;
+  cursor:pointer;
 }
 
 /* CHAT BOX */
@@ -70,61 +72,96 @@ button{
   position:fixed;
   bottom:100px;
   right:20px;
-  width:320px;
-  height:450px;
+  width:330px;
+  height:460px;
   display:none;
   flex-direction:column;
-  background:#0f172a;
-  border-radius:15px;
+  border-radius:18px;
   overflow:hidden;
-  z-index:9999;
+  background:rgba(15,23,42,0.9);
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
 }
 
 .chat.active{display:flex}
 
+/* HEADER */
 .chat-header{
-  padding:10px;
+  padding:12px;
   background:#020617;
   display:flex;
   justify-content:space-between;
+  font-weight:bold;
 }
 
+/* CHAT AREA */
 #chatBox{
   flex:1;
   overflow:auto;
   padding:10px;
 }
 
+/* MESSAGE */
 .msg{
-  margin:5px 0;
-  padding:8px;
-  border-radius:10px;
+  margin:6px 0;
+  padding:10px;
+  border-radius:12px;
+  font-size:14px;
 }
 
-.me{background:#22c55e}
-.other{background:#334155}
+.me{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+  color:#022c22;
+}
 
+.other{
+  background:#1e293b;
+  color:#e2e8f0;
+}
+
+/* INPUT AREA */
 .input-area{
-  padding:8px;
+  padding:10px;
   background:#020617;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
 .input-area input,
 .input-area textarea{
   width:100%;
-  padding:6px;
-  margin-top:5px;
-  border-radius:8px;
-  border:none;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #334155;
+  background:#0f172a;
+  color:#fff;
 }
 
+.input-area textarea{
+  resize:none;
+  height:50px;
+}
+
+/* SEND BUTTON */
+.input-area button{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  padding:12px;
+  border-radius:12px;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.input-area button:hover{
+  transform:scale(1.05);
+}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-  <h2>Wadi Soon</h2>
+  <h2>🌿 Wadi Soon</h2>
 
   <input type="email" id="email" placeholder="Email">
   <input type="password" id="pass" placeholder="Password">
@@ -139,26 +176,28 @@ button{
 <!-- CHAT BOX -->
 <div class="chat" id="chat">
   <div class="chat-header">
-    <span>Chat</span>
-    <span onclick="toggleChat()">✖</span>
+    <span>Live Chat</span>
+    <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
   </div>
 
   <div id="chatBox"></div>
 
   <div class="input-area">
-    <input id="name" placeholder="Name">
-    <textarea id="msg" placeholder="Message"></textarea>
-    <button onclick="send()">Send</button>
+    <input id="name" placeholder="Your name">
+    <textarea id="msg" placeholder="Type message..."></textarea>
+    <button onclick="send()">🚀 Send Message</button>
   </div>
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-/* 🔴 YOUR CONFIG (ALREADY CORRECT) */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+/* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
   authDomain: "wadi-soon-site.firebaseapp.com",
@@ -169,33 +208,34 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+/* ELEMENTS */
+const msg = document.getElementById("msg");
+const name = document.getElementById("name");
+const chatBox = document.getElementById("chatBox");
+const emailInput = document.getElementById("email");
+const passInput = document.getElementById("pass");
+
 /* LOGIN */
 window.login = async ()=>{
-  const email = emailInput.value;
-  const pass = passInput.value;
-
   try{
-    await signInWithEmailAndPassword(auth,email,pass);
-    alert("Login OK");
-  }catch{
+    await signInWithEmailAndPassword(auth,emailInput.value,passInput.value);
+    alert("Login Successful");
+  }catch(e){
     alert("Login Failed");
   }
 };
 
 /* SIGNUP */
 window.signup = async ()=>{
-  const email = emailInput.value;
-  const pass = passInput.value;
-
   try{
-    await createUserWithEmailAndPassword(auth,email,pass);
+    await createUserWithEmailAndPassword(auth,emailInput.value,passInput.value);
     alert("Account Created");
-  }catch{
+  }catch(e){
     alert("Signup Failed");
   }
 };
 
-/* CHAT TOGGLE */
+/* TOGGLE CHAT */
 window.toggleChat = ()=>{
   document.getElementById("chat").classList.toggle("active");
 };
@@ -222,17 +262,32 @@ window.send = async ()=>{
   msg.value="";
 };
 
-/* LOAD */
+/* ENTER SEND */
+msg.addEventListener("keydown",(e)=>{
+  if(e.key==="Enter"){
+    e.preventDefault();
+    send();
+  }
+});
+
+/* LOAD MESSAGES */
 onSnapshot(query(collection(db,"chat"), orderBy("time")), snap=>{
   chatBox.innerHTML="";
+
   snap.forEach(d=>{
     const m=d.data();
+
     const div=document.createElement("div");
     div.className="msg "+(m.user===user?"me":"other");
+
     div.innerHTML=`${m.name}<br>${m.text}`;
+
     chatBox.appendChild(div);
   });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 });
+
 </script>
 
 </body>
