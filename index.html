@@ -1,201 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon | Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wadi Soon | Login</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
 
-body{
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#071426,#0f2c4d,#123d64);
-color:white;
-}
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        radial-gradient(circle at top left, #1ee3cf 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #4f46e5 0%, transparent 30%),
+        linear-gradient(135deg, #071426, #0f2c4d, #123d64);
+      color: white;
+      position: relative;
+    }
 
-/* LOGIN CARD */
-.card{
-width:350px;
-padding:25px;
-border-radius:20px;
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-}
+    /* Animated background bubbles */
+    .bg-shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.35;
+      animation: float 10s infinite ease-in-out;
+      z-index: 0;
+    }
 
-input{
-width:100%;
-padding:12px;
-margin:8px 0;
-border-radius:10px;
-border:none;
-}
+    .shape1 {
+      width: 220px;
+      height: 220px;
+      background: #00f5d4;
+      top: 8%;
+      left: 8%;
+    }
 
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
+    .shape2 {
+      width: 260px;
+      height: 260px;
+      background: #8b5cf6;
+      bottom: 6%;
+      right: 8%;
+      animation-delay: 2s;
+    }
 
-/* 💬 CHAT BUTTON */
-#chatToggle{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#2563eb;
-padding:14px;
-border-radius:50%;
-cursor:pointer;
-z-index:9999;
-}
+    .shape3 {
+      width: 180px;
+      height: 180px;
+      background: #38bdf8;
+      top: 65%;
+      left: 18%;
+      animation-delay: 4s;
+    }
 
-/* 💬 CHAT BOX */
-#chatContainer{
-position:fixed;
-bottom:80px;
-right:20px;
-width:300px;
-height:400px;
-background:#0f172a;
-border-radius:12px;
-display:none;
-flex-direction:column;
-overflow:hidden;
-z-index:9999;
-}
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+      50% { transform: translateY(-25px) translateX(10px) scale(1.05); }
+    }
 
-#chatHeader{
-background:#1e293b;
-padding:10px;
-text-align:center;
-cursor:pointer;
-}
+    .card {
+      position: relative;
+      z-index: 2;
+      width: 380px;
+      max-width: 92%;
+      padding: 34px 28px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow:
+        0 20px 50px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+    }
 
-#chatBox{
-flex:1;
-overflow:auto;
-padding:10px;
-}
+    .brand {
+      text-align: center;
+      margin-bottom: 24px;
+    }
 
-.me{text-align:right;color:#38bdf8;margin:5px}
-.admin{text-align:left;color:#4ade80;margin:5px}
+    .logo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 14px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      background: linear-gradient(135deg, #14f1d9, #4f46e5);
+      box-shadow: 0 12px 30px rgba(20, 241, 217, 0.25);
+    }
 
-#chatInput{display:flex}
-#chatInput input{flex:1;padding:8px;border:none}
-#chatInput button{padding:8px;background:#22c55e;border:none;color:white}
-</style>
+    .brand h1 {
+      font-size: 29px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+
+    .brand p {
+      margin-top: 8px;
+      color: rgba(255,255,255,0.78);
+      font-size: 14px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 15px 48px 15px 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 16px;
+      outline: none;
+      background: rgba(255,255,255,0.10);
+      color: white;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255,255,255,0.58);
+    }
+
+    .input-group input:focus {
+      border-color: rgba(20, 241, 217, 0.75);
+      box-shadow: 0 0 0 4px rgba(20, 241, 217, 0.12);
+      background: rgba(255,255,255,0.14);
+    }
+
+    .input-icon,
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      opacity: 0.82;
+    }
+
+    .input-icon {
+      right: 16px;
+      pointer-events: none;
+    }
+
+    .toggle-password {
+      right: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg, #00d2ff, #2563eb);
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
+    }
+
+    .signup-btn {
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      box-shadow: 0 10px 22px rgba(34, 197, 94, 0.28);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .toast {
+      min-width: 310px;
+      max-width: 360px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      color: white;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      backdrop-filter: blur(16px);
+      background: rgba(18, 24, 38, 0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+      animation: slideIn 0.35s ease;
+    }
+
+    .toast.success {
+      border-left: 5px solid #22c55e;
+    }
+
+    .toast.error {
+      border-left: 5px solid #ef4444;
+    }
+
+    .toast.info {
+      border-left: 5px solid #38bdf8;
+    }
+
+    .toast .icon {
+      font-size: 22px;
+      margin-top: 1px;
+    }
+
+    .toast .content h4 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .toast .content p {
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 28px 18px;
+        border-radius: 22px;
+      }
+
+      .brand h1 {
+        font-size: 25px;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .toast {
+        min-width: unset;
+        width: calc(100vw - 28px);
+      }
+
+      .toast-container {
+        right: 14px;
+        left: 14px;
+        top: 14px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="card">
-<h2>Login</h2>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="signup()">Sign Up</button>
-</div>
+  <div class="bg-shape shape1"></div>
+  <div class="bg-shape shape2"></div>
+  <div class="bg-shape shape3"></div>
 
-<!-- 💬 CHAT UI -->
-<div id="chatToggle" onclick="toggleChat()">💬</div>
+  <div class="card">
+    <div class="brand">
+      <div class="logo">🌿</div>
+      <h1>Wadi Soon</h1>
+      <p>Welcome back — login or create your account</p>
+    </div>
 
-<div id="chatContainer">
-<div id="chatHeader" onclick="toggleChat()">Support</div>
-<div id="chatBox"></div>
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Enter your email" />
+      <span class="input-icon">📧</span>
+    </div>
 
-<div id="chatInput">
-<input id="msg" placeholder="Type...">
-<button onclick="sendMsg()">➤</button>
-</div>
-</div>
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Enter your password" />
+      <span class="toggle-password" id="togglePassword">👁️</span>
+    </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
+    <div class="actions">
+      <button class="login-btn" id="loginBtn" onclick="login()">Login</button>
+      <button class="signup-btn" id="signupBtn" onclick="signup()">Sign Up</button>
+    </div>
 
-const firebaseConfig = {
-apiKey: "YOUR_KEY",
-authDomain: "YOUR_DOMAIN",
-databaseURL: "YOUR_DB_URL"
-};
+    <div class="footer-text">
+      Secure access powered by Firebase
+    </div>
+  </div>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
+  <div class="toast-container" id="toastContainer"></div>
 
-// LOGIN
-window.login = async ()=>{
-let email=document.getElementById("email").value;
-let pass=document.getElementById("password").value;
-await signInWithEmailAndPassword(auth,email,pass);
-alert("Login Success");
-};
+  <!-- FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-// SIGNUP
-window.signup = async ()=>{
-let email=document.getElementById("email").value;
-let pass=document.getElementById("password").value;
-await createUserWithEmailAndPassword(auth,email,pass);
-alert("Account Created");
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+      authDomain: "wadi-soon-site.firebaseapp.com",
+      projectId: "wadi-soon-site",
+      storageBucket: "wadi-soon-site.firebasestorage.app",
+      messagingSenderId: "306902521128",
+      appId: "1:306902521128:web:d9bfa631b4e5544696ec1d"
+    };
 
-// CHAT SYSTEM
-const adminId="admin_123";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-let myId=localStorage.getItem("uid");
-if(!myId){
-myId="user_"+Math.random().toString(36).substr(2,9);
-localStorage.setItem("uid",myId);
-}
+    const emailEl = document.getElementById("email");
+    const passwordEl = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
+    const toastContainer = document.getElementById("toastContainer");
+    const togglePassword = document.getElementById("togglePassword");
 
-function room(){
-return myId+"_"+adminId;
-}
+    togglePassword.addEventListener("click", () => {
+      const isPassword = passwordEl.type === "password";
+      passwordEl.type = isPassword ? "text" : "password";
+      togglePassword.textContent = isPassword ? "🙈" : "👁️";
+    });
 
-window.sendMsg=()=>{
-let msg=document.getElementById("msg").value;
-if(!msg)return;
+    function showToast(type, title, message) {
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
 
-push(ref(db,"chats/"+room()),{
-sender:myId,
-text:msg
-});
+      const icons = {
+        success: "✅",
+        error: "❌",
+        info: "ℹ️"
+      };
 
-document.getElementById("msg").value="";
-};
+      toast.innerHTML = `
+        <div class="icon">${icons[type] || "ℹ️"}</div>
+        <div class="content">
+          <h4>${title}</h4>
+          <p>${message}</p>
+        </div>
+      `;
 
-onChildAdded(ref(db,"chats/"+room()),snap=>{
-let d=snap.val();
-let div=document.createElement("div");
+      toastContainer.appendChild(toast);
 
-if(d.sender===myId){
-div.className="me";
-div.innerText=d.text;
-}else{
-div.className="admin";
-div.innerText="Admin: "+d.text;
-}
+      setTimeout(() => {
+        toast.style.transition = "0.3s ease";
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(40px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
 
-chatBox.appendChild(div);
-chatBox.scrollTop=chatBox.scrollHeight;
-});
+    function setLoading(isLoading, button, text) {
+      if (isLoading) {
+        button.disabled = true;
+        button.dataset.original = button.textContent;
+        button.textContent = text;
+      } else {
+        button.disabled = false;
+        button.textContent = button.dataset.original || button.textContent;
+      }
+    }
 
-// TOGGLE
-window.toggleChat=()=>{
-let box=document.getElementById("chatContainer");
-box.style.display=(box.style.display==="flex")?"none":"flex";
-};
-</script>
+    function getFriendlyErrorMessage(errorCode) {
+      switch (errorCode) {
+        case "auth/invalid-email":
+          return "Please enter a valid email address.";
+        case "auth/user-not-found":
+          return "No account found with this email.";
+        case "auth/wrong-password":
+        case "auth/invalid-credential":
+          return "Incorrect email or password.";
+        case "auth/email-already-in-use":
+          return "This email is already registered.";
+        case "auth/weak-password":
+          return "Password should be at least 6 characters.";
+        case "auth/missing-password":
+          return "Please enter your password.";
+        case "auth/too-many-requests":
+          return "Too many attempts. Please try again later.";
+        case "auth/network-request-failed":
+          return "Network error. Check your internet connection.";
+        default:
+          return "Something went wrong. Please try again.";
+      }
+    }
+
+    function validateInputs() {
+      const email = emailEl.value.trim();
+      const password = passwordEl.value.trim();
+
+      if (!email || !password) {
+        showToast("error", "Missing Information", "Please enter both email and password.");
+        return false;
+      }
+
+      return true;
+    }
+
+    window.login = async function () {
+      if (!validateInputs()) return;
+
+      const email = emailEl.value.trim();
+      const password = passwordEl.value.trim();
+
+      try {
+        setLoading(true, loginBtn, "Logging in...");
+        await signInWithEmailAndPassword(auth, email, password);
+
+        showToast("success", "Login Successful", "Welcome back! Redirecting to your home page...");
+
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 1600);
+
+      } catch (error) {
+        showToast("error", "Login Failed", getFriendlyErrorMessage(error.code));
+      } finally {
+        setLoading(false, loginBtn, "Login");
+      }
+    };
+
+    window.signup = async function () {
+      if (!validateInputs()) return;
+
+      const email = emailEl.value.trim();
+      const password = passwordEl.value.trim();
+
+      try {
+        setLoading(true, signupBtn, "Creating...");
+        await createUserWithEmailAndPassword(auth, email, password);
+
+        showToast("success", "Account Created", "Your account has been created successfully. You can login now.");
+
+        passwordEl.value = "";
+
+      } catch (error) {
+        showToast("error", "Sign Up Failed", getFriendlyErrorMessage(error.code));
+      } finally {
+        setLoading(false, signupBtn, "Sign Up");
+      }
+    };
+  </script>
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>Live Chat</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <style>
+    body { font-family: Arial; height:2000px; }
+
+  </script>
 
 </body>
 </html>
