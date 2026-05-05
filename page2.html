@@ -1,275 +1,183 @@
-<!-- ================= CHAT BUTTON ================= -->
-<button class="chat-toggle" onclick="toggleChat()">💬</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wadi Soon Tourism</title>
 
-<!-- ================= CHAT BOX ================= -->
-<div class="chat-container" id="chat">
+  <style>
+    :root {
+      --bg-main: linear-gradient(135deg, #1f3c88, #2f4f88, #3b5998);
+      --card-dark: linear-gradient(135deg, rgba(34, 34, 34, 0.95), rgba(18, 18, 18, 0.95));
+      --card-light: rgba(255, 255, 255, 0.92);
+      --text-white: #ffffff;
+      --text-dark: #1f2937;
+      --accent-1: #4facfe;
+      --accent-2: #00f2fe;
+      --shadow: 0 12px 35px rgba(0, 0, 0, 0.28);
+      --radius: 22px;
+    }
 
-  <div class="chat-header">
-    <span>🌍 Live Chat</span>
-    <span onclick="toggleChat()">✖</span>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-white);
+      padding: 30px 15px 100px;
+      overflow-y: scroll; /* 🔥 scroll fix */
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section-space {
+      margin: 35px auto;
+    }
+
+    .dark-card {
+      padding: 32px;
+      background: var(--card-dark);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: 0.3s;
+    }
+
+    .dark-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-text {
+      font-size: 16px;
+      text-align: justify;
+      color: #f8fafc;
+    }
+
+    .btn-center {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .pro-btn {
+      padding: 12px 25px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      border-radius: 30px;
+      color: white;
+      font-weight: bold;
+      display: inline-block;
+      transition: 0.3s;
+    }
+
+    .pro-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .wadi-section {
+      text-align: center;
+      padding: 25px;
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border-radius: 15px;
+      margin-top: 10px;
+      border: none;
+    }
+
+    .info-box {
+      background: white;
+      color: black;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .maiwali-box {
+      padding: 25px;
+      background: #2c2c2c;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .lake-card {
+      padding: 25px;
+      background: #111;
+      border-radius: 15px;
+    }
+
+    @media(max-width:768px){
+      body {
+        padding: 20px 10px 100px;
+      }
+
+      iframe {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <section class="dark-card section-space">
+    <h2 class="section-title">🌿 Kanhatti Garden – Wadi Soon 🌿</h2>
+    <p class="section-text">
+      Kanhatti Garden is a peaceful tourist spot in Wadi Soon Valley. It is surrounded by beautiful hills and natural greenery, making it a perfect place for relaxation and family visits.
+    </p>
+  </section>
+
+  <div class="btn-center">
+    <a href="home.html" class="pro-btn">⬅ Back to Home</a>
   </div>
 
-  <div id="chatBox"></div>
+  <section class="wadi-section section-space">
+    <h2>📍 Wadi Soon Sakesar</h2>
+    <p>Beautiful valley in Punjab Pakistan.</p>
 
-  <div class="input-area">
-    <input id="name" placeholder="Your name...">
-    <textarea id="msg" placeholder="Type message..."></textarea>
-    <button onclick="send()">Send</button>
+    <iframe src="https://www.google.com/maps?q=Soon+Valley+Sakesar&output=embed"></iframe>
+  </section>
+
+  <div class="info-box section-space">
+    <h3>🏔️ Sakesar Height</h3>
+    <p>1,522 meters above sea level.</p>
+  </div>
+
+  <div class="maiwali-box section-space">
+    <h3>🏔️ Maiwali Dheri</h3>
+    <p>Beautiful viewpoint in Soon Valley.</p>
+  </div>
+
+  <div class="lake-card section-space">
+    <h2>🌊 Uchali Lake</h2>
+    <p>Famous saltwater lake in Soon Valley.</p>
   </div>
 
 </div>
 
-<!-- ================= STYLE ================= -->
-<style>
-
-body{
-  overflow:auto !important;
-}
-
-/* FLOAT BUTTON */
-.chat-toggle{
-  position:fixed;
-  bottom:25px;
-  right:20px;
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#00c6ff,#0072ff);
-  color:#fff;
-  font-size:26px;
-  border:none;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
-  z-index:9999;
-}
-
-/* CHAT BOX */
-.chat-container{
-  position:fixed;
-  bottom:110px;
-  right:20px;
-  width:330px;
-  height:450px;
-  display:none;
-  flex-direction:column;
-  border-radius:20px;
-  overflow:hidden;
-
-  /* GLASS EFFECT */
-  background:rgba(15,23,42,0.75);
-  backdrop-filter:blur(15px);
-
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);
-  z-index:9999;
-
-  transform:scale(0.8);
-  opacity:0;
-  transition:0.3s;
-}
-
-.chat-container.active{
-  display:flex;
-  transform:scale(1);
-  opacity:1;
-}
-
-/* HEADER */
-.chat-header{
-  padding:12px;
-  background:linear-gradient(135deg,#020617,#0f172a);
-  color:#fff;
-  display:flex;
-  justify-content:space-between;
-  font-weight:bold;
-}
-
-/* CHAT AREA */
-#chatBox{
-  flex:1;
-  overflow:auto;
-  padding:10px;
-}
-
-/* MESSAGE */
-.message{
-  margin:8px 0;
-  padding:10px;
-  border-radius:12px;
-  font-size:13px;
-  animation:fadeIn .3s ease;
-}
-
-.me{
-  background:#22c55e;
-  text-align:right;
-  color:#fff;
-}
-
-.other{
-  background:#1e293b;
-  color:#fff;
-}
-
-/* NAME */
-.name{
-  font-size:11px;
-  opacity:.7;
-}
-
-/* TIME */
-.time{
-  font-size:10px;
-  opacity:.6;
-  margin-top:4px;
-}
-
-/* DELETE */
-.delete{
-  color:#ff4d4d;
-  cursor:pointer;
-  font-size:12px;
-  margin-left:6px;
-}
-
-/* INPUT */
-.input-area{
-  padding:8px;
-  background:#020617;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-.input-area input,
-.input-area textarea{
-  border:none;
-  border-radius:10px;
-  padding:8px;
-  font-size:13px;
-}
-
-.input-area textarea{
-  resize:none;
-  height:45px;
-}
-
-.input-area button{
-  background:#22c55e;
-  color:#fff;
-  border:none;
-  padding:8px;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* ANIMATION */
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(10px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-/* MOBILE */
-@media(max-width:600px){
-  .chat-container{
-    width:90%;
-    right:5%;
-    height:60vh;
-  }
-
-  .chat-toggle{
-    width:65px;
-    height:65px;
-  }
-}
-
-</style>
-
-<!-- ================= SCRIPT ================= -->
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-
-/* FIREBASE CONFIG */
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "wadi-soon-site.firebaseapp.com",
-  projectId: "wadi-soon-site"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-/* USER ID */
-let user = localStorage.getItem("chatUser");
-if(!user){
-  user = "user_"+Math.random().toString(36).slice(2,6);
-  localStorage.setItem("chatUser",user);
-}
-
-/* SAVE NAME */
-const nameInput = document.getElementById("name");
-nameInput.value = localStorage.getItem("chatName") || "";
-
-nameInput.addEventListener("input",()=>{
-  localStorage.setItem("chatName",nameInput.value);
-});
-
-/* TOGGLE */
-window.toggleChat = ()=>{
-  document.getElementById("chat").classList.toggle("active");
-}
-
-/* SEND */
-window.send = async ()=>{
-  const name = nameInput.value || "Guest";
-  const text = document.getElementById("msg").value.trim();
-
-  if(!text) return;
-
-  await addDoc(collection(db,"publicChat"),{
-    name,
-    text,
-    user,
-    time:Date.now()
-  });
-
-  document.getElementById("msg").value="";
-}
-
-/* LOAD */
-const box = document.getElementById("chatBox");
-
-const q = query(collection(db,"publicChat"), orderBy("time"));
-
-onSnapshot(q,(snap)=>{
-  box.innerHTML="";
-
-  snap.forEach(d=>{
-    const data = d.data();
-
-    const div = document.createElement("div");
-    div.className = "message " + (data.user===user?"me":"other");
-
-    div.innerHTML = `
-      <div class="name">${data.name}</div>
-      ${data.text}
-      <div class="time">${new Date(data.time).toLocaleTimeString()}</div>
-    `;
-
-    /* DELETE OWN */
-    if(data.user===user){
-      const del = document.createElement("span");
-      del.innerText=" ❌";
-      del.className="delete";
-      del.onclick=()=>deleteDoc(doc(db,"publicChat",d.id));
-      div.appendChild(del);
-    }
-
-    box.appendChild(div);
-  });
-
-  box.scrollTop = box.scrollHeight;
-});
-
-</script>
+</body>
+</html>
