@@ -3,173 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wadi Soon | Login</title>
+<title>Login</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Segoe UI",sans-serif;
-}
-
 body{
+  margin:0;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
-  overflow:hidden;
-}
-
-/* CARD */
-.card{
-  width:350px;
-  padding:30px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.1);
-  backdrop-filter:blur(15px);
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);
-  text-align:center;
+  background:#0f172a;
+  font-family:Arial;
   color:#fff;
 }
 
-/* TITLE */
-.card h1{
-  margin-bottom:10px;
+.box{
+  width:300px;
+  padding:25px;
+  background:#1e293b;
+  border-radius:12px;
+  text-align:center;
 }
 
-.card p{
-  font-size:14px;
-  opacity:.8;
-  margin-bottom:20px;
-}
-
-/* INPUT */
 input{
   width:100%;
-  padding:12px;
+  padding:10px;
   margin:8px 0;
   border:none;
-  border-radius:10px;
-  outline:none;
-  background:rgba(255,255,255,0.2);
-  color:#fff;
+  border-radius:6px;
 }
 
-/* BUTTONS */
 button{
   width:100%;
-  padding:12px;
+  padding:10px;
   margin-top:10px;
   border:none;
-  border-radius:10px;
+  border-radius:6px;
+  background:#22c55e;
   color:#fff;
   font-weight:bold;
   cursor:pointer;
-  transition:.3s;
-}
-
-.login{
-  background:linear-gradient(135deg,#00c6ff,#0072ff);
-}
-
-.signup{
-  background:linear-gradient(135deg,#22c55e,#15803d);
-}
-
-button:hover{
-  transform:scale(1.05);
-}
-
-/* MESSAGE */
-#msg{
-  margin-top:10px;
-  font-size:13px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h1>🌿 Wadi Soon</h1>
-  <p>Login / Sign Up</p>
+<div class="box">
+  <h2>Login</h2>
 
-  <input type="email" id="email" placeholder="Enter Email">
-  <input type="password" id="password" placeholder="Enter Password">
+  <input id="email" placeholder="Email">
+  <input id="pass" type="password" placeholder="Password">
 
-  <button class="login" onclick="login()">Login</button>
-  <button class="signup" onclick="signup()">Sign Up</button>
+  <button onclick="login()">Login</button>
+  <button onclick="signup()">Sign Up</button>
 
-  <div id="msg"></div>
+  <p id="msg"></p>
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-/* 🔴 APNI REAL CONFIG YAHA HO */
-const firebaseConfig = {
+const app = initializeApp({
   apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
   authDomain: "wadi-soon-site.firebaseapp.com",
   projectId: "wadi-soon-site"
-};
+});
 
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* MESSAGE */
-function show(text){
-  document.getElementById("msg").innerText = text;
+function show(t){
+  document.getElementById("msg").innerText = t;
 }
 
-/* LOGIN */
 window.login = async ()=>{
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-
-  if(!email || !pass){
-    show("Enter email & password");
-    return;
-  }
-
   try{
-    await signInWithEmailAndPassword(auth,email,pass);
-    show("Login Success ✅");
+    await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      pass.value
+    );
+
+    show("Login Success");
 
     setTimeout(()=>{
-      window.location.href = "home.html";
+      location.href="home.html";
     },1000);
 
   }catch(e){
-    show("Login Failed ❌");
-    console.log(e.message);
+    show("Error: "+e.message);
   }
 };
 
-/* SIGNUP */
 window.signup = async ()=>{
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-
-  if(!email || !pass){
-    show("Enter email & password");
-    return;
-  }
-
   try{
-    await createUserWithEmailAndPassword(auth,email,pass);
-    show("Account Created ✅");
+    await createUserWithEmailAndPassword(
+      auth,
+      email.value,
+      pass.value
+    );
+
+    show("Account Created");
 
   }catch(e){
-    show("Signup Failed ❌");
-    console.log(e.message);
+    show("Error: "+e.message);
   }
 };
-
 </script>
 
 </body>
