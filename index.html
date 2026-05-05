@@ -209,32 +209,22 @@ window.signup = async () => {
 };
 
 </script>
-  <!-- ================= CHAT BUTTON ================= -->
-<button class="chat-toggle" onclick="toggleChat()">💬</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wadi Soon Chat</title>
 
-<!-- ================= CHAT BOX ================= -->
-<div class="chat-container" id="chat">
-
-  <div class="chat-header">
-    <span>🌍 Live Chat</span>
-    <span onclick="toggleChat()">✖</span>
-  </div>
-
-  <div id="chatBox"></div>
-
-  <div class="input-area">
-    <input id="name" placeholder="Your name...">
-    <textarea id="msg" placeholder="Type message..."></textarea>
-    <button onclick="send()">Send</button>
-  </div>
-
-</div>
-
-<!-- ================= STYLE ================= -->
 <style>
 
+/* PAGE */
 body{
-  overflow:auto !important;
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#1f3c88,#3b5998);
+  color:#fff;
+  height:200vh; /* demo scroll */
 }
 
 /* FLOAT BUTTON */
@@ -242,15 +232,16 @@ body{
   position:fixed;
   bottom:25px;
   right:20px;
-  width:70px;
-  height:70px;
+  width:75px;
+  height:75px;
   border-radius:50%;
   background:linear-gradient(135deg,#00c6ff,#0072ff);
   color:#fff;
-  font-size:26px;
+  font-size:28px;
   border:none;
   box-shadow:0 10px 30px rgba(0,0,0,0.4);
   z-index:9999;
+  cursor:pointer;
 }
 
 /* CHAT BOX */
@@ -259,14 +250,13 @@ body{
   bottom:110px;
   right:20px;
   width:330px;
-  height:450px;
+  height:460px;
   display:none;
   flex-direction:column;
   border-radius:20px;
   overflow:hidden;
 
-  /* GLASS EFFECT */
-  background:rgba(15,23,42,0.75);
+  background:rgba(15,23,42,0.85);
   backdrop-filter:blur(15px);
 
   box-shadow:0 20px 50px rgba(0,0,0,0.5);
@@ -274,7 +264,7 @@ body{
 
   transform:scale(0.8);
   opacity:0;
-  transition:0.3s;
+  transition:.3s;
 }
 
 .chat-container.active{
@@ -286,8 +276,7 @@ body{
 /* HEADER */
 .chat-header{
   padding:12px;
-  background:linear-gradient(135deg,#020617,#0f172a);
-  color:#fff;
+  background:#020617;
   display:flex;
   justify-content:space-between;
   font-weight:bold;
@@ -306,18 +295,15 @@ body{
   padding:10px;
   border-radius:12px;
   font-size:13px;
-  animation:fadeIn .3s ease;
 }
 
 .me{
   background:#22c55e;
   text-align:right;
-  color:#fff;
 }
 
 .other{
   background:#1e293b;
-  color:#fff;
 }
 
 /* NAME */
@@ -330,15 +316,13 @@ body{
 .time{
   font-size:10px;
   opacity:.6;
-  margin-top:4px;
 }
 
 /* DELETE */
 .delete{
-  color:#ff4d4d;
+  color:red;
   cursor:pointer;
   font-size:12px;
-  margin-left:6px;
 }
 
 /* INPUT */
@@ -355,7 +339,6 @@ body{
   border:none;
   border-radius:10px;
   padding:8px;
-  font-size:13px;
 }
 
 .input-area textarea{
@@ -369,39 +352,44 @@ body{
   border:none;
   padding:8px;
   border-radius:10px;
-  font-weight:bold;
   cursor:pointer;
 }
 
-/* ANIMATION */
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(10px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-/* MOBILE */
-@media(max-width:600px){
-  .chat-container{
-    width:90%;
-    right:5%;
-    height:60vh;
-  }
-
-  .chat-toggle{
-    width:65px;
-    height:65px;
-  }
-}
-
 </style>
+</head>
 
-<!-- ================= SCRIPT ================= -->
+<body>
+
+<h2 style="text-align:center;">🌍 Wadi Soon Website</h2>
+
+<!-- BUTTON -->
+<button class="chat-toggle" onclick="toggleChat()">💬</button>
+
+<!-- CHAT -->
+<div class="chat-container" id="chat">
+
+  <div class="chat-header">
+    <span>Live Chat</span>
+    <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
+  </div>
+
+  <div id="chatBox"></div>
+
+  <div class="input-area">
+    <input id="name" placeholder="Your name">
+    <textarea id="msg" placeholder="Message"></textarea>
+    <button onclick="send()">Send</button>
+  </div>
+
+</div>
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-/* FIREBASE CONFIG */
+/* 🔴 APNI API KEY DAALO */
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "wadi-soon-site.firebaseapp.com",
@@ -411,69 +399,64 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* USER ID */
-let user = localStorage.getItem("chatUser");
-if(!user){
-  user = "user_"+Math.random().toString(36).slice(2,6);
-  localStorage.setItem("chatUser",user);
-}
-
-/* SAVE NAME */
-const nameInput = document.getElementById("name");
-nameInput.value = localStorage.getItem("chatName") || "";
-
-nameInput.addEventListener("input",()=>{
-  localStorage.setItem("chatName",nameInput.value);
-});
-
 /* TOGGLE */
-window.toggleChat = ()=>{
+window.toggleChat = () => {
   document.getElementById("chat").classList.toggle("active");
+};
+
+/* USER */
+let user = localStorage.getItem("user");
+if(!user){
+  user = "u_"+Math.random().toString(36).slice(2,6);
+  localStorage.setItem("user",user);
 }
+
+/* NAME */
+const nameInput = document.getElementById("name");
+nameInput.value = localStorage.getItem("name") || "";
+
+nameInput.oninput = ()=>{
+  localStorage.setItem("name", nameInput.value);
+};
 
 /* SEND */
 window.send = async ()=>{
-  const name = nameInput.value || "Guest";
   const text = document.getElementById("msg").value.trim();
-
   if(!text) return;
 
-  await addDoc(collection(db,"publicChat"),{
-    name,
+  await addDoc(collection(db,"chat"),{
+    name: nameInput.value || "Guest",
     text,
     user,
     time:Date.now()
   });
 
   document.getElementById("msg").value="";
-}
+};
 
 /* LOAD */
 const box = document.getElementById("chatBox");
 
-const q = query(collection(db,"publicChat"), orderBy("time"));
-
-onSnapshot(q,(snap)=>{
+onSnapshot(query(collection(db,"chat"), orderBy("time")), snap=>{
   box.innerHTML="";
 
   snap.forEach(d=>{
-    const data = d.data();
+    const m = d.data();
 
     const div = document.createElement("div");
-    div.className = "message " + (data.user===user?"me":"other");
+    div.className = "message " + (m.user===user?"me":"other");
 
     div.innerHTML = `
-      <div class="name">${data.name}</div>
-      ${data.text}
-      <div class="time">${new Date(data.time).toLocaleTimeString()}</div>
+      <div class="name">${m.name}</div>
+      ${m.text}
+      <div class="time">${new Date(m.time).toLocaleTimeString()}</div>
     `;
 
-    /* DELETE OWN */
-    if(data.user===user){
+    if(m.user===user){
       const del = document.createElement("span");
       del.innerText=" ❌";
       del.className="delete";
-      del.onclick=()=>deleteDoc(doc(db,"publicChat",d.id));
+      del.onclick=()=>deleteDoc(doc(db,"chat",d.id));
       div.appendChild(del);
     }
 
@@ -484,5 +467,8 @@ onSnapshot(q,(snap)=>{
 });
 
 </script>
+
 </body>
 </html>
+
+
