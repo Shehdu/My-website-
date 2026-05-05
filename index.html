@@ -1,262 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wadi Soon - Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wadi Soon | Login</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
+}
 
-    body{
-      min-height:100vh;
-      background:
-        radial-gradient(circle at top left, rgba(59,130,246,0.35), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(16,185,129,0.25), transparent 30%),
-        linear-gradient(135deg,#0f172a,#1e3a8a 50%, #0f766e);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:20px;
-      color:#fff;
-    }
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+  overflow:hidden;
+}
 
-    .container{
-      width:100%;
-      max-width:420px;
-    }
+/* CARD */
+.card{
+  width:350px;
+  padding:30px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(15px);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
+  text-align:center;
+  color:#fff;
+}
 
-    .card{
-      width:100%;
-      padding:30px 25px;
-      border-radius:24px;
-      background:rgba(255,255,255,0.10);
-      backdrop-filter:blur(16px);
-      border:1px solid rgba(255,255,255,0.15);
-      box-shadow:0 25px 60px rgba(0,0,0,0.35);
-      text-align:center;
-    }
+/* TITLE */
+.card h1{
+  margin-bottom:10px;
+}
 
-    .logo{
-      width:74px;
-      height:74px;
-      margin:0 auto 14px;
-      border-radius:20px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:32px;
-      background:linear-gradient(135deg,#22c55e,#3b82f6);
-      box-shadow:0 10px 25px rgba(0,0,0,0.25);
-    }
+.card p{
+  font-size:14px;
+  opacity:.8;
+  margin-bottom:20px;
+}
 
-    h1{
-      font-size:30px;
-      margin-bottom:8px;
-      letter-spacing:0.5px;
-    }
+/* INPUT */
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:10px;
+  outline:none;
+  background:rgba(255,255,255,0.2);
+  color:#fff;
+}
 
-    .subtitle{
-      color:#dbeafe;
-      font-size:14px;
-      margin-bottom:22px;
-      line-height:1.5;
-    }
+/* BUTTONS */
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
 
-    .form-group{
-      text-align:left;
-      margin-bottom:12px;
-    }
+.login{
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+}
 
-    .form-group label{
-      display:block;
-      margin-bottom:7px;
-      font-size:13px;
-      color:#e2e8f0;
-      font-weight:600;
-    }
+.signup{
+  background:linear-gradient(135deg,#22c55e,#15803d);
+}
 
-    input{
-      width:100%;
-      padding:14px 14px;
-      border:none;
-      outline:none;
-      border-radius:14px;
-      background:rgba(255,255,255,0.92);
-      color:#0f172a;
-      font-size:15px;
-    }
+button:hover{
+  transform:scale(1.05);
+}
 
-    input::placeholder{
-      color:#64748b;
-    }
-
-    button{
-      width:100%;
-      padding:14px;
-      margin-top:10px;
-      border:none;
-      border-radius:14px;
-      color:#fff;
-      font-weight:700;
-      font-size:15px;
-      cursor:pointer;
-      transition:0.25s ease;
-    }
-
-    button:hover{
-      transform:translateY(-2px);
-      box-shadow:0 12px 25px rgba(0,0,0,0.2);
-    }
-
-    .login{
-      background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    }
-
-    .signup{
-      background:linear-gradient(135deg,#16a34a,#15803d);
-    }
-
-    .bottom-note{
-      margin-top:15px;
-      font-size:13px;
-      color:#cbd5e1;
-      line-height:1.5;
-    }
-
-    .status{
-      margin-top:12px;
-      font-size:13px;
-      color:#bfdbfe;
-      min-height:18px;
-    }
-
-    .footer-line{
-      margin-top:18px;
-      font-size:12px;
-      color:#cbd5e1;
-      opacity:0.9;
-    }
-  </style>
+/* MESSAGE */
+#msg{
+  margin-top:10px;
+  font-size:13px;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <div class="card">
-      <div class="logo">🌿</div>
-      <h1>Wadi Soon</h1>
-      <div class="subtitle">
-        Secure login portal<br>
-        Login ya signup karo aur seedha home page par jao
-      </div>
+<div class="card">
+  <h1>🌿 Wadi Soon</h1>
+  <p>Login / Sign Up</p>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Enter your email" />
-      </div>
+  <input type="email" id="email" placeholder="Enter Email">
+  <input type="password" id="password" placeholder="Enter Password">
 
-      <div class="form-group">
-        <label for="pass">Password</label>
-        <input type="password" id="pass" placeholder="Enter your password" />
-      </div>
+  <button class="login" onclick="login()">Login</button>
+  <button class="signup" onclick="signup()">Sign Up</button>
 
-      <button class="login" onclick="login()">Login</button>
-      <button class="signup" onclick="signup()">Create Account</button>
+  <div id="msg"></div>
+</div>
 
-      <div class="status" id="status"></div>
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-      <div class="bottom-note">
-        Agar login ya signup successful hua to app automatically <b>home.html</b> par chali jayegi.
-      </div>
+/* 🔴 APNI REAL CONFIG YAHA HO */
+const firebaseConfig = {
+  apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
+  authDomain: "wadi-soon-site.firebaseapp.com",
+  projectId: "wadi-soon-site"
+};
 
-      <div class="footer-line">
-        Modern • Clean • Fast
-      </div>
-    </div>
-  </div>
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+/* MESSAGE */
+function show(text){
+  document.getElementById("msg").innerText = text;
+}
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
-      authDomain: "wadi-soon-site.firebaseapp.com",
-      projectId: "wadi-soon-site"
-    };
+/* LOGIN */
+window.login = async ()=>{
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  if(!email || !pass){
+    show("Enter email & password");
+    return;
+  }
 
-    const emailInput = document.getElementById("email");
-    const passInput = document.getElementById("pass");
-    const statusText = document.getElementById("status");
+  try{
+    await signInWithEmailAndPassword(auth,email,pass);
+    show("Login Success ✅");
 
-    function setStatus(message, color = "#bfdbfe") {
-      statusText.textContent = message;
-      statusText.style.color = color;
-    }
+    setTimeout(()=>{
+      window.location.href = "home.html";
+    },1000);
 
-    function goHome() {
-      location.replace("home.html");
-    }
+  }catch(e){
+    show("Login Failed ❌");
+    console.log(e.message);
+  }
+};
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        goHome();
-      }
-    });
+/* SIGNUP */
+window.signup = async ()=>{
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
 
-    window.login = async () => {
-      const email = emailInput.value.trim();
-      const pass = passInput.value.trim();
+  if(!email || !pass){
+    show("Enter email & password");
+    return;
+  }
 
-      if (!email || !pass) {
-        setStatus("Email aur password likho", "#fecaca");
-        return;
-      }
+  try{
+    await createUserWithEmailAndPassword(auth,email,pass);
+    show("Account Created ✅");
 
-      try {
-        setStatus("Logging in...");
-        await signInWithEmailAndPassword(auth, email, pass);
-        setStatus("Login successful", "#bbf7d0");
-        goHome();
-      } catch (e) {
-        setStatus("Login failed: " + e.message, "#fecaca");
-        console.error(e);
-      }
-    };
+  }catch(e){
+    show("Signup Failed ❌");
+    console.log(e.message);
+  }
+};
 
-    window.signup = async () => {
-      const email = emailInput.value.trim();
-      const pass = passInput.value.trim();
-
-      if (!email || !pass) {
-        setStatus("Email aur password likho", "#fecaca");
-        return;
-      }
-
-      try {
-        setStatus("Creating account...");
-        await createUserWithEmailAndPassword(auth, email, pass);
-        setStatus("Account created successfully", "#bbf7d0");
-        goHome();
-      } catch (e) {
-        setStatus("Signup failed: " + e.message, "#fecaca");
-        console.error(e);
-      }
-    };
-  </script>
+</script>
 
 </body>
 </html>
