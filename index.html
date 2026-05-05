@@ -492,5 +492,179 @@
       }
     };
   </script>
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>Live Chat</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <style>
+    body { font-family: Arial; height:2000px; }
+
+    /* 💬 Toggle Button */
+    #chatToggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2563eb;
+      color: white;
+      padding: 14px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    /* 💬 Chat Box */
+    #chatContainer {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 320px;
+      height: 420px;
+      background: #0f172a;
+      color: white;
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    #chatHeader {
+      background: #1e293b;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #chatBox {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .me { text-align: right; color: #38bdf8; margin:5px; }
+    .admin { text-align: left; color: #4ade80; margin:5px; }
+
+    #chatInput {
+      display: flex;
+    }
+
+    #chatInput input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+    }
+
+    #chatInput button {
+      padding: 10px;
+      background: #22c55e;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>My Website</h1>
+<p>Scroll karo... chat neeche rahegi 😎</p>
+
+<!-- 💬 Button -->
+<div id="chatToggle" onclick="toggleChat()">💬</div>
+
+<!-- 💬 Chat -->
+<div id="chatContainer">
+  <div id="chatHeader" onclick="toggleChat()">Chat Support</div>
+
+  <div id="chatBox"></div>
+
+  <div id="chatInput">
+    <input id="msg" placeholder="Type message...">
+    <button onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<script>
+// 🔥 Firebase Config (APNA LAGAO)
+var firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  databaseURL: "YOUR_DB_URL"
+};
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database();
+
+// 👑 Admin ID
+const adminId = "admin_123";
+
+// 👤 Auto user
+let myId = localStorage.getItem("userId");
+let myName = localStorage.getItem("userName");
+
+if (!myId) {
+  myId = "user_" + Math.random().toString(36).substr(2, 9);
+  myName = "User" + Math.floor(Math.random()*10000);
+
+  localStorage.setItem("userId", myId);
+  localStorage.setItem("userName", myName);
+
+  db.ref("users/" + myId).set({ name: myName });
+}
+
+// 🧠 Room
+function getRoom(){
+  return myId + "_" + adminId;
+}
+
+// 📩 Send
+function sendMsg(){
+  let msg = document.getElementById("msg").value;
+
+  if(msg.trim()=="") return;
+
+  db.ref("chats/" + getRoom()).push({
+    sender: myId,
+    text: msg
+  });
+
+  document.getElementById("msg").value="";
+}
+
+// 📥 Load
+db.ref("chats/" + getRoom()).on("child_added", snap=>{
+  let d = snap.val();
+  let div = document.createElement("div");
+
+  if(d.sender === myId){
+    div.className="me";
+    div.innerText = d.text;
+  } else {
+    div.className="admin";
+    div.innerText = "Admin: " + d.text;
+  }
+
+  document.getElementById("chatBox").appendChild(div);
+
+  // auto scroll
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+// 🔘 Toggle
+function toggleChat(){
+  let box = document.getElementById("chatContainer");
+  box.style.display = (box.style.display==="flex") ? "none" : "flex";
+}
+</script>
+
+</body>
+</html>
 </body>
 </html>
