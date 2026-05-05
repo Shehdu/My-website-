@@ -6,52 +6,82 @@
 <title>Wadi Soon App</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
 
-/* BACKGROUND */
+/* ===== GLOBAL ===== */
 body{
-  min-height:200vh;
-  background:linear-gradient(135deg,#1f3c88,#3b5998);
+  background:linear-gradient(135deg,#0f172a,#1e3a8a,#3b82f6);
   color:#fff;
+}
+
+/* ===== LOGIN PAGE ===== */
+#loginPage{
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* LOGIN CARD */
 .card{
-  width:350px;
-  padding:25px;
-  border-radius:20px;
+  width:360px;
+  padding:30px;
+  border-radius:22px;
   background:rgba(255,255,255,0.1);
-  backdrop-filter:blur(15px);
+  backdrop-filter:blur(18px);
   text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
+
+.card h2{margin-bottom:10px}
 
 input{
   width:100%;
-  padding:12px;
-  margin:8px 0;
+  padding:13px;
+  margin:10px 0;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.15);
+  color:#fff;
 }
 
-/* BUTTONS */
 button{
   width:100%;
-  padding:12px;
-  margin-top:8px;
+  padding:13px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   color:#fff;
   font-weight:bold;
   cursor:pointer;
 }
 
-.login{background:#2563eb}
-.signup{background:#16a34a}
+.login{background:linear-gradient(135deg,#00c6ff,#0072ff)}
+.signup{background:linear-gradient(135deg,#22c55e,#15803d)}
 
-/* CHAT BUTTON */
+.msg{margin-top:10px;font-size:14px}
+
+/* ===== HOME PAGE ===== */
+#homePage{
+  display:none;
+  padding:20px;
+}
+
+.header{
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+
+.logout{
+  position:fixed;
+  top:15px;
+  right:15px;
+  background:#ef4444;
+  padding:10px 15px;
+  border-radius:10px;
+}
+
+/* ===== CHAT BUTTON ===== */
 .chat-toggle{
   position:fixed;
   bottom:20px;
@@ -63,11 +93,9 @@ button{
   border:none;
   font-size:26px;
   color:#fff;
-  z-index:9999;
-  cursor:pointer;
 }
 
-/* CHAT BOX */
+/* ===== CHAT BOX ===== */
 .chat{
   position:fixed;
   bottom:100px;
@@ -78,20 +106,18 @@ button{
   flex-direction:column;
   border-radius:18px;
   overflow:hidden;
-  background:rgba(15,23,42,0.9);
+  background:rgba(15,23,42,0.95);
   backdrop-filter:blur(12px);
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
 }
 
 .chat.active{display:flex}
 
-/* HEADER */
 .chat-header{
   padding:12px;
   background:#020617;
   display:flex;
   justify-content:space-between;
-  font-weight:bold;
 }
 
 /* CHAT AREA */
@@ -101,12 +127,10 @@ button{
   padding:10px;
 }
 
-/* MESSAGE */
-.msg{
+.msgBox{
   margin:6px 0;
   padding:10px;
   border-radius:12px;
-  font-size:14px;
 }
 
 .me{
@@ -116,176 +140,173 @@ button{
 
 .other{
   background:#1e293b;
-  color:#e2e8f0;
 }
 
-/* INPUT AREA */
+/* INPUT */
 .input-area{
   padding:10px;
   background:#020617;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
 }
 
-.input-area input,
 .input-area textarea{
   width:100%;
   padding:10px;
-  border-radius:12px;
-  border:1px solid #334155;
-  background:#0f172a;
-  color:#fff;
+  border-radius:10px;
+  border:none;
+  margin-bottom:6px;
 }
 
-.input-area textarea{
-  resize:none;
-  height:50px;
-}
-
-/* SEND BUTTON */
 .input-area button{
   background:linear-gradient(135deg,#22c55e,#16a34a);
-  padding:12px;
-  border-radius:12px;
-  font-weight:bold;
-  transition:0.3s;
-}
-
-.input-area button:hover{
-  transform:scale(1.05);
+  padding:10px;
+  border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>🌿 Wadi Soon</h2>
+<!-- ===== LOGIN ===== -->
+<div id="loginPage">
+  <div class="card">
+    <h2>🌿 Wadi Soon</h2>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="pass" placeholder="Password">
+    <input id="email" placeholder="Email">
+    <input id="pass" type="password" placeholder="Password">
 
-  <button class="login" onclick="login()">Login</button>
-  <button class="signup" onclick="signup()">Signup</button>
+    <button class="login" onclick="login()">Login</button>
+    <button class="signup" onclick="signup()">Signup</button>
+
+    <div class="msg" id="msg"></div>
+  </div>
 </div>
 
-<!-- CHAT BUTTON -->
+<!-- ===== HOME ===== -->
+<div id="homePage">
+  <div class="header">🌍 Welcome to Wadi Soon</div>
+  <button class="logout" onclick="logout()">Logout</button>
+
+  <p style="text-align:center;margin-top:40px">
+    Beautiful Valley UI + Chat System Working ✅
+  </p>
+</div>
+
+<!-- CHAT -->
 <button class="chat-toggle" onclick="toggleChat()">💬</button>
 
-<!-- CHAT BOX -->
 <div class="chat" id="chat">
   <div class="chat-header">
     <span>Live Chat</span>
-    <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
+    <span onclick="toggleChat()">✖</span>
   </div>
 
   <div id="chatBox"></div>
 
   <div class="input-area">
-    <input id="name" placeholder="Your name">
-    <textarea id="msg" placeholder="Type message..."></textarea>
-    <button onclick="send()">🚀 Send Message</button>
+    <textarea id="msgInput" placeholder="Type message..."></textarea>
+    <button onclick="send()">Send</button>
   </div>
 </div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
 from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-/* FIREBASE CONFIG */
-const firebaseConfig = {
+/* FIREBASE */
+const app = initializeApp({
   apiKey: "AIzaSyDpERmy9jWQ5IS5GmyP54EZNdYDiKB-3RI",
   authDomain: "wadi-soon-site.firebaseapp.com",
   projectId: "wadi-soon-site"
-};
+});
 
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 /* ELEMENTS */
+const loginPage = document.getElementById("loginPage");
+const homePage = document.getElementById("homePage");
 const msg = document.getElementById("msg");
-const name = document.getElementById("name");
-const chatBox = document.getElementById("chatBox");
-const emailInput = document.getElementById("email");
-const passInput = document.getElementById("pass");
+const email = document.getElementById("email");
+const pass = document.getElementById("pass");
 
 /* LOGIN */
 window.login = async ()=>{
   try{
-    await signInWithEmailAndPassword(auth,emailInput.value,passInput.value);
-    alert("Login Successful");
+    await signInWithEmailAndPassword(auth,email.value,pass.value);
+    msg.innerText="Login Successful";
   }catch(e){
-    alert("Login Failed");
+    msg.innerText="Login Failed";
   }
 };
 
 /* SIGNUP */
 window.signup = async ()=>{
   try{
-    await createUserWithEmailAndPassword(auth,emailInput.value,passInput.value);
-    alert("Account Created");
-  }catch(e){
-    alert("Signup Failed");
+    await createUserWithEmailAndPassword(auth,email.value,pass.value);
+    msg.innerText="Account Created";
+  }catch{
+    msg.innerText="Signup Failed";
   }
 };
 
-/* TOGGLE CHAT */
+/* LOGOUT */
+window.logout = ()=>{
+  signOut(auth);
+};
+
+/* AUTO SWITCH PAGE */
+onAuthStateChanged(auth,(user)=>{
+  if(user){
+    loginPage.style.display="none";
+    homePage.style.display="block";
+  }else{
+    loginPage.style.display="flex";
+    homePage.style.display="none";
+  }
+});
+
+/* CHAT */
+let user = localStorage.getItem("u") || ("u"+Math.random());
+localStorage.setItem("u",user);
+
 window.toggleChat = ()=>{
   document.getElementById("chat").classList.toggle("active");
 };
 
-/* USER */
-let user = localStorage.getItem("u");
-if(!user){
-  user="u"+Math.random();
-  localStorage.setItem("u",user);
-}
-
-/* SEND */
 window.send = async ()=>{
-  const text = msg.value.trim();
+  const text = msgInput.value.trim();
   if(!text) return;
 
   await addDoc(collection(db,"chat"),{
     text,
     user,
-    name: name.value || "Guest",
     time:Date.now()
   });
 
-  msg.value="";
+  msgInput.value="";
 };
 
-/* ENTER SEND */
-msg.addEventListener("keydown",(e)=>{
+msgInput.addEventListener("keydown",(e)=>{
   if(e.key==="Enter"){
     e.preventDefault();
     send();
   }
 });
 
-/* LOAD MESSAGES */
 onSnapshot(query(collection(db,"chat"), orderBy("time")), snap=>{
   chatBox.innerHTML="";
-
   snap.forEach(d=>{
     const m=d.data();
-
     const div=document.createElement("div");
-    div.className="msg "+(m.user===user?"me":"other");
-
-    div.innerHTML=`${m.name}<br>${m.text}`;
-
+    div.className="msgBox "+(m.user===user?"me":"other");
+    div.innerText=m.text;
     chatBox.appendChild(div);
   });
-
-  chatBox.scrollTop = chatBox.scrollHeight;
+  chatBox.scrollTop=chatBox.scrollHeight;
 });
 
 </script>
